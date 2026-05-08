@@ -48,7 +48,6 @@ body {
   min-height: 100vh;
 }
 
-/* ── HEADER ── */
 header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -94,22 +93,18 @@ header {
   text-transform: uppercase;
 }
 
-/* ── LAYOUT ── */
 .app {
   display: grid;
   grid-template-columns: 1fr 380px;
   min-height: calc(100vh - 64px);
 }
 
-/* ── LEFT: DIAGRAM ── */
 .diagram-pane {
   padding: 32px 40px;
   overflow-y: auto;
 }
 
-.diagram-intro {
-  margin-bottom: 28px;
-}
+.diagram-intro { margin-bottom: 28px; }
 
 .diagram-intro h1 {
   font-family: 'DM Serif Display', serif;
@@ -126,7 +121,6 @@ header {
   line-height: 1.6;
 }
 
-/* Legend */
 .legend {
   display: flex;
   flex-wrap: wrap;
@@ -160,7 +154,6 @@ header {
   flex-shrink: 0;
 }
 
-/* Search */
 .search-bar {
   position: relative;
   margin-bottom: 24px;
@@ -191,7 +184,6 @@ header {
   pointer-events: none;
 }
 
-/* SVG diagram */
 .diagram-wrap {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -208,18 +200,11 @@ header {
   transition: opacity .15s;
 }
 
-.proc-node rect {
-  transition: filter .15s;
-}
-
-.proc-node:hover rect {
-  filter: brightness(.94);
-}
-
+.proc-node rect { transition: filter .15s; }
+.proc-node:hover rect { filter: brightness(.94); }
 .proc-node.dimmed { opacity: .25; }
 .proc-node.selected rect { outline: 3px solid var(--text); }
 
-/* ── RIGHT: DETAIL PANEL ── */
 .detail-pane {
   border-left: 1px solid var(--border);
   background: var(--surface);
@@ -259,7 +244,6 @@ header {
 .detail-content { display: none; flex-direction: column; height: 100%; }
 .detail-content.visible { display: flex; }
 
-/* Panel header */
 .panel-header {
   padding: 24px 24px 20px;
   border-bottom: 1px solid var(--border);
@@ -306,7 +290,6 @@ header {
   letter-spacing: -.4px;
 }
 
-/* Panel body */
 .panel-body {
   flex: 1;
   padding: 20px 24px;
@@ -355,10 +338,7 @@ header {
   margin-bottom: 24px;
 }
 
-/* Sous-processus block */
-.subproc-block {
-  margin-bottom: 24px;
-}
+.subproc-block { margin-bottom: 24px; }
 
 .subproc-title {
   font-size: 10px;
@@ -409,9 +389,7 @@ header {
   flex-shrink: 0;
 }
 
-.subproc-indicator {
-  pointer-events: none;
-}
+.subproc-indicator { pointer-events: none; }
 
 .tag {
   font-size: 11px;
@@ -422,7 +400,6 @@ header {
   color: var(--text-muted);
 }
 
-/* Panel footer */
 .panel-footer {
   padding: 16px 24px;
   border-top: 1px solid var(--border);
@@ -453,12 +430,7 @@ header {
 .btn:hover { background: var(--bg); }
 .btn:disabled { opacity: .35; cursor: default; }
 
-.btn-primary {
-  background: var(--text);
-  color: white;
-  border-color: var(--text);
-}
-
+.btn-primary { background: var(--text); color: white; border-color: var(--text); }
 .btn-primary:hover { background: #333; }
 
 .close-link {
@@ -473,7 +445,6 @@ header {
 
 .close-link:hover { color: var(--text-muted); }
 
-/* ── TABS (vue principale) ── */
 .tabs {
   display: flex;
   gap: 4px;
@@ -499,10 +470,7 @@ header {
 }
 
 .tab:hover { color: var(--text); }
-.tab.active {
-  color: var(--text);
-  border-bottom-color: var(--text);
-}
+.tab.active { color: var(--text); border-bottom-color: var(--text); }
 
 .tab-count {
   font-size: 10px;
@@ -514,16 +482,11 @@ header {
   font-weight: 400;
 }
 
-.tab.active .tab-count {
-  background: var(--text);
-  color: white;
-  border-color: var(--text);
-}
+.tab.active .tab-count { background: var(--text); color: white; border-color: var(--text); }
 
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
-/* ── RH VIEW ── */
 .rh-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -571,11 +534,7 @@ header {
   line-height: 1.1;
 }
 
-.rh-role {
-  font-size: 11px;
-  color: var(--text-hint);
-  margin-top: 2px;
-}
+.rh-role { font-size: 11px; color: var(--text-hint); margin-top: 2px; }
 
 .rh-section-label {
   font-size: 10px;
@@ -585,11 +544,7 @@ header {
   margin-bottom: 8px;
 }
 
-.rh-procs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
+.rh-procs { display: flex; flex-wrap: wrap; gap: 5px; }
 
 .rh-proc-chip {
   display: inline-flex;
@@ -605,9 +560,7 @@ header {
   transition: all .15s;
 }
 
-.rh-proc-chip:hover {
-  border-color: var(--text-muted);
-}
+.rh-proc-chip:hover { border-color: var(--text-muted); }
 
 .rh-proc-chip-code {
   font-family: 'DM Mono', monospace;
@@ -616,13 +569,8 @@ header {
   font-weight: 500;
 }
 
-.rh-empty-procs {
-  font-size: 11.5px;
-  color: var(--text-hint);
-  font-style: italic;
-}
+.rh-empty-procs { font-size: 11.5px; color: var(--text-hint); font-style: italic; }
 
-/* ── COVERAGE BANNER ── */
 .coverage-banner {
   display: flex;
   align-items: center;
@@ -633,30 +581,12 @@ header {
   font-size: 12.5px;
 }
 
-.coverage-banner.ok {
-  background: #E8F5EF;
-  border: 1px solid #1D9E75;
-  color: #04342C;
-}
+.coverage-banner.ok { background: #E8F5EF; border: 1px solid #1D9E75; color: #04342C; }
+.coverage-banner.warn { background: #FAECE7; border: 1px solid #D85A30; color: #4A1B0C; }
+.coverage-icon { width: 18px; height: 18px; flex-shrink: 0; }
+.coverage-warn { pointer-events: none; }
 
-.coverage-banner.warn {
-  background: #FAECE7;
-  border: 1px solid #D85A30;
-  color: #4A1B0C;
-}
-
-.coverage-icon {
-  width: 18px; height: 18px; flex-shrink: 0;
-}
-
-.coverage-warn {
-  pointer-events: none;
-}
-
-/* ── ALLOCATION ── */
-.alloc-block {
-  margin-bottom: 24px;
-}
+.alloc-block { margin-bottom: 24px; }
 
 .alloc-title {
   font-size: 10px;
@@ -669,18 +599,9 @@ header {
   gap: 8px;
 }
 
-.alloc-title::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
+.alloc-title::after { content: ""; flex: 1; height: 1px; background: var(--border); }
 
-.alloc-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+.alloc-list { display: flex; flex-direction: column; gap: 6px; }
 
 .alloc-item {
   display: flex;
@@ -717,10 +638,7 @@ header {
   flex-shrink: 0;
 }
 
-.alloc-item-name {
-  font-size: 13px;
-  color: var(--text);
-}
+.alloc-item-name { font-size: 13px; color: var(--text); }
 
 .alloc-warn {
   margin-top: 8px;
@@ -731,7 +649,6 @@ header {
   gap: 6px;
 }
 
-/* ── FOOTER ── */
 footer {
   grid-column: 1 / -1;
   border-top: 1px solid var(--border);
@@ -782,7 +699,6 @@ footer {
 
 <div class="app">
 
-  <!-- LEFT PANE -->
   <div class="diagram-pane">
     <div class="diagram-intro">
       <h1>Vue d'ensemble des processus</h1>
@@ -790,235 +706,231 @@ footer {
     </div>
 
     <div class="tabs">
-      <button class="tab active" data-tab="diagram" onclick="switchTab('diagram', this)">
-        Diagramme
-      </button>
+      <button class="tab active" data-tab="diagram" onclick="switchTab('diagram', this)">Diagramme</button>
       <button class="tab" data-tab="rh" onclick="switchTab('rh', this)">
         Ressources humaines
         <span class="tab-count" id="rh-tab-count">5</span>
       </button>
     </div>
 
-    <!-- ── PANEL DIAGRAMME ── -->
     <div class="tab-panel active" id="panel-diagram">
+      <div id="coverage-banner"></div>
 
-    <div id="coverage-banner"></div>
-
-    <div class="legend">
-      <div class="leg-item" data-filter="all" onclick="setFilter('all', this)">
-        <span>Tous</span>
+      <div class="legend">
+        <div class="leg-item" data-filter="all" onclick="setFilter('all', this)"><span>Tous</span></div>
+        <div class="leg-item" data-filter="pilotage" onclick="setFilter('pilotage', this)">
+          <div class="leg-dot" style="background:#534AB7"></div>Pilotage
+        </div>
+        <div class="leg-item" data-filter="realisation" onclick="setFilter('realisation', this)">
+          <div class="leg-dot" style="background:#0F6E56"></div>Réalisation
+        </div>
+        <div class="leg-item" data-filter="support" onclick="setFilter('support', this)">
+          <div class="leg-dot" style="background:#854F0B"></div>Support
+        </div>
+        <div class="leg-item" data-filter="conformite" onclick="setFilter('conformite', this)">
+          <div class="leg-dot" style="background:#993C1D"></div>Conformité et qualité
+        </div>
       </div>
-      <div class="leg-item" data-filter="pilotage" onclick="setFilter('pilotage', this)">
-        <div class="leg-dot" style="background:#534AB7"></div>Pilotage
+
+      <div class="search-bar">
+        <span class="search-icon">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2"/><line x1="10.5" y1="10.5" x2="13.5" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </span>
+        <input type="search" id="search" placeholder="Rechercher un processus…" oninput="doSearch(this.value)">
       </div>
-      <div class="leg-item" data-filter="realisation" onclick="setFilter('realisation', this)">
-        <div class="leg-dot" style="background:#0F6E56"></div>Réalisation
-      </div>
-      <div class="leg-item" data-filter="support" onclick="setFilter('support', this)">
-        <div class="leg-dot" style="background:#854F0B"></div>Support
-      </div>
-      <div class="leg-item" data-filter="conformite" onclick="setFilter('conformite', this)">
-        <div class="leg-dot" style="background:#993C1D"></div>Conformité et qualité
-      </div>
-    </div>
 
-    <div class="search-bar">
-      <span class="search-icon">
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2"/><line x1="10.5" y1="10.5" x2="13.5" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      </span>
-      <input type="search" id="search" placeholder="Rechercher un processus…" oninput="doSearch(this.value)">
-    </div>
+      <div class="diagram-wrap">
+        <svg width="100%" viewBox="0 0 680 640" id="diagram">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
 
-    <div class="diagram-wrap">
-      <svg width="100%" viewBox="0 0 680 640" id="diagram">
-        <defs>
-          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </marker>
-        </defs>
+          <!-- PILOTAGE -->
+          <rect x="20" y="16" width="640" height="110" rx="12" fill="#3C3489" stroke="#26215C" stroke-width="1"/>
+          <text x="36" y="40" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#EEEDFE">Pilotage</text>
 
-        <!-- PILOTAGE -->
-        <rect x="20" y="16" width="640" height="110" rx="12" fill="#3C3489" stroke="#26215C" stroke-width="1"/>
-        <text x="36" y="40" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#EEEDFE">Pilotage</text>
-
-        <g class="proc-node" data-code="P1" data-cat="pilotage" onclick="selectNode('P1')">
-          <rect x="36" y="50" width="138" height="64" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
-          <text x="105" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">P1</text>
-          <text x="105" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">Stratégie &amp;</text>
-          <text x="105" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">direction</text>
-        </g>
-        <g class="proc-node" data-code="P2" data-cat="pilotage" onclick="selectNode('P2')">
-          <rect x="192" y="50" width="138" height="64" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
-          <text x="261" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">P2</text>
-          <text x="261" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">Gestion de</text>
-          <text x="261" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">l'offre</text>
-        </g>
-        <g class="proc-node" data-code="P3" data-cat="pilotage" onclick="selectNode('P3')">
-          <rect x="348" y="50" width="138" height="64" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
-          <text x="417" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">P3</text>
-          <text x="417" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">Pilotage</text>
-          <text x="417" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">performance</text>
-        </g>
-        <g class="proc-node" data-code="P4" data-cat="pilotage" onclick="selectNode('P4')">
-          <rect x="504" y="50" width="138" height="64" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
-          <text x="573" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">P4</text>
-          <text x="573" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">Gestion</text>
-          <text x="573" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">financière</text>
-        </g>
-
-        <!-- RÉALISATION -->
-        <rect x="20" y="150" width="640" height="228" rx="12" fill="#0F6E56" stroke="#085041" stroke-width="1"/>
-        <text x="36" y="174" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#E1F5EE">Réalisation</text>
-
-        <g class="proc-node" data-code="R1" data-cat="realisation" onclick="selectNode('R1')">
-          <rect x="36" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-          <text x="105" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R1</text>
-          <text x="105" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Commerciali-</text>
-          <text x="105" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">sation</text>
-        </g>
-        <line x1="174" y1="214" x2="192" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-        <line x1="105" y1="246" x2="105" y2="270" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
-        <rect x="118" y="250" width="100" height="14" rx="7" fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.8"/>
-        <text x="168" y="260" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#04342C">commandes clients</text>
-
-        <g class="proc-node" data-code="R2" data-cat="realisation" onclick="selectNode('R2')">
-          <rect x="192" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-          <text x="261" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R2</text>
-          <text x="261" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Approvision-</text>
-          <text x="261" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">nement</text>
-          <g class="subproc-indicator">
-            <circle cx="320" cy="192" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
-            <text x="320" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">2</text>
+          <g class="proc-node" data-code="P1" data-cat="pilotage" onclick="selectNode('P1')">
+            <rect x="36" y="50" width="138" height="64" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+            <text x="105" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">P1</text>
+            <text x="105" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">Stratégie &amp;</text>
+            <text x="105" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">direction</text>
           </g>
-        </g>
-        <line x1="330" y1="214" x2="348" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-        <g class="proc-node" data-code="R3" data-cat="realisation" onclick="selectNode('R3')">
-          <rect x="348" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-          <text x="417" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R3</text>
-          <text x="417" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Réception</text>
-          <text x="417" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">matières</text>
-        </g>
-        <line x1="486" y1="214" x2="504" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-        <g class="proc-node" data-code="R4" data-cat="realisation" onclick="selectNode('R4')">
-          <rect x="504" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-          <text x="573" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R4</text>
-          <text x="573" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Stockage</text>
-          <text x="573" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">matières</text>
-          <g class="subproc-indicator">
-            <circle cx="632" cy="192" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
-            <text x="632" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">3</text>
+          <g class="proc-node" data-code="P2" data-cat="pilotage" onclick="selectNode('P2')">
+            <rect x="192" y="50" width="138" height="64" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+            <text x="261" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">P2</text>
+            <text x="261" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">Gestion de</text>
+            <text x="261" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">l'offre</text>
           </g>
-        </g>
-
-        <path d="M 573 182 C 573 158, 261 158, 261 182" fill="none" stroke="#1D9E75" stroke-width="1.2" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
-        <rect x="376" y="146" width="122" height="18" rx="9" fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.8"/>
-        <text x="437" y="158" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9.5" fill="#04342C">besoins matières</text>
-
-        <path d="M 540 246 C 540 258, 261 258, 261 270" fill="none" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
-        <rect x="338" y="251" width="118" height="14" rx="7" fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.8"/>
-        <text x="397" y="261" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#04342C">matières premières</text>
-
-        <g class="proc-node" data-code="R5" data-cat="realisation" onclick="selectNode('R5')">
-          <rect x="36" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-          <text x="105" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R5</text>
-          <text x="105" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Planification</text>
-          <text x="105" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">production</text>
-          <g class="subproc-indicator">
-            <circle cx="164" cy="280" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
-            <text x="164" y="283.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">2</text>
+          <g class="proc-node" data-code="P3" data-cat="pilotage" onclick="selectNode('P3')">
+            <rect x="348" y="50" width="138" height="64" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+            <text x="417" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">P3</text>
+            <text x="417" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">Pilotage</text>
+            <text x="417" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">performance</text>
           </g>
-        </g>
-        <line x1="174" y1="302" x2="192" y2="302" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-        <g class="proc-node" data-code="R6" data-cat="realisation" onclick="selectNode('R6')">
-          <rect x="192" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-          <text x="261" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R6</text>
-          <text x="261" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Fabrication</text>
-          <text x="261" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">desserts</text>
-          <g class="subproc-indicator">
-            <circle cx="320" cy="280" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
-            <text x="320" y="283.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">4</text>
+          <g class="proc-node" data-code="P4" data-cat="pilotage" onclick="selectNode('P4')">
+            <rect x="504" y="50" width="138" height="64" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+            <text x="573" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">P4</text>
+            <text x="573" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">Gestion</text>
+            <text x="573" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">financière</text>
           </g>
-        </g>
-        <line x1="330" y1="302" x2="348" y2="302" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-        <g class="proc-node" data-code="R7" data-cat="realisation" onclick="selectNode('R7')">
-          <rect x="348" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-          <text x="417" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R7</text>
-          <text x="417" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Conditionne-</text>
-          <text x="417" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">ment</text>
-        </g>
-        <line x1="486" y1="302" x2="504" y2="302" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <!-- RÉALISATION -->
+          <rect x="20" y="150" width="640" height="228" rx="12" fill="#0F6E56" stroke="#085041" stroke-width="1"/>
+          <text x="36" y="174" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#E1F5EE">Réalisation</text>
 
-        <g class="proc-node" data-code="R8" data-cat="realisation" onclick="selectNode('R8')">
-          <rect x="504" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-          <text x="573" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R8</text>
-          <text x="573" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Expédition &amp;</text>
-          <text x="573" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">livraison</text>
-        </g>
+          <g class="proc-node" data-code="R1" data-cat="realisation" onclick="selectNode('R1')">
+            <rect x="36" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="105" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R1</text>
+            <text x="105" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Commerciali-</text>
+            <text x="105" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">sation</text>
+          </g>
+          <line x1="174" y1="214" x2="192" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-        <!-- SUPPORT -->
-        <rect x="20" y="402" width="640" height="110" rx="12" fill="#854F0B" stroke="#633806" stroke-width="1"/>
-        <text x="36" y="426" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAEEDA">Support</text>
+          <line x1="105" y1="246" x2="105" y2="270" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <rect x="118" y="250" width="100" height="14" rx="7" fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.8"/>
+          <text x="168" y="260" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#04342C">commandes clients</text>
 
-        <g class="proc-node" data-code="S1" data-cat="support" onclick="selectNode('S1')">
-          <rect x="36" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-          <text x="105" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S1</text>
-          <text x="105" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Ressources</text>
-          <text x="105" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">humaines</text>
-        </g>
-        <g class="proc-node" data-code="S2" data-cat="support" onclick="selectNode('S2')">
-          <rect x="192" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-          <text x="261" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S2</text>
-          <text x="261" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Maintenance</text>
-          <text x="261" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">équipements</text>
-        </g>
-        <g class="proc-node" data-code="S3" data-cat="support" onclick="selectNode('S3')">
-          <rect x="348" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-          <text x="417" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S3</text>
-          <text x="417" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Achats &amp;</text>
-          <text x="417" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">logistique</text>
-        </g>
+          <g class="proc-node" data-code="R2" data-cat="realisation" onclick="selectNode('R2')">
+            <rect x="192" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="261" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R2</text>
+            <text x="261" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Approvision-</text>
+            <text x="261" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">nement</text>
+            <g class="subproc-indicator">
+              <circle cx="320" cy="192" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
+              <text x="320" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">2</text>
+            </g>
+          </g>
+          <line x1="330" y1="214" x2="348" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-        <line x1="460" y1="434" x2="460" y2="334" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow)"/>
-        <rect x="430" y="375" width="60" height="14" rx="7" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
-        <text x="460" y="385" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#412402">emballages</text>
+          <g class="proc-node" data-code="R3" data-cat="realisation" onclick="selectNode('R3')">
+            <rect x="348" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="417" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R3</text>
+            <text x="417" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Réception</text>
+            <text x="417" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">matières</text>
+          </g>
+          <line x1="486" y1="214" x2="504" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-        <g class="proc-node" data-code="S4" data-cat="support" onclick="selectNode('S4')">
-          <rect x="504" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-          <text x="573" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S4</text>
-          <text x="573" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Systèmes</text>
-          <text x="573" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">d'information</text>
-        </g>
+          <g class="proc-node" data-code="R4" data-cat="realisation" onclick="selectNode('R4')">
+            <rect x="504" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="573" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R4</text>
+            <text x="573" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Stockage</text>
+            <text x="573" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">matières</text>
+            <g class="subproc-indicator">
+              <circle cx="632" cy="192" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
+              <text x="632" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">3</text>
+            </g>
+          </g>
 
-        <!-- CONFORMITÉ ET QUALITÉ -->
-        <rect x="20" y="536" width="640" height="84" rx="12" fill="#993C1D" stroke="#712B13" stroke-width="1"/>
-        <text x="36" y="556" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAECE7">Conformité et qualité</text>
+          <path d="M 573 182 C 573 158, 261 158, 261 182" fill="none" stroke="#1D9E75" stroke-width="1.2" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+          <rect x="376" y="146" width="122" height="18" rx="9" fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.8"/>
+          <text x="437" y="158" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9.5" fill="#04342C">besoins matières</text>
 
-        <g class="proc-node" data-code="C1" data-cat="conformite" onclick="selectNode('C1')">
-          <rect x="36" y="566" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
-          <text x="134" y="591" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C1 — HACCP &amp; hygiène</text>
-        </g>
-        <g class="proc-node" data-code="C2" data-cat="conformite" onclick="selectNode('C2')">
-          <rect x="242" y="566" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
-          <text x="340" y="591" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C2 — Traçabilité</text>
-        </g>
-        <g class="proc-node" data-code="C3" data-cat="conformite" onclick="selectNode('C3')">
-          <rect x="448" y="566" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
-          <text x="546" y="591" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C3 — Amélioration cont.</text>
-        </g>
+          <path d="M 540 246 C 540 258, 261 258, 261 270" fill="none" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <rect x="338" y="251" width="118" height="14" rx="7" fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.8"/>
+          <text x="397" y="261" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#04342C">matières premières</text>
 
-      </svg>
-    </div><!-- /diagram-wrap -->
+          <g class="proc-node" data-code="R5" data-cat="realisation" onclick="selectNode('R5')">
+            <rect x="36" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="105" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R5</text>
+            <text x="105" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Planification</text>
+            <text x="105" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">production</text>
+            <g class="subproc-indicator">
+              <circle cx="164" cy="280" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
+              <text x="164" y="283.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">2</text>
+            </g>
+          </g>
+          <line x1="174" y1="302" x2="192" y2="302" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-    <p style="margin-top:14px;font-size:11px;color:var(--text-hint);text-align:right;" id="proc-count">15 processus · 4 domaines</p>
+          <g class="proc-node" data-code="R6" data-cat="realisation" onclick="selectNode('R6')">
+            <rect x="192" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="261" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R6</text>
+            <text x="261" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Fabrication</text>
+            <text x="261" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">desserts</text>
+            <g class="subproc-indicator">
+              <circle cx="320" cy="280" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
+              <text x="320" y="283.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">4</text>
+            </g>
+          </g>
+          <line x1="330" y1="302" x2="348" y2="302" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
+          <g class="proc-node" data-code="R7" data-cat="realisation" onclick="selectNode('R7')">
+            <rect x="348" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="417" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R7</text>
+            <text x="417" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Conditionne-</text>
+            <text x="417" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">ment</text>
+          </g>
+          <line x1="486" y1="302" x2="504" y2="302" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <g class="proc-node" data-code="R8" data-cat="realisation" onclick="selectNode('R8')">
+            <rect x="504" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="573" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R8</text>
+            <text x="573" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Expédition &amp;</text>
+            <text x="573" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">livraison</text>
+            <g class="subproc-indicator">
+              <circle cx="632" cy="280" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
+              <text x="632" y="283.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">2</text>
+            </g>
+          </g>
+
+          <!-- SUPPORT -->
+          <rect x="20" y="402" width="640" height="110" rx="12" fill="#854F0B" stroke="#633806" stroke-width="1"/>
+          <text x="36" y="426" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAEEDA">Support</text>
+
+          <g class="proc-node" data-code="S1" data-cat="support" onclick="selectNode('S1')">
+            <rect x="36" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="105" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S1</text>
+            <text x="105" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Ressources</text>
+            <text x="105" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">humaines</text>
+          </g>
+          <g class="proc-node" data-code="S2" data-cat="support" onclick="selectNode('S2')">
+            <rect x="192" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="261" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S2</text>
+            <text x="261" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Maintenance</text>
+            <text x="261" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">équipements</text>
+          </g>
+          <g class="proc-node" data-code="S3" data-cat="support" onclick="selectNode('S3')">
+            <rect x="348" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="417" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S3</text>
+            <text x="417" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Achats &amp;</text>
+            <text x="417" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">logistique</text>
+          </g>
+
+          <line x1="460" y1="434" x2="460" y2="334" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <rect x="430" y="375" width="60" height="14" rx="7" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+          <text x="460" y="385" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#412402">emballages</text>
+
+          <g class="proc-node" data-code="S4" data-cat="support" onclick="selectNode('S4')">
+            <rect x="504" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="573" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S4</text>
+            <text x="573" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Systèmes</text>
+            <text x="573" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">d'information</text>
+          </g>
+
+          <!-- CONFORMITÉ ET QUALITÉ -->
+          <rect x="20" y="536" width="640" height="84" rx="12" fill="#993C1D" stroke="#712B13" stroke-width="1"/>
+          <text x="36" y="556" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAECE7">Conformité et qualité</text>
+
+          <g class="proc-node" data-code="C1" data-cat="conformite" onclick="selectNode('C1')">
+            <rect x="36" y="566" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+            <text x="134" y="591" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C1 — HACCP &amp; hygiène</text>
+          </g>
+          <g class="proc-node" data-code="C2" data-cat="conformite" onclick="selectNode('C2')">
+            <rect x="242" y="566" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+            <text x="340" y="591" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C2 — Traçabilité</text>
+          </g>
+          <g class="proc-node" data-code="C3" data-cat="conformite" onclick="selectNode('C3')">
+            <rect x="448" y="566" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+            <text x="546" y="591" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C3 — Amélioration cont.</text>
+          </g>
+
+        </svg>
+      </div>
+
+      <p style="margin-top:14px;font-size:11px;color:var(--text-hint);text-align:right;" id="proc-count">15 processus · 4 domaines</p>
     </div><!-- /tab-panel diagram -->
 
-    <!-- ── PANEL RESSOURCES HUMAINES ── -->
     <div class="tab-panel" id="panel-rh">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:18px;">
         <p style="font-size:13px;color:var(--text-muted);line-height:1.6;max-width:520px;">
@@ -1033,9 +945,7 @@ footer {
     </div>
   </div><!-- /diagram-pane -->
 
-  <!-- RIGHT PANE -->
   <div class="detail-pane" id="detail-pane">
-
     <div class="detail-empty" id="detail-empty">
       <div class="detail-empty-icon">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="11" x2="13" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="14" x2="11" y2="14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
@@ -1052,7 +962,6 @@ footer {
         <div class="panel-code" id="panel-code"></div>
         <div class="panel-name" id="panel-name"></div>
       </div>
-
       <div class="panel-body">
         <p class="panel-desc" id="panel-desc"></p>
         <div class="props-grid" id="props-grid"></div>
@@ -1070,7 +979,6 @@ footer {
           </div>
         </div>
       </div>
-
       <div class="panel-footer">
         <div class="nav-btns">
           <button class="btn" id="btn-prev" onclick="navigate(-1)">← Précédent</button>
@@ -1079,8 +987,7 @@ footer {
         <span class="close-link" onclick="closePanel()">Fermer la fiche</span>
       </div>
     </div>
-
-  </div><!-- /detail-pane -->
+  </div>
 
 </div><!-- /app -->
 
@@ -1090,7 +997,6 @@ footer {
 </footer>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────
 const PROCESSES = {
   P1:{name:'Stratégie & direction',cat:'pilotage',catLabel:'Pilotage',
     badgeBg:'#EEEDFE',badgeTxt:'#3C3489',dotColor:'#534AB7',
@@ -1182,7 +1088,11 @@ const PROCESSES = {
     desc:"Prépare les tournées, charge les commandes en chaîne du froid, livre les restaurateurs dans les délais convenus et gère les bons de livraison.",
     entrees:'Commandes conditionnées, planning livraison',sorties:'Livraisons effectuées, BL signés',
     acteurs:'Livreur, chef labo',outils:'Véhicule réfrigéré, BL, GPS',
-    tags:['Chaîne du froid','Délais','BL']},
+    tags:['Chaîne du froid','Délais','BL'],
+    sousProcessus:[
+      {code:'R8.1',name:'Préparer commandes'},
+      {code:'R8.2',name:'Livrer commandes'}
+    ]},
   S1:{name:'Ressources humaines',cat:'support',catLabel:'Support',
     badgeBg:'#FAEEDA',badgeTxt:'#854F0B',dotColor:'#BA7517',
     desc:"Recrutement, formation aux bonnes pratiques d'hygiène, gestion des plannings, suivi des habilitations et des visites médicales.",
@@ -1229,7 +1139,6 @@ const PROCESSES = {
 
 const ALL_CODES = Object.keys(PROCESSES);
 
-// ── RESSOURCES HUMAINES ──────────────────────────────────────────────
 const AVATAR_COLORS = ['#534AB7','#1D9E75','#BA7517','#D85A30','#3C3489'];
 
 const PEOPLE = [
@@ -1276,9 +1185,7 @@ function avatarColor(personId) {
   return AVATAR_COLORS[idx % AVATAR_COLORS.length];
 }
 
-function personInitial(name) {
-  return name.charAt(0).toUpperCase();
-}
+function personInitial(name) { return name.charAt(0).toUpperCase(); }
 
 function isAllocated(code, personId) {
   return ALLOCATIONS[code] && ALLOCATIONS[code].includes(personId);
