@@ -355,6 +355,65 @@ header {
   margin-bottom: 24px;
 }
 
+/* Sous-processus block */
+.subproc-block {
+  margin-bottom: 24px;
+}
+
+.subproc-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--text-hint);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.subproc-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.subproc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.subproc-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12.5px;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.subproc-code {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  flex-shrink: 0;
+}
+
+/* Indicateur "a des sous-processus" sur les nœuds du diagramme */
+.subproc-indicator {
+  pointer-events: none;
+}
+
 .tag {
   font-size: 11px;
   padding: 3px 10px;
@@ -415,6 +474,265 @@ header {
 
 .close-link:hover { color: var(--text-muted); }
 
+/* ── TABS (vue principale) ── */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tab {
+  padding: 10px 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all .15s;
+  margin-bottom: -1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tab:hover { color: var(--text); }
+.tab.active {
+  color: var(--text);
+  border-bottom-color: var(--text);
+}
+
+.tab-count {
+  font-size: 10px;
+  background: var(--bg);
+  color: var(--text-muted);
+  padding: 2px 7px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-weight: 400;
+}
+
+.tab.active .tab-count {
+  background: var(--text);
+  color: white;
+  border-color: var(--text);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── RH VIEW ── */
+.rh-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.rh-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  transition: border-color .15s;
+}
+
+.rh-card:hover { border-color: var(--text-muted); }
+
+.rh-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.rh-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 16px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.rh-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 16px;
+  color: var(--text);
+  letter-spacing: -.2px;
+  line-height: 1.1;
+}
+
+.rh-role {
+  font-size: 11px;
+  color: var(--text-hint);
+  margin-top: 2px;
+}
+
+.rh-section-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--text-hint);
+  margin-bottom: 8px;
+}
+
+.rh-procs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.rh-proc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  transition: all .15s;
+}
+
+.rh-proc-chip:hover {
+  border-color: var(--text-muted);
+}
+
+.rh-proc-chip-code {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.rh-empty-procs {
+  font-size: 11.5px;
+  color: var(--text-hint);
+  font-style: italic;
+}
+
+/* ── COVERAGE BANNER (vue diagramme) ── */
+.coverage-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+}
+
+.coverage-banner.ok {
+  background: #E8F5EF;
+  border: 1px solid #1D9E75;
+  color: #04342C;
+}
+
+.coverage-banner.warn {
+  background: #FAECE7;
+  border: 1px solid #D85A30;
+  color: #4A1B0C;
+}
+
+.coverage-icon {
+  width: 18px; height: 18px; flex-shrink: 0;
+}
+
+/* ── COVERAGE INDICATOR sur les nœuds SVG ── */
+.coverage-warn {
+  pointer-events: none;
+}
+
+/* ── ALLOCATION dans la fiche détaillée ── */
+.alloc-block {
+  margin-bottom: 24px;
+}
+
+.alloc-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--text-hint);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alloc-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.alloc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.alloc-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s;
+  user-select: none;
+}
+
+.alloc-item:hover { background: var(--surface); }
+
+.alloc-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--text);
+}
+
+.alloc-item-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 12px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.alloc-item-name {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.alloc-warn {
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: #993C1D;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 /* ── FOOTER ── */
 footer {
   grid-column: 1 / -1;
@@ -474,6 +792,23 @@ footer {
       <h1>Vue d'ensemble des processus</h1>
       <p>Cliquez sur un processus pour afficher sa description détaillée, ses entrées, sorties, acteurs et outils. Utilisez la recherche ou les filtres pour naviguer.</p>
     </div>
+
+    <!-- Onglets principaux -->
+    <div class="tabs">
+      <button class="tab active" data-tab="diagram" onclick="switchTab('diagram', this)">
+        Diagramme
+      </button>
+      <button class="tab" data-tab="rh" onclick="switchTab('rh', this)">
+        Ressources humaines
+        <span class="tab-count" id="rh-tab-count">5</span>
+      </button>
+    </div>
+
+    <!-- ── PANEL DIAGRAMME ── -->
+    <div class="tab-panel active" id="panel-diagram">
+
+    <!-- Bandeau couverture -->
+    <div id="coverage-banner"></div>
 
     <!-- Legend / filter -->
     <div class="legend">
@@ -540,8 +875,6 @@ footer {
           <text x="573" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">financière</text>
         </g>
 
-        <line x1="340" y1="126" x2="340" y2="150" stroke="#5DCAA5" stroke-width="1.5" marker-end="url(#arrow)"/>
-
         <!-- RÉALISATION -->
         <rect x="20" y="150" width="640" height="228" rx="12" fill="#0F6E56" stroke="#085041" stroke-width="1"/>
         <text x="36" y="174" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#E1F5EE">Réalisation</text>
@@ -554,11 +887,22 @@ footer {
         </g>
         <line x1="174" y1="214" x2="192" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
+        <!-- Flèche R1 → R5 : flux des commandes clients vers la planification -->
+        <line x1="105" y1="246" x2="105" y2="270" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <rect x="118" y="250" width="100" height="14" rx="7"
+              fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.8"/>
+        <text x="168" y="260" text-anchor="middle"
+              font-family="'DM Sans',sans-serif" font-size="9" fill="#04342C">commandes clients</text>
+
         <g class="proc-node" data-code="R2" data-cat="realisation" onclick="selectNode('R2')">
           <rect x="192" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
           <text x="261" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R2</text>
           <text x="261" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Approvision-</text>
           <text x="261" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">nement</text>
+          <g class="subproc-indicator">
+            <circle cx="320" cy="192" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
+            <text x="320" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">2</text>
+          </g>
         </g>
         <line x1="330" y1="214" x2="348" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
@@ -575,14 +919,38 @@ footer {
           <text x="573" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R4</text>
           <text x="573" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Stockage</text>
           <text x="573" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">matières</text>
+          <g class="subproc-indicator">
+            <circle cx="632" cy="192" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
+            <text x="632" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">3</text>
+          </g>
         </g>
-        <line x1="573" y1="246" x2="573" y2="270" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <!-- Flèche retour R4 → R2 : remontée des besoins matières -->
+        <path d="M 573 182 C 573 158, 261 158, 261 182"
+              fill="none" stroke="#1D9E75" stroke-width="1.2"
+              stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+        <rect x="376" y="146" width="122" height="18" rx="9"
+              fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.8"/>
+        <text x="437" y="158" text-anchor="middle"
+              font-family="'DM Sans',sans-serif" font-size="9.5" fill="#04342C">besoins matières</text>
+
+        <!-- Flèche R4 → R6 : matières premières vers la fabrication -->
+        <path d="M 540 246 C 540 258, 261 258, 261 270"
+              fill="none" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <rect x="338" y="251" width="118" height="14" rx="7"
+              fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.8"/>
+        <text x="397" y="261" text-anchor="middle"
+              font-family="'DM Sans',sans-serif" font-size="9" fill="#04342C">matières premières</text>
 
         <g class="proc-node" data-code="R5" data-cat="realisation" onclick="selectNode('R5')">
           <rect x="36" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
           <text x="105" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R5</text>
           <text x="105" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Planification</text>
           <text x="105" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">production</text>
+          <g class="subproc-indicator">
+            <circle cx="164" cy="280" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
+            <text x="164" y="283.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">2</text>
+          </g>
         </g>
         <line x1="174" y1="302" x2="192" y2="302" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
@@ -609,11 +977,6 @@ footer {
           <text x="573" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">livraison</text>
         </g>
 
-        <path d="M573 270 L573 258 L105 258 L105 270" fill="none" stroke="#9FE1CB" stroke-width="0.8" stroke-dasharray="4 3"/>
-        <circle cx="105" cy="270" r="3" fill="#9FE1CB"/>
-
-        <line x1="340" y1="378" x2="340" y2="402" stroke="#EF9F27" stroke-width="1.5" marker-end="url(#arrow)"/>
-
         <!-- SUPPORT -->
         <rect x="20" y="402" width="640" height="110" rx="12" fill="#854F0B" stroke="#633806" stroke-width="1"/>
         <text x="36" y="426" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAEEDA">Support</text>
@@ -636,14 +999,19 @@ footer {
           <text x="417" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Achats &amp;</text>
           <text x="417" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">logistique</text>
         </g>
+
+        <!-- Flèche S3 → R7 : flux emballages du support vers le conditionnement -->
+        <line x1="460" y1="434" x2="460" y2="334" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <rect x="430" y="375" width="60" height="14" rx="7"
+              fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+        <text x="460" y="385" text-anchor="middle"
+              font-family="'DM Sans',sans-serif" font-size="9" fill="#412402">emballages</text>
         <g class="proc-node" data-code="S4" data-cat="support" onclick="selectNode('S4')">
           <rect x="504" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
           <text x="573" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S4</text>
           <text x="573" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Systèmes</text>
           <text x="573" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">d'information</text>
         </g>
-
-        <line x1="340" y1="512" x2="340" y2="536" stroke="#F0997B" stroke-width="1.5" marker-end="url(#arrow)"/>
 
         <!-- CONFORMITÉ ET QUALITÉ -->
         <rect x="20" y="536" width="640" height="84" rx="12" fill="#993C1D" stroke="#712B13" stroke-width="1"/>
@@ -668,6 +1036,21 @@ footer {
     <!-- Process count -->
     <p style="margin-top:14px;font-size:11px;color:var(--text-hint);text-align:right;" id="proc-count">15 processus · 4 domaines</p>
 
+    </div><!-- /tab-panel diagram -->
+
+    <!-- ── PANEL RESSOURCES HUMAINES ── -->
+    <div class="tab-panel" id="panel-rh">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:18px;">
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.6;max-width:520px;">
+          Liste de l'équipe et des processus dont chaque personne est responsable. Cliquez sur un processus pour ouvrir sa fiche et ajuster les allocations. <span style="color:var(--text-hint);">Les allocations sont enregistrées localement dans votre navigateur.</span>
+        </p>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;">
+          <div id="rh-coverage-summary" style="font-size:11px;color:var(--text-hint);text-align:right;"></div>
+          <button class="btn" onclick="resetAllocations()" style="font-size:11px;padding:6px 10px;">Réinitialiser les allocations</button>
+        </div>
+      </div>
+      <div class="rh-grid" id="rh-grid"></div>
+    </div><!-- /tab-panel rh -->
   </div><!-- /diagram-pane -->
 
   <!-- RIGHT PANE -->
@@ -694,6 +1077,18 @@ footer {
         <p class="panel-desc" id="panel-desc"></p>
         <div class="props-grid" id="props-grid"></div>
         <div class="tags-row" id="tags-row"></div>
+        <div class="subproc-block" id="subproc-block" style="display:none;">
+          <div class="subproc-title">Sous-processus</div>
+          <div class="subproc-list" id="subproc-list"></div>
+        </div>
+        <div class="alloc-block">
+          <div class="alloc-title">Personnes allouées</div>
+          <div class="alloc-list" id="alloc-list"></div>
+          <div class="alloc-warn" id="alloc-warn" style="display:none;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L13 12H1L7 1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><line x1="7" y1="5" x2="7" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="10" r=".7" fill="currentColor"/></svg>
+            Aucune personne allouée à ce processus
+          </div>
+        </div>
       </div>
 
       <div class="panel-footer">
@@ -749,10 +1144,14 @@ const PROCESSES = {
     tags:['Client','Commandes','B2B']},
   R2:{name:'Approvisionnement',cat:'realisation',catLabel:'Réalisation',
     badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
-    desc:"Sélectionne les fournisseurs, négocie les conditions, émet les bons de commande et suit les livraisons de matières premières.",
-    entrees:'Besoins production, cahier des charges',sorties:'Bons de commande, contrats fournisseurs',
+    desc:"Sélectionne les fournisseurs, négocie les conditions, émet les bons de commande et suit les livraisons de matières premières. Déclenche les commandes à partir des besoins de réapprovisionnement remontés par le stockage (R4) et des besoins de production.",
+    entrees:'Besoins de réapprovisionnement (R4), besoins production, cahier des charges',sorties:'Bons de commande, contrats fournisseurs',
     acteurs:'Dirigeant, responsable achats',outils:'Liste fournisseurs agréés, BDC',
-    tags:['Fournisseurs','Négociation','Matières']},
+    tags:['Fournisseurs','Négociation','Matières','Réappro'],
+    sousProcessus:[
+      {code:'R2.1',name:'Passer commandes fournisseurs'},
+      {code:'R2.2',name:'Planifier livraisons fournisseurs'}
+    ]},
   R3:{name:'Réception matières',cat:'realisation',catLabel:'Réalisation',
     badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
     desc:"Contrôle à réception chaque livraison : contrôle visuel et température, conformité au bon de commande. Gère les non-conformités fournisseur.",
@@ -761,16 +1160,25 @@ const PROCESSES = {
     tags:['Contrôle','Traçabilité','Réception']},
   R4:{name:'Stockage matières',cat:'realisation',catLabel:'Réalisation',
     badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
-    desc:"Gère l'entreposage des matières premières selon les règles d'hygiène et de séparation. Applique la méthode FIFO et contrôle les DLC.",
-    entrees:'Matières réceptionnées',sorties:'Matières disponibles pour production',
-    acteurs:'Magasinier, chef labo',outils:'Étiquetage, fiches de stock, FIFO',
-    tags:['FIFO','DLC','Hygiène']},
+    desc:"Gère l'entreposage des matières premières selon les règles d'hygiène et de séparation. Applique la méthode FIFO et contrôle les DLC. Surveille les niveaux de stock et déclenche les besoins de réapprovisionnement transmis à R2. Met à disposition les matières pour la fabrication (R6).",
+    entrees:'Matières premières réceptionnées',sorties:'Matières premières (vers R6), besoins de réapprovisionnement (vers R2)',
+    acteurs:'Magasinier, chef labo',outils:'Étiquetage, fiches de stock, FIFO, seuils de réappro',
+    tags:['FIFO','DLC','Hygiène','Réappro'],
+    sousProcessus:[
+      {code:'R4.1',name:'Surveiller quantités disponibles'},
+      {code:'R4.2',name:'Définir références et quantités à acheter'},
+      {code:'R4.3',name:'Ranger marchandises'}
+    ]},
   R5:{name:'Planification production',cat:'realisation',catLabel:'Réalisation',
     badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
     desc:"Établit le planning de fabrication à partir des commandes et des stocks disponibles. Optimise les séquences pour limiter les nettoyages inter-lots.",
     entrees:'Commandes, stock matières, capacité labo',sorties:'Planning hebdomadaire, ordres de fabrication',
     acteurs:'Chef labo, dirigeant',outils:'Planning mural ou tableur',
-    tags:['Planning','Capacité','Optimisation']},
+    tags:['Planning','Capacité','Optimisation'],
+    sousProcessus:[
+      {code:'R5.1',name:'Planifier les tâches de production (planning)'},
+      {code:'R5.2',name:'Optimiser les séquences de fabrication des produits'}
+    ]},
   R6:{name:'Fabrication desserts',cat:'realisation',catLabel:'Réalisation',
     badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
     desc:"Cœur du processus : préparation des recettes (tiramisu et dérivés) selon les fiches techniques. Inclut le pesage, le montage, le refroidissement et le contrôle en cours.",
@@ -779,8 +1187,8 @@ const PROCESSES = {
     tags:['Production','Recettes','Cœur de métier']},
   R7:{name:'Conditionnement',cat:'realisation',catLabel:'Réalisation',
     badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
-    desc:"Portionnage, mise en barquettes ou verrines, étiquetage (DLC, allergènes), filmage et regroupement par commande.",
-    entrees:'Desserts fabriqués, emballages',sorties:'Produits conditionnés étiquetés',
+    desc:"Portionnage, mise en barquettes ou verrines, étiquetage (DLC, allergènes), filmage et regroupement par commande. Utilise les emballages mis à disposition par le processus support Achats & logistique (S3).",
+    entrees:'Desserts fabriqués, emballages (S3)',sorties:'Produits conditionnés étiquetés',
     acteurs:'Opérateurs conditionnement',outils:'Balance, étiqueteuse, filmeuse',
     tags:['Étiquetage','Allergènes','Conditionnement']},
   R8:{name:'Expédition & livraison',cat:'realisation',catLabel:'Réalisation',
@@ -803,8 +1211,8 @@ const PROCESSES = {
     tags:['Préventif','Curatif','Étalonnage']},
   S3:{name:'Achats & logistique interne',cat:'support',catLabel:'Support',
     badgeBg:'#FAEEDA',badgeTxt:'#854F0B',dotColor:'#BA7517',
-    desc:"Gère les achats hors matières premières (emballages, produits d'entretien, EPI, consommables) et la logistique interne du laboratoire.",
-    entrees:'Besoins des équipes',sorties:'Consommables disponibles',
+    desc:"Gère les achats hors matières premières (emballages, produits d'entretien, EPI, consommables) et la logistique interne du laboratoire. Met notamment à disposition les emballages nécessaires au conditionnement (R7).",
+    entrees:'Besoins des équipes',sorties:'Consommables disponibles, emballages (vers R7)',
     acteurs:'Dirigeant, responsable achats',outils:'Bons de commande, stocks consommables',
     tags:['Emballages','EPI','Consommables']},
   S4:{name:"Systèmes d'information",cat:'support',catLabel:'Support',
@@ -834,6 +1242,84 @@ const PROCESSES = {
 };
 
 const ALL_CODES = Object.keys(PROCESSES);
+
+// ── RESSOURCES HUMAINES ──────────────────────────────────────────────
+const AVATAR_COLORS = ['#534AB7','#1D9E75','#BA7517','#D85A30','#3C3489'];
+
+const PEOPLE = [
+  {id:'bali',     name:'Bali',     role:''},
+  {id:'baba',     name:'Baba',     role:''},
+  {id:'seydou',   name:'Seydou',   role:''},
+  {id:'benjamin', name:'Benjamin', role:''},
+  {id:'abou',     name:'Abou',     role:''}
+];
+
+const STORAGE_KEY = 'archi_processus_labo_allocations_v1';
+const ALLOCATIONS = {};
+ALL_CODES.forEach(c => { ALLOCATIONS[c] = []; });
+
+// ── PERSISTANCE LOCALSTORAGE ─────────────────────────────────────────
+function loadAllocations() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const stored = JSON.parse(raw);
+    if (!stored || typeof stored !== 'object') return;
+    const validPersonIds = new Set(PEOPLE.map(p => p.id));
+    Object.keys(stored).forEach(code => {
+      if (ALL_CODES.includes(code) && Array.isArray(stored[code])) {
+        ALLOCATIONS[code] = stored[code].filter(id => validPersonIds.has(id));
+      }
+    });
+  } catch (e) {
+    console.warn('Allocations : lecture localStorage impossible', e);
+  }
+}
+
+function saveAllocations() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ALLOCATIONS));
+  } catch (e) {
+    console.warn('Allocations : écriture localStorage impossible', e);
+  }
+}
+
+loadAllocations();
+
+function avatarColor(personId) {
+  const idx = PEOPLE.findIndex(p => p.id === personId);
+  return AVATAR_COLORS[idx % AVATAR_COLORS.length];
+}
+
+function personInitial(name) {
+  return name.charAt(0).toUpperCase();
+}
+
+function isAllocated(code, personId) {
+  return ALLOCATIONS[code] && ALLOCATIONS[code].includes(personId);
+}
+
+function toggleAllocation(code, personId) {
+  if (!ALLOCATIONS[code]) ALLOCATIONS[code] = [];
+  const idx = ALLOCATIONS[code].indexOf(personId);
+  if (idx >= 0) ALLOCATIONS[code].splice(idx, 1);
+  else ALLOCATIONS[code].push(personId);
+  saveAllocations();
+  if (currentCode === code) renderAllocationBlock(code);
+  renderCoverageIndicators();
+  renderCoverageBanner();
+  if (document.querySelector('.tab.active')?.dataset.tab === 'rh') renderRHView();
+}
+
+function resetAllocations() {
+  if (!confirm('Réinitialiser toutes les allocations ?\nCette action effacera toutes les personnes allouées aux processus et ne peut pas être annulée.')) return;
+  ALL_CODES.forEach(c => { ALLOCATIONS[c] = []; });
+  saveAllocations();
+  if (currentCode) renderAllocationBlock(currentCode);
+  renderCoverageIndicators();
+  renderCoverageBanner();
+  renderRHView();
+}
 let currentCode = null;
 let currentFilter = 'all';
 let currentSearch = '';
@@ -841,6 +1327,11 @@ let currentSearch = '';
 // ── FOOTER DATE ──────────────────────────────────────────────────────
 document.getElementById('footer-date').textContent =
   'Généré le ' + new Date().toLocaleDateString('fr-FR', {day:'2-digit',month:'long',year:'numeric'});
+
+// ── INITIALISATION RH & COUVERTURE ───────────────────────────────────
+document.getElementById('rh-tab-count').textContent = PEOPLE.length;
+renderCoverageIndicators();
+renderCoverageBanner();
 
 // ── SELECTION ────────────────────────────────────────────────────────
 function selectNode(code) {
@@ -860,7 +1351,6 @@ function highlightNode(code) {
 
 function renderPanel(code) {
   const d = PROCESSES[code];
-  // badge
   const badge = document.getElementById('panel-badge');
   badge.style.background = d.badgeBg;
   badge.style.color = d.badgeTxt;
@@ -869,21 +1359,27 @@ function renderPanel(code) {
   document.getElementById('panel-code').textContent = code;
   document.getElementById('panel-name').textContent = d.name;
   document.getElementById('panel-desc').textContent = d.desc;
-  // props
   document.getElementById('props-grid').innerHTML = `
     <div class="prop-card"><div class="prop-label">Entrées</div><div class="prop-value">${d.entrees}</div></div>
     <div class="prop-card"><div class="prop-label">Sorties</div><div class="prop-value">${d.sorties}</div></div>
     <div class="prop-card"><div class="prop-label">Acteurs</div><div class="prop-value">${d.acteurs}</div></div>
     <div class="prop-card"><div class="prop-label">Outils & supports</div><div class="prop-value">${d.outils}</div></div>`;
-  // tags
   document.getElementById('tags-row').innerHTML = d.tags.map(t =>
     `<span class="tag">${t}</span>`).join('');
-  // nav buttons
+  const subBlock = document.getElementById('subproc-block');
+  if (d.sousProcessus && d.sousProcessus.length) {
+    subBlock.style.display = '';
+    document.getElementById('subproc-list').innerHTML = d.sousProcessus.map(sp =>
+      `<div class="subproc-item"><span class="subproc-code">${sp.code}</span><span>${sp.name}</span></div>`
+    ).join('');
+  } else {
+    subBlock.style.display = 'none';
+  }
+  renderAllocationBlock(code);
   const visible = getVisibleCodes();
   const idx = visible.indexOf(code);
   document.getElementById('btn-prev').disabled = idx <= 0;
   document.getElementById('btn-next').disabled = idx >= visible.length - 1;
-  // show content
   document.getElementById('detail-empty').style.display = 'none';
   document.getElementById('detail-content').classList.add('visible');
 }
@@ -936,7 +1432,6 @@ function applyFilter() {
   document.getElementById('proc-count').textContent =
     count + ' processus affiché' + (count > 1 ? 's' : '') + ' · ' +
     (currentFilter === 'all' ? '4 domaines' : PROCESSES[Object.keys(PROCESSES).find(k => PROCESSES[k].cat === currentFilter)]?.catLabel || '');
-  // close panel if selected node is now hidden
   if (currentCode && PROCESSES[currentCode]) {
     const d = PROCESSES[currentCode];
     const catMatch = currentFilter === 'all' || d.cat === currentFilter;
@@ -952,6 +1447,118 @@ function getVisibleCodes() {
     const searchMatch = !currentSearch || d.name.toLowerCase().includes(currentSearch) || code.toLowerCase().includes(currentSearch);
     return catMatch && searchMatch;
   });
+}
+
+// ── ALLOCATION (panneau détail) ──────────────────────────────────────
+function renderAllocationBlock(code) {
+  const list = document.getElementById('alloc-list');
+  list.innerHTML = PEOPLE.map(p => {
+    const checked = isAllocated(code, p.id);
+    return `
+      <label class="alloc-item">
+        <input type="checkbox" ${checked ? 'checked' : ''}
+               onchange="toggleAllocation('${code}','${p.id}')">
+        <div class="alloc-item-avatar" style="background:${avatarColor(p.id)}">${personInitial(p.name)}</div>
+        <span class="alloc-item-name">${p.name}</span>
+      </label>`;
+  }).join('');
+  document.getElementById('alloc-warn').style.display =
+    (ALLOCATIONS[code] && ALLOCATIONS[code].length) ? 'none' : 'flex';
+}
+
+// ── VUE RH ───────────────────────────────────────────────────────────
+function renderRHView() {
+  const grid = document.getElementById('rh-grid');
+  grid.innerHTML = PEOPLE.map(p => {
+    const procs = ALL_CODES.filter(c => isAllocated(c, p.id));
+    const procsHtml = procs.length
+      ? procs.map(c => `
+          <span class="rh-proc-chip" onclick="selectFromRH('${c}')">
+            <span class="rh-proc-chip-code">${c}</span>${PROCESSES[c].name}
+          </span>`).join('')
+      : '<span class="rh-empty-procs">Aucun processus alloué</span>';
+    return `
+      <div class="rh-card">
+        <div class="rh-card-header">
+          <div class="rh-avatar" style="background:${avatarColor(p.id)}">${personInitial(p.name)}</div>
+          <div>
+            <div class="rh-name">${p.name}</div>
+            <div class="rh-role">${procs.length} processus</div>
+          </div>
+        </div>
+        <div class="rh-section-label">Processus alloués</div>
+        <div class="rh-procs">${procsHtml}</div>
+      </div>`;
+  }).join('');
+  const uncovered = ALL_CODES.filter(c => !ALLOCATIONS[c] || ALLOCATIONS[c].length === 0);
+  const summary = document.getElementById('rh-coverage-summary');
+  if (uncovered.length === 0) {
+    summary.innerHTML = `<span style="color:#0F6E56;">✓ Tous les processus sont couverts</span>`;
+  } else {
+    summary.innerHTML = `<span style="color:#993C1D;">⚠ ${uncovered.length} processus sans personne allouée</span>`;
+  }
+}
+
+function selectFromRH(code) {
+  switchTab('diagram', document.querySelector('.tab[data-tab="diagram"]'));
+  selectNode(code);
+}
+
+// ── ONGLETS ──────────────────────────────────────────────────────────
+function switchTab(tabName, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + tabName).classList.add('active');
+  if (tabName === 'rh') renderRHView();
+}
+
+// ── COUVERTURE : indicateurs visuels sur les nœuds SVG ────────────────
+function renderCoverageIndicators() {
+  document.querySelectorAll('.coverage-warn').forEach(el => el.remove());
+  document.querySelectorAll('.proc-node').forEach(n => {
+    const code = n.dataset.code;
+    if (ALLOCATIONS[code] && ALLOCATIONS[code].length > 0) return;
+    const rect = n.querySelector('rect');
+    const x = parseFloat(rect.getAttribute('x'));
+    const y = parseFloat(rect.getAttribute('y'));
+    const ns = 'http://www.w3.org/2000/svg';
+    const g = document.createElementNS(ns, 'g');
+    g.setAttribute('class', 'coverage-warn');
+    const tri = document.createElementNS(ns, 'path');
+    tri.setAttribute('d', `M ${x+8} ${y+3} L ${x+18} ${y+3} L ${x+13} ${y+12} Z`);
+    tri.setAttribute('fill', '#D85A30');
+    tri.setAttribute('stroke', '#FAECE7');
+    tri.setAttribute('stroke-width', '0.8');
+    const exclam = document.createElementNS(ns, 'text');
+    exclam.setAttribute('x', x+13);
+    exclam.setAttribute('y', y+11);
+    exclam.setAttribute('text-anchor', 'middle');
+    exclam.setAttribute('font-family', "'DM Sans',sans-serif");
+    exclam.setAttribute('font-size', '7');
+    exclam.setAttribute('font-weight', '700');
+    exclam.setAttribute('fill', '#FAECE7');
+    exclam.textContent = '!';
+    g.appendChild(tri);
+    g.appendChild(exclam);
+    n.appendChild(g);
+  });
+}
+
+function renderCoverageBanner() {
+  const uncovered = ALL_CODES.filter(c => !ALLOCATIONS[c] || ALLOCATIONS[c].length === 0);
+  const banner = document.getElementById('coverage-banner');
+  if (uncovered.length === 0) {
+    banner.className = 'coverage-banner ok';
+    banner.innerHTML = `
+      <svg class="coverage-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 9L8 11.5L12.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Couverture complète : chaque processus dispose d'au moins une personne allouée.</span>`;
+  } else {
+    banner.className = 'coverage-banner warn';
+    banner.innerHTML = `
+      <svg class="coverage-icon" viewBox="0 0 18 18" fill="none"><path d="M9 1.5L17 15.5H1L9 1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><line x1="9" y1="6.5" x2="9" y2="10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="9" cy="13" r="0.9" fill="currentColor"/></svg>
+      <span><strong>${uncovered.length} processus</strong> sans personne allouée : ${uncovered.join(', ')}.</span>`;
+  }
 }
 
 // ── KEYBOARD NAV ─────────────────────────────────────────────────────
