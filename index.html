@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architecture des processus — Laboratoire de desserts</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F5F0;
+  --surface: #FFFFFF;
+  --border: #E2DDD6;
+  --text: #1A1916;
+  --text-muted: #6B6860;
+  --text-hint: #A09D97;
+
+  --pilotage-bg: #3C3489;
+  --pilotage-light: #EEEDFE;
+  --pilotage-mid: #534AB7;
+  --pilotage-dark: #26215C;
+
+  --real-bg: #0F6E56;
+  --real-light: #E1F5EE;
+  --real-mid: #1D9E75;
+  --real-dark: #04342C;
+
+  --support-bg: #854F0B;
+  --support-light: #FAEEDA;
+  --support-mid: #BA7517;
+  --support-dark: #412402;
+
+  --conform-bg: #993C1D;
+  --conform-light: #FAECE7;
+  --conform-mid: #D85A30;
+  --conform-dark: #4A1B0C;
+
+  --radius: 10px;
+  --shadow: 0 2px 16px rgba(0,0,0,.07);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--text);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-mark svg { width: 18px; height: 18px; fill: white; }
+
+.logo-text {
+  font-family: 'DM Serif Display', serif;
+  font-size: 17px;
+  color: var(--text);
+  letter-spacing: -.3px;
+}
+
+.header-meta {
+  font-size: 12px;
+  color: var(--text-hint);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+/* ── LAYOUT ── */
+.app {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  min-height: calc(100vh - 64px);
+}
+
+/* ── LEFT: DIAGRAM ── */
+.diagram-pane {
+  padding: 32px 40px;
+  overflow-y: auto;
+}
+
+.diagram-intro {
+  margin-bottom: 28px;
+}
+
+.diagram-intro h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -.5px;
+}
+
+.diagram-intro p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all .15s;
+  user-select: none;
+}
+
+.leg-item:hover { border-color: var(--text-muted); }
+.leg-item.active { background: var(--text); color: white; border-color: var(--text); }
+.leg-item.active .leg-dot { opacity: 1; }
+
+.leg-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Search */
+.search-bar {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s;
+}
+
+.search-bar input:focus { border-color: var(--text-muted); }
+.search-bar input::placeholder { color: var(--text-hint); }
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-hint);
+  pointer-events: none;
+}
+
+/* SVG diagram */
+.diagram-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  overflow: auto;
+}
+
+.diagram-wrap svg { display: block; }
+
+.proc-node {
+  cursor: pointer;
+  transition: opacity .15s;
+}
+
+.proc-node rect {
+  transition: filter .15s;
+}
+
+.proc-node:hover rect {
+  filter: brightness(.94);
+}
+
+.proc-node.dimmed { opacity: .25; }
+.proc-node.selected rect { outline: 3px solid var(--text); }
+
+/* ── RIGHT: DETAIL PANEL ── */
+.detail-pane {
+  border-left: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+
+.detail-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  color: var(--text-hint);
+}
+
+.detail-empty-icon {
+  width: 56px;
+  height: 56px;
+  border: 1.5px dashed var(--border);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 22px;
+}
+
+.detail-empty p { font-size: 13px; line-height: 1.6; }
+
+.detail-content { display: none; flex-direction: column; height: 100%; }
+.detail-content.visible { display: flex; }
+
+/* Panel header */
+.panel-header {
+  padding: 24px 24px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.panel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .3px;
+  margin-bottom: 14px;
+}
+
+.panel-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.panel-code {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: 'DM Mono', monospace;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 7px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.panel-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.2;
+  letter-spacing: -.4px;
+}
+
+/* Panel body */
+.panel-body {
+  flex: 1;
+  padding: 20px 24px;
+  overflow-y: auto;
+}
+
+.panel-desc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.props-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.prop-card {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+}
+
+.prop-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--text-hint);
+  margin-bottom: 5px;
+}
+
+.prop-value {
+  font-size: 12.5px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.tag {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+/* Panel footer */
+.panel-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.nav-btns {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.btn {
+  flex: 1;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  transition: all .15s;
+  text-align: center;
+}
+
+.btn:hover { background: var(--bg); }
+.btn:disabled { opacity: .35; cursor: default; }
+
+.btn-primary {
+  background: var(--text);
+  color: white;
+  border-color: var(--text);
+}
+
+.btn-primary:hover { background: #333; }
+
+.close-link {
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-hint);
+  cursor: pointer;
+  padding: 4px;
+  transition: color .15s;
+}
+
+.close-link:hover { color: var(--text-muted); }
+
+/* ── FOOTER ── */
+footer {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--border);
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--surface);
+  font-size: 11px;
+  color: var(--text-hint);
+}
+
+/* Print */
+@media print {
+  header, footer, .detail-pane { display: none; }
+  .app { grid-template-columns: 1fr; }
+  .diagram-pane { padding: 20px; }
+  .diagram-wrap { box-shadow: none; border: 1px solid #ccc; }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .detail-pane {
+    position: fixed;
+    right: 0; top: 64px; bottom: 0;
+    width: 340px;
+    transform: translateX(100%);
+    transition: transform .25s;
+    z-index: 90;
+    box-shadow: var(--shadow-lg);
+  }
+  .detail-pane.open { transform: translateX(0); }
+  header { padding: 0 20px; }
+  .diagram-pane { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 20 20"><path d="M3 4h14v2H3zM3 9h10v2H3zM3 14h14v2H3z"/></svg>
+    </div>
+    <span class="logo-text">Architecture des processus</span>
+  </div>
+  <span class="header-meta">Laboratoire de desserts · Document de travail</span>
+</header>
+
+<div class="app">
+
+  <!-- LEFT PANE -->
+  <div class="diagram-pane">
+    <div class="diagram-intro">
+      <h1>Vue d'ensemble des processus</h1>
+      <p>Cliquez sur un processus pour afficher sa description détaillée, ses entrées, sorties, acteurs et outils. Utilisez la recherche ou les filtres pour naviguer.</p>
+    </div>
+
+    <!-- Legend / filter -->
+    <div class="legend">
+      <div class="leg-item" data-filter="all" onclick="setFilter('all', this)">
+        <span>Tous</span>
+      </div>
+      <div class="leg-item" data-filter="pilotage" onclick="setFilter('pilotage', this)">
+        <div class="leg-dot" style="background:#534AB7"></div>Pilotage
+      </div>
+      <div class="leg-item" data-filter="realisation" onclick="setFilter('realisation', this)">
+        <div class="leg-dot" style="background:#0F6E56"></div>Réalisation
+      </div>
+      <div class="leg-item" data-filter="support" onclick="setFilter('support', this)">
+        <div class="leg-dot" style="background:#854F0B"></div>Support
+      </div>
+      <div class="leg-item" data-filter="conformite" onclick="setFilter('conformite', this)">
+        <div class="leg-dot" style="background:#993C1D"></div>Conformité et qualité
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="search-bar">
+      <span class="search-icon">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2"/><line x1="10.5" y1="10.5" x2="13.5" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </span>
+      <input type="search" id="search" placeholder="Rechercher un processus…" oninput="doSearch(this.value)">
+    </div>
+
+    <!-- Diagram SVG -->
+    <div class="diagram-wrap">
+      <svg width="100%" viewBox="0 0 680 640" id="diagram">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- PILOTAGE -->
+        <rect x="20" y="16" width="640" height="110" rx="12" fill="#3C3489" stroke="#26215C" stroke-width="1"/>
+        <text x="36" y="40" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#EEEDFE">Pilotage</text>
+
+        <g class="proc-node" data-code="P1" data-cat="pilotage" onclick="selectNode('P1')">
+          <rect x="36" y="50" width="138" height="64" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+          <text x="105" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">P1</text>
+          <text x="105" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">Stratégie &amp;</text>
+          <text x="105" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">direction</text>
+        </g>
+        <g class="proc-node" data-code="P2" data-cat="pilotage" onclick="selectNode('P2')">
+          <rect x="192" y="50" width="138" height="64" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+          <text x="261" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">P2</text>
+          <text x="261" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">Gestion de</text>
+          <text x="261" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">l'offre</text>
+        </g>
+        <g class="proc-node" data-code="P3" data-cat="pilotage" onclick="selectNode('P3')">
+          <rect x="348" y="50" width="138" height="64" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+          <text x="417" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">P3</text>
+          <text x="417" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">Pilotage</text>
+          <text x="417" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">performance</text>
+        </g>
+        <g class="proc-node" data-code="P4" data-cat="pilotage" onclick="selectNode('P4')">
+          <rect x="504" y="50" width="138" height="64" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+          <text x="573" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">P4</text>
+          <text x="573" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#26215C">Gestion</text>
+          <text x="573" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">financière</text>
+        </g>
+
+        <line x1="340" y1="126" x2="340" y2="150" stroke="#5DCAA5" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <!-- RÉALISATION -->
+        <rect x="20" y="150" width="640" height="228" rx="12" fill="#0F6E56" stroke="#085041" stroke-width="1"/>
+        <text x="36" y="174" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#E1F5EE">Réalisation</text>
+
+        <g class="proc-node" data-code="R1" data-cat="realisation" onclick="selectNode('R1')">
+          <rect x="36" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+          <text x="105" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R1</text>
+          <text x="105" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Commerciali-</text>
+          <text x="105" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">sation</text>
+        </g>
+        <line x1="174" y1="214" x2="192" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <g class="proc-node" data-code="R2" data-cat="realisation" onclick="selectNode('R2')">
+          <rect x="192" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+          <text x="261" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R2</text>
+          <text x="261" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Approvision-</text>
+          <text x="261" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">nement</text>
+        </g>
+        <line x1="330" y1="214" x2="348" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <g class="proc-node" data-code="R3" data-cat="realisation" onclick="selectNode('R3')">
+          <rect x="348" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+          <text x="417" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R3</text>
+          <text x="417" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Réception</text>
+          <text x="417" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">matières</text>
+        </g>
+        <line x1="486" y1="214" x2="504" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <g class="proc-node" data-code="R4" data-cat="realisation" onclick="selectNode('R4')">
+          <rect x="504" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+          <text x="573" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R4</text>
+          <text x="573" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Stockage</text>
+          <text x="573" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">matières</text>
+        </g>
+        <line x1="573" y1="246" x2="573" y2="270" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <g class="proc-node" data-code="R5" data-cat="realisation" onclick="selectNode('R5')">
+          <rect x="36" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+          <text x="105" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R5</text>
+          <text x="105" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Planification</text>
+          <text x="105" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">production</text>
+        </g>
+        <line x1="174" y1="302" x2="192" y2="302" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <g class="proc-node" data-code="R6" data-cat="realisation" onclick="selectNode('R6')">
+          <rect x="192" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+          <text x="261" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R6</text>
+          <text x="261" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Fabrication</text>
+          <text x="261" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">desserts</text>
+        </g>
+        <line x1="330" y1="302" x2="348" y2="302" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <g class="proc-node" data-code="R7" data-cat="realisation" onclick="selectNode('R7')">
+          <rect x="348" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+          <text x="417" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R7</text>
+          <text x="417" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Conditionne-</text>
+          <text x="417" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">ment</text>
+        </g>
+        <line x1="486" y1="302" x2="504" y2="302" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <g class="proc-node" data-code="R8" data-cat="realisation" onclick="selectNode('R8')">
+          <rect x="504" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+          <text x="573" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R8</text>
+          <text x="573" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Expédition &amp;</text>
+          <text x="573" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">livraison</text>
+        </g>
+
+        <path d="M573 270 L573 258 L105 258 L105 270" fill="none" stroke="#9FE1CB" stroke-width="0.8" stroke-dasharray="4 3"/>
+        <circle cx="105" cy="270" r="3" fill="#9FE1CB"/>
+
+        <line x1="340" y1="378" x2="340" y2="402" stroke="#EF9F27" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <!-- SUPPORT -->
+        <rect x="20" y="402" width="640" height="110" rx="12" fill="#854F0B" stroke="#633806" stroke-width="1"/>
+        <text x="36" y="426" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAEEDA">Support</text>
+
+        <g class="proc-node" data-code="S1" data-cat="support" onclick="selectNode('S1')">
+          <rect x="36" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+          <text x="105" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S1</text>
+          <text x="105" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Ressources</text>
+          <text x="105" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">humaines</text>
+        </g>
+        <g class="proc-node" data-code="S2" data-cat="support" onclick="selectNode('S2')">
+          <rect x="192" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+          <text x="261" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S2</text>
+          <text x="261" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Maintenance</text>
+          <text x="261" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">équipements</text>
+        </g>
+        <g class="proc-node" data-code="S3" data-cat="support" onclick="selectNode('S3')">
+          <rect x="348" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+          <text x="417" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S3</text>
+          <text x="417" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Achats &amp;</text>
+          <text x="417" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">logistique</text>
+        </g>
+        <g class="proc-node" data-code="S4" data-cat="support" onclick="selectNode('S4')">
+          <rect x="504" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+          <text x="573" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S4</text>
+          <text x="573" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Systèmes</text>
+          <text x="573" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">d'information</text>
+        </g>
+
+        <line x1="340" y1="512" x2="340" y2="536" stroke="#F0997B" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <!-- CONFORMITÉ ET QUALITÉ -->
+        <rect x="20" y="536" width="640" height="84" rx="12" fill="#993C1D" stroke="#712B13" stroke-width="1"/>
+        <text x="36" y="556" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAECE7">Conformité et qualité</text>
+
+        <g class="proc-node" data-code="C1" data-cat="conformite" onclick="selectNode('C1')">
+          <rect x="36" y="566" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+          <text x="134" y="591" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C1 — HACCP &amp; hygiène</text>
+        </g>
+        <g class="proc-node" data-code="C2" data-cat="conformite" onclick="selectNode('C2')">
+          <rect x="242" y="566" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+          <text x="340" y="591" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C2 — Traçabilité</text>
+        </g>
+        <g class="proc-node" data-code="C3" data-cat="conformite" onclick="selectNode('C3')">
+          <rect x="448" y="566" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+          <text x="546" y="591" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C3 — Amélioration cont.</text>
+        </g>
+
+      </svg>
+    </div><!-- /diagram-wrap -->
+
+    <!-- Process count -->
+    <p style="margin-top:14px;font-size:11px;color:var(--text-hint);text-align:right;" id="proc-count">15 processus · 4 domaines</p>
+
+  </div><!-- /diagram-pane -->
+
+  <!-- RIGHT PANE -->
+  <div class="detail-pane" id="detail-pane">
+
+    <div class="detail-empty" id="detail-empty">
+      <div class="detail-empty-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="11" x2="13" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="14" x2="11" y2="14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+      <p>Sélectionnez un processus dans le diagramme pour afficher sa fiche détaillée.</p>
+    </div>
+
+    <div class="detail-content" id="detail-content">
+      <div class="panel-header">
+        <div class="panel-badge" id="panel-badge">
+          <div class="panel-badge-dot" id="panel-badge-dot"></div>
+          <span id="panel-cat-label"></span>
+        </div>
+        <div class="panel-code" id="panel-code"></div>
+        <div class="panel-name" id="panel-name"></div>
+      </div>
+
+      <div class="panel-body">
+        <p class="panel-desc" id="panel-desc"></p>
+        <div class="props-grid" id="props-grid"></div>
+        <div class="tags-row" id="tags-row"></div>
+      </div>
+
+      <div class="panel-footer">
+        <div class="nav-btns">
+          <button class="btn" id="btn-prev" onclick="navigate(-1)">← Précédent</button>
+          <button class="btn" id="btn-next" onclick="navigate(1)">Suivant →</button>
+        </div>
+        <span class="close-link" onclick="closePanel()">Fermer la fiche</span>
+      </div>
+    </div>
+
+  </div><!-- /detail-pane -->
+
+</div><!-- /app -->
+
+<footer>
+  <span>Document confidentiel · Usage interne</span>
+  <span id="footer-date"></span>
+</footer>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────
+const PROCESSES = {
+  P1:{name:'Stratégie & direction',cat:'pilotage',catLabel:'Pilotage',
+    badgeBg:'#EEEDFE',badgeTxt:'#3C3489',dotColor:'#534AB7',
+    desc:"Définit la vision, les objectifs à moyen terme et les priorités de l'entreprise. Ce processus fixe le cap pour tous les autres : choix des marchés cibles, positionnement (restauration rapide), politique tarifaire et investissements.",
+    entrees:'Vision dirigeant, analyse marché',sorties:'Plan stratégique, objectifs annuels',
+    acteurs:'Dirigeant, direction',outils:'Business plan, tableaux de bord',
+    tags:['Stratégique','Annuel','Direction']},
+  P2:{name:"Gestion de l'offre",cat:'pilotage',catLabel:'Pilotage',
+    badgeBg:'#EEEDFE',badgeTxt:'#3C3489',dotColor:'#534AB7',
+    desc:"Pilote le portefeuille produits : création de nouvelles recettes, évolution saisonnière de la gamme et tarification.",
+    entrees:'Tendances marché, retours clients',sorties:'Catalogue produits, fiches recettes',
+    acteurs:'Dirigeant, chef labo',outils:'Fiches recettes, costing produit',
+    tags:['Innovation','Gamme','Recettes']},
+  P3:{name:'Pilotage performance',cat:'pilotage',catLabel:'Pilotage',
+    badgeBg:'#EEEDFE',badgeTxt:'#3C3489',dotColor:'#534AB7',
+    desc:"Mesure et analyse les indicateurs clés : volumes produits, taux de rebut, respect des délais, marges par produit. Déclenche les actions correctives.",
+    entrees:'Données production, finance, qualité',sorties:'Tableaux de bord, décisions correctives',
+    acteurs:'Dirigeant',outils:'Indicateurs KPI, reporting',
+    tags:['KPI','Hebdomadaire','Correction']},
+  P4:{name:'Gestion financière',cat:'pilotage',catLabel:'Pilotage',
+    badgeBg:'#EEEDFE',badgeTxt:'#3C3489',dotColor:'#534AB7',
+    desc:"Suit les coûts de revient, gère la trésorerie, établit les devis et factures clients, analyse la rentabilité par référence.",
+    entrees:'Achats, ventes, charges',sorties:'Bilan, facturation, prévisions',
+    acteurs:'Dirigeant, comptable',outils:'Logiciel comptable, tableur',
+    tags:['Finance','Mensuel','Rentabilité']},
+  R1:{name:'Commercialisation',cat:'realisation',catLabel:'Réalisation',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:"Gère la relation avec les clients restaurateurs : prospection, devis, prise de commandes, suivi des comptes. Inclut la communication et la fidélisation.",
+    entrees:'Catalogue produits, tarifs',sorties:'Commandes clients, contrats',
+    acteurs:'Dirigeant, commercial',outils:'Carnet de commandes, téléphone',
+    tags:['Client','Commandes','B2B']},
+  R2:{name:'Approvisionnement',cat:'realisation',catLabel:'Réalisation',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:"Sélectionne les fournisseurs, négocie les conditions, émet les bons de commande et suit les livraisons de matières premières.",
+    entrees:'Besoins production, cahier des charges',sorties:'Bons de commande, contrats fournisseurs',
+    acteurs:'Dirigeant, responsable achats',outils:'Liste fournisseurs agréés, BDC',
+    tags:['Fournisseurs','Négociation','Matières']},
+  R3:{name:'Réception matières',cat:'realisation',catLabel:'Réalisation',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:"Contrôle à réception chaque livraison : contrôle visuel et température, conformité au bon de commande. Gère les non-conformités fournisseur.",
+    entrees:'Livraisons fournisseurs, BDC',sorties:'Matières validées ou refusées, fiche réception',
+    acteurs:'Réceptionniste, responsable qualité',outils:'Fiche de réception, thermomètre',
+    tags:['Contrôle','Traçabilité','Réception']},
+  R4:{name:'Stockage matières',cat:'realisation',catLabel:'Réalisation',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:"Gère l'entreposage des matières premières selon les règles d'hygiène et de séparation. Applique la méthode FIFO et contrôle les DLC.",
+    entrees:'Matières réceptionnées',sorties:'Matières disponibles pour production',
+    acteurs:'Magasinier, chef labo',outils:'Étiquetage, fiches de stock, FIFO',
+    tags:['FIFO','DLC','Hygiène']},
+  R5:{name:'Planification production',cat:'realisation',catLabel:'Réalisation',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:"Établit le planning de fabrication à partir des commandes et des stocks disponibles. Optimise les séquences pour limiter les nettoyages inter-lots.",
+    entrees:'Commandes, stock matières, capacité labo',sorties:'Planning hebdomadaire, ordres de fabrication',
+    acteurs:'Chef labo, dirigeant',outils:'Planning mural ou tableur',
+    tags:['Planning','Capacité','Optimisation']},
+  R6:{name:'Fabrication desserts',cat:'realisation',catLabel:'Réalisation',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:"Cœur du processus : préparation des recettes (tiramisu et dérivés) selon les fiches techniques. Inclut le pesage, le montage, le refroidissement et le contrôle en cours.",
+    entrees:'Ordres de fabrication, matières, fiches recettes',sorties:'Desserts semi-finis ou finis',
+    acteurs:'Pâtissiers, chef labo',outils:'Fiches recettes, matériel labo',
+    tags:['Production','Recettes','Cœur de métier']},
+  R7:{name:'Conditionnement',cat:'realisation',catLabel:'Réalisation',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:"Portionnage, mise en barquettes ou verrines, étiquetage (DLC, allergènes), filmage et regroupement par commande.",
+    entrees:'Desserts fabriqués, emballages',sorties:'Produits conditionnés étiquetés',
+    acteurs:'Opérateurs conditionnement',outils:'Balance, étiqueteuse, filmeuse',
+    tags:['Étiquetage','Allergènes','Conditionnement']},
+  R8:{name:'Expédition & livraison',cat:'realisation',catLabel:'Réalisation',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:"Prépare les tournées, charge les commandes en chaîne du froid, livre les restaurateurs dans les délais convenus et gère les bons de livraison.",
+    entrees:'Commandes conditionnées, planning livraison',sorties:'Livraisons effectuées, BL signés',
+    acteurs:'Livreur, chef labo',outils:'Véhicule réfrigéré, BL, GPS',
+    tags:['Chaîne du froid','Délais','BL']},
+  S1:{name:'Ressources humaines',cat:'support',catLabel:'Support',
+    badgeBg:'#FAEEDA',badgeTxt:'#854F0B',dotColor:'#BA7517',
+    desc:"Recrutement, formation aux bonnes pratiques d'hygiène, gestion des plannings, suivi des habilitations et des visites médicales.",
+    entrees:'Besoins en personnel, réglementation',sorties:'Équipe formée, plannings',
+    acteurs:'Dirigeant',outils:'Contrats, planning, registre formation',
+    tags:['Formation','Plannings','Habilitations']},
+  S2:{name:'Maintenance équipements',cat:'support',catLabel:'Support',
+    badgeBg:'#FAEEDA',badgeTxt:'#854F0B',dotColor:'#BA7517',
+    desc:"Assure le bon fonctionnement du matériel (batteurs, réfrigérateurs, fours, cellule de refroidissement). Gère la maintenance préventive et les interventions curatives. Inclut l'étalonnage métrologique des balances et sondes thermiques.",
+    entrees:'Équipements, plan de maintenance',sorties:'Équipements opérationnels, registre maintenance',
+    acteurs:'Technicien, prestataire',outils:'Registre maintenance, contrats prestataires',
+    tags:['Préventif','Curatif','Étalonnage']},
+  S3:{name:'Achats & logistique interne',cat:'support',catLabel:'Support',
+    badgeBg:'#FAEEDA',badgeTxt:'#854F0B',dotColor:'#BA7517',
+    desc:"Gère les achats hors matières premières (emballages, produits d'entretien, EPI, consommables) et la logistique interne du laboratoire.",
+    entrees:'Besoins des équipes',sorties:'Consommables disponibles',
+    acteurs:'Dirigeant, responsable achats',outils:'Bons de commande, stocks consommables',
+    tags:['Emballages','EPI','Consommables']},
+  S4:{name:"Systèmes d'information",cat:'support',catLabel:'Support',
+    badgeBg:'#FAEEDA',badgeTxt:'#854F0B',dotColor:'#BA7517',
+    desc:"Gère les outils numériques : logiciel de gestion des commandes, traçabilité informatique, facturation, messagerie.",
+    entrees:'Besoins utilisateurs',sorties:'Outils disponibles et sécurisés',
+    acteurs:'Dirigeant, prestataire IT',outils:'ERP/logiciel labo, cloud, téléphonie',
+    tags:['Numérique','ERP','Traçabilité']},
+  C1:{name:'HACCP & hygiène',cat:'conformite',catLabel:'Conformité et qualité',
+    badgeBg:'#FAECE7',badgeTxt:'#993C1D',dotColor:'#D85A30',
+    desc:"Identifie les points critiques (CCP) dans les processus de fabrication, définit les limites critiques et les mesures préventives. Gère le plan de nettoyage-désinfection.",
+    entrees:'Processus de fabrication',sorties:'Plan HACCP, enregistrements NDD',
+    acteurs:'Responsable qualité, chef labo',outils:'Plan HACCP, fiches NDD',
+    tags:['CCP','Sécurité alimentaire','NDD']},
+  C2:{name:'Traçabilité',cat:'conformite',catLabel:'Conformité et qualité',
+    badgeBg:'#FAECE7',badgeTxt:'#993C1D',dotColor:'#D85A30',
+    desc:"Assure la traçabilité amont (lots matières) et aval (livraisons clients) pour permettre un retrait/rappel produit rapide en cas de non-conformité.",
+    entrees:'Numéros de lot, fiches recettes, BL',sorties:'Registre traçabilité, capacité rappel',
+    acteurs:'Chef labo, responsable qualité',outils:'Étiquettes lot, registre, logiciel',
+    tags:['Amont','Aval','Rappel produit']},
+  C3:{name:'Amélioration continue',cat:'conformite',catLabel:'Conformité et qualité',
+    badgeBg:'#FAECE7',badgeTxt:'#993C1D',dotColor:'#D85A30',
+    desc:"Collecte et analyse les non-conformités, réclamations clients et résultats d'audit. Définit et suit les actions correctives et préventives (CAPA). Alimente le processus de pilotage.",
+    entrees:'NC, réclamations, audits',sorties:'Actions correctives, indicateurs qualité',
+    acteurs:'Dirigeant, responsable qualité',outils:'Registre NC, CAPA, revue de direction',
+    tags:['CAPA','NC','Revue direction']}
+};
+
+const ALL_CODES = Object.keys(PROCESSES);
+let currentCode = null;
+let currentFilter = 'all';
+let currentSearch = '';
+
+// ── FOOTER DATE ──────────────────────────────────────────────────────
+document.getElementById('footer-date').textContent =
+  'Généré le ' + new Date().toLocaleDateString('fr-FR', {day:'2-digit',month:'long',year:'numeric'});
+
+// ── SELECTION ────────────────────────────────────────────────────────
+function selectNode(code) {
+  if (!PROCESSES[code]) return;
+  currentCode = code;
+  renderPanel(code);
+  highlightNode(code);
+  document.getElementById('detail-pane').classList.add('open');
+}
+
+function highlightNode(code) {
+  document.querySelectorAll('.proc-node').forEach(n => {
+    n.classList.toggle('dimmed', n.dataset.code !== code);
+    n.classList.toggle('selected', n.dataset.code === code);
+  });
+}
+
+function renderPanel(code) {
+  const d = PROCESSES[code];
+  // badge
+  const badge = document.getElementById('panel-badge');
+  badge.style.background = d.badgeBg;
+  badge.style.color = d.badgeTxt;
+  document.getElementById('panel-badge-dot').style.background = d.dotColor;
+  document.getElementById('panel-cat-label').textContent = d.catLabel;
+  document.getElementById('panel-code').textContent = code;
+  document.getElementById('panel-name').textContent = d.name;
+  document.getElementById('panel-desc').textContent = d.desc;
+  // props
+  document.getElementById('props-grid').innerHTML = `
+    <div class="prop-card"><div class="prop-label">Entrées</div><div class="prop-value">${d.entrees}</div></div>
+    <div class="prop-card"><div class="prop-label">Sorties</div><div class="prop-value">${d.sorties}</div></div>
+    <div class="prop-card"><div class="prop-label">Acteurs</div><div class="prop-value">${d.acteurs}</div></div>
+    <div class="prop-card"><div class="prop-label">Outils & supports</div><div class="prop-value">${d.outils}</div></div>`;
+  // tags
+  document.getElementById('tags-row').innerHTML = d.tags.map(t =>
+    `<span class="tag">${t}</span>`).join('');
+  // nav buttons
+  const visible = getVisibleCodes();
+  const idx = visible.indexOf(code);
+  document.getElementById('btn-prev').disabled = idx <= 0;
+  document.getElementById('btn-next').disabled = idx >= visible.length - 1;
+  // show content
+  document.getElementById('detail-empty').style.display = 'none';
+  document.getElementById('detail-content').classList.add('visible');
+}
+
+function closePanel() {
+  currentCode = null;
+  document.getElementById('detail-content').classList.remove('visible');
+  document.getElementById('detail-empty').style.display = '';
+  document.getElementById('detail-pane').classList.remove('open');
+  document.querySelectorAll('.proc-node').forEach(n => {
+    n.classList.remove('dimmed', 'selected');
+  });
+}
+
+function navigate(dir) {
+  const visible = getVisibleCodes();
+  const idx = visible.indexOf(currentCode);
+  const next = visible[idx + dir];
+  if (next) selectNode(next);
+}
+
+// ── FILTER ───────────────────────────────────────────────────────────
+function setFilter(cat, el) {
+  currentFilter = cat;
+  document.querySelectorAll('.leg-item').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+  applyFilter();
+}
+
+function doSearch(q) {
+  currentSearch = q.toLowerCase();
+  applyFilter();
+}
+
+function applyFilter() {
+  let count = 0;
+  document.querySelectorAll('.proc-node').forEach(n => {
+    const code = n.dataset.code;
+    const d = PROCESSES[code];
+    const catMatch = currentFilter === 'all' || d.cat === currentFilter;
+    const searchMatch = !currentSearch ||
+      d.name.toLowerCase().includes(currentSearch) ||
+      code.toLowerCase().includes(currentSearch) ||
+      d.tags.some(t => t.toLowerCase().includes(currentSearch));
+    const show = catMatch && searchMatch;
+    n.style.opacity = show ? '1' : '0.15';
+    n.style.pointerEvents = show ? '' : 'none';
+    if (show) count++;
+  });
+  document.getElementById('proc-count').textContent =
+    count + ' processus affiché' + (count > 1 ? 's' : '') + ' · ' +
+    (currentFilter === 'all' ? '4 domaines' : PROCESSES[Object.keys(PROCESSES).find(k => PROCESSES[k].cat === currentFilter)]?.catLabel || '');
+  // close panel if selected node is now hidden
+  if (currentCode && PROCESSES[currentCode]) {
+    const d = PROCESSES[currentCode];
+    const catMatch = currentFilter === 'all' || d.cat === currentFilter;
+    const searchMatch = !currentSearch || d.name.toLowerCase().includes(currentSearch) || currentCode.toLowerCase().includes(currentSearch);
+    if (!catMatch || !searchMatch) closePanel();
+  }
+}
+
+function getVisibleCodes() {
+  return ALL_CODES.filter(code => {
+    const d = PROCESSES[code];
+    const catMatch = currentFilter === 'all' || d.cat === currentFilter;
+    const searchMatch = !currentSearch || d.name.toLowerCase().includes(currentSearch) || code.toLowerCase().includes(currentSearch);
+    return catMatch && searchMatch;
+  });
+}
+
+// ── KEYBOARD NAV ─────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closePanel();
+  if (e.key === 'ArrowRight' && currentCode) navigate(1);
+  if (e.key === 'ArrowLeft' && currentCode) navigate(-1);
+});
+</script>
+</body>
+</html>
