@@ -206,7 +206,7 @@ footer { grid-column: 1 / -1; border-top: 1px solid var(--border); padding: 16px
       </div>
 
       <div class="diagram-wrap">
-        <svg width="100%" viewBox="0 0 680 640" id="diagram">
+        <svg width="100%" viewBox="0 0 680 520" id="diagram">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -242,8 +242,8 @@ footer { grid-column: 1 / -1; border-top: 1px solid var(--border); padding: 16px
             <text x="573" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">financière</text>
           </g>
 
-          <!-- RÉALISATION -->
-          <rect x="20" y="150" width="640" height="228" rx="12" fill="#0F6E56" stroke="#085041" stroke-width="1"/>
+          <!-- RÉALISATION — 1 rangée, hauteur réduite -->
+          <rect x="20" y="150" width="640" height="110" rx="12" fill="#0F6E56" stroke="#085041" stroke-width="1"/>
           <text x="36" y="174" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#E1F5EE">Réalisation</text>
 
           <!-- R1 Commercialisation -->
@@ -273,111 +273,87 @@ footer { grid-column: 1 / -1; border-top: 1px solid var(--border); padding: 16px
           </g>
           <line x1="330" y1="214" x2="348" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-          <!-- R3 Planification production - badge 2 -->
+          <!-- R3 Fabrication desserts - badge 7 -->
           <g class="proc-node" data-code="R3" data-cat="realisation" onclick="selectNode('R3')">
             <rect x="348" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
             <text x="417" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R3</text>
-            <text x="417" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Planification</text>
-            <text x="417" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">production</text>
+            <text x="417" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Fabrication</text>
+            <text x="417" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">desserts</text>
             <g class="subproc-indicator">
               <circle cx="476" cy="192" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
-              <text x="476" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">2</text>
+              <text x="476" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">7</text>
             </g>
           </g>
           <line x1="486" y1="214" x2="504" y2="214" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-          <!-- R4 Fabrication desserts - badge 4 -->
+          <!-- R4 Expédition & livraison - badge 2 -->
           <g class="proc-node" data-code="R4" data-cat="realisation" onclick="selectNode('R4')">
             <rect x="504" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
             <text x="573" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R4</text>
-            <text x="573" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Fabrication</text>
-            <text x="573" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">desserts</text>
+            <text x="573" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Expédition &amp;</text>
+            <text x="573" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">livraison</text>
             <g class="subproc-indicator">
               <circle cx="632" cy="192" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
-              <text x="632" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">4</text>
+              <text x="632" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">2</text>
             </g>
           </g>
 
-          <!-- R4 → R5 curve down -->
-          <path d="M 573 246 C 573 258, 261 258, 261 270" fill="none" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- R5 Conditionnement (no badge) -->
-          <g class="proc-node" data-code="R5" data-cat="realisation" onclick="selectNode('R5')">
-            <rect x="192" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-            <text x="261" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R5</text>
-            <text x="261" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Conditionne-</text>
-            <text x="261" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">ment</text>
-          </g>
-          <line x1="330" y1="302" x2="348" y2="302" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- R6 Expédition & livraison - badge 2 -->
-          <g class="proc-node" data-code="R6" data-cat="realisation" onclick="selectNode('R6')">
-            <rect x="348" y="270" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-            <text x="417" y="296" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R6</text>
-            <text x="417" y="312" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Expédition &amp;</text>
-            <text x="417" y="326" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">livraison</text>
-            <g class="subproc-indicator">
-              <circle cx="476" cy="280" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
-              <text x="476" y="283.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">2</text>
-            </g>
-          </g>
-
-          <!-- SUPPORT -->
-          <rect x="20" y="402" width="640" height="110" rx="12" fill="#854F0B" stroke="#633806" stroke-width="1"/>
-          <text x="36" y="426" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAEEDA">Support</text>
+          <!-- SUPPORT — remonté à y=288 -->
+          <rect x="20" y="288" width="640" height="110" rx="12" fill="#854F0B" stroke="#633806" stroke-width="1"/>
+          <text x="36" y="312" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAEEDA">Support</text>
 
           <g class="proc-node" data-code="S1" data-cat="support" onclick="selectNode('S1')">
-            <rect x="36" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-            <text x="105" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S1</text>
-            <text x="105" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Ressources</text>
-            <text x="105" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">humaines</text>
+            <rect x="36" y="320" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="105" y="346" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S1</text>
+            <text x="105" y="362" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Ressources</text>
+            <text x="105" y="376" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">humaines</text>
           </g>
           <g class="proc-node" data-code="S2" data-cat="support" onclick="selectNode('S2')">
-            <rect x="192" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-            <text x="261" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S2</text>
-            <text x="261" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Maintenance</text>
-            <text x="261" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">équipements</text>
+            <rect x="192" y="320" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="261" y="346" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S2</text>
+            <text x="261" y="362" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Maintenance</text>
+            <text x="261" y="376" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">équipements</text>
           </g>
           <g class="proc-node" data-code="S3" data-cat="support" onclick="selectNode('S3')">
-            <rect x="348" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-            <text x="417" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S3</text>
-            <text x="417" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Achats &amp;</text>
-            <text x="417" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">logistique</text>
+            <rect x="348" y="320" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="417" y="346" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S3</text>
+            <text x="417" y="362" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Achats &amp;</text>
+            <text x="417" y="376" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">logistique</text>
           </g>
 
-          <!-- S3 → R5 (conditionnement) diagonal arrow "emballages" -->
-          <line x1="417" y1="434" x2="261" y2="334" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow)"/>
-          <rect x="315" y="375" width="60" height="14" rx="7" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
-          <text x="345" y="385" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#412402">emballages</text>
+          <!-- S3 → R3 (fabrication/conditionnement) vertical arrow "emballages" -->
+          <line x1="417" y1="320" x2="417" y2="246" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <rect x="387" y="266" width="60" height="14" rx="7" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+          <text x="417" y="276" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#412402">emballages</text>
 
           <g class="proc-node" data-code="S4" data-cat="support" onclick="selectNode('S4')">
-            <rect x="504" y="434" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-            <text x="573" y="460" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S4</text>
-            <text x="573" y="476" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Systèmes</text>
-            <text x="573" y="490" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">d'information</text>
+            <rect x="504" y="320" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="573" y="346" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S4</text>
+            <text x="573" y="362" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Systèmes</text>
+            <text x="573" y="376" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">d'information</text>
           </g>
 
-          <!-- CONFORMITÉ ET QUALITÉ -->
-          <rect x="20" y="536" width="640" height="84" rx="12" fill="#993C1D" stroke="#712B13" stroke-width="1"/>
-          <text x="36" y="556" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAECE7">Conformité et qualité</text>
+          <!-- CONFORMITÉ ET QUALITÉ — remonté à y=422 -->
+          <rect x="20" y="422" width="640" height="84" rx="12" fill="#993C1D" stroke="#712B13" stroke-width="1"/>
+          <text x="36" y="446" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAECE7">Conformité et qualité</text>
 
           <g class="proc-node" data-code="C1" data-cat="conformite" onclick="selectNode('C1')">
-            <rect x="36" y="566" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
-            <text x="134" y="591" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C1 — HACCP &amp; hygiène</text>
+            <rect x="36" y="452" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+            <text x="134" y="477" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C1 — HACCP &amp; hygiène</text>
           </g>
           <g class="proc-node" data-code="C2" data-cat="conformite" onclick="selectNode('C2')">
-            <rect x="242" y="566" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
-            <text x="340" y="591" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C2 — Traçabilité</text>
+            <rect x="242" y="452" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+            <text x="340" y="477" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C2 — Traçabilité</text>
           </g>
           <g class="proc-node" data-code="C3" data-cat="conformite" onclick="selectNode('C3')">
-            <rect x="448" y="566" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
-            <text x="546" y="591" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C3 — Amélioration cont.</text>
+            <rect x="448" y="452" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+            <text x="546" y="477" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C3 — Amélioration cont.</text>
           </g>
 
         </svg>
       </div>
 
-      <p style="margin-top:14px;font-size:11px;color:var(--text-hint);text-align:right;" id="proc-count">17 processus · 4 domaines</p>
+      <p style="margin-top:14px;font-size:11px;color:var(--text-hint);text-align:right;" id="proc-count">15 processus · 4 domaines</p>
     </div><!-- /tab-panel diagram -->
 
     <div class="tab-panel" id="panel-rh">
@@ -489,43 +465,30 @@ const PROCESSES = {
       {code:'R2.3',name:'Réceptionner les matières premières'},
       {code:'R2.4',name:'Stocker les matières (FIFO, DLC, réappro)'}
     ]},
-  R3:{name:'Planification production',cat:'realisation',catLabel:'Réalisation',
+  R3:{name:'Fabrication desserts',cat:'realisation',catLabel:'Réalisation',
     badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
-    desc:"Établit le planning de fabrication à partir des commandes et des stocks disponibles. Optimise les séquences pour limiter les nettoyages inter-lots.",
-    entrees:'Commandes clients, matières disponibles, capacité labo',sorties:'Planning hebdomadaire, ordres de fabrication',
-    acteurs:'Chef labo, dirigeant',outils:'Planning mural ou tableur',
-    tags:['Planning','Capacité','Optimisation'],
+    desc:"Processus cœur de métier : planification des fabrications, production des recettes (tiramisu et dérivés) selon les fiches techniques, puis conditionnement des produits. Inclut le pesage, le montage, le refroidissement, le contrôle qualité, l'étiquetage (DLC, allergènes) et le filmage par commande.",
+    entrees:'Commandes clients, matières disponibles (R2), emballages (S3)',sorties:'Produits conditionnés et étiquetés prêts à expédier',
+    acteurs:'Chef labo, pâtissiers, opérateurs conditionnement',outils:'Fiches recettes, matériel labo, balance, étiqueteuse, filmeuse',
+    tags:['Production','Planification','Conditionnement','Cœur de métier'],
     sousProcessus:[
       {code:'R3.1',name:'Planifier les tâches de production (planning)'},
-      {code:'R3.2',name:'Optimiser les séquences de fabrication des produits'}
+      {code:'R3.2',name:'Optimiser les séquences de fabrication'},
+      {code:'R3.3',name:'Relever présence des opérateurs'},
+      {code:'R3.4',name:'Superviser la production'},
+      {code:'R3.5',name:'Contrôler la qualité de la production'},
+      {code:'R3.6',name:'Gérer la préparation de palettes'},
+      {code:'R3.7',name:'Conditionner les produits (portionnage, étiquetage, filmage)'}
     ]},
-  R4:{name:'Fabrication desserts',cat:'realisation',catLabel:'Réalisation',
-    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
-    desc:"Cœur du processus : préparation des recettes (tiramisu et dérivés) selon les fiches techniques. Inclut le pesage, le montage, le refroidissement et le contrôle en cours.",
-    entrees:'Ordres de fabrication, matières, fiches recettes',sorties:'Desserts semi-finis ou finis',
-    acteurs:'Pâtissiers, chef labo',outils:'Fiches recettes, matériel labo',
-    tags:['Production','Recettes','Cœur de métier'],
-    sousProcessus:[
-      {code:'R4.1',name:'Relever présence des opérateurs'},
-      {code:'R4.2',name:'Superviser la production'},
-      {code:'R4.3',name:'Contrôler la qualité de la production'},
-      {code:'R4.4',name:'Gérer la préparation de palettes'}
-    ]},
-  R5:{name:'Conditionnement',cat:'realisation',catLabel:'Réalisation',
-    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
-    desc:"Portionnage, mise en barquettes ou verrines, étiquetage (DLC, allergènes), filmage et regroupement par commande. Utilise les emballages mis à disposition par le processus support Achats & logistique (S3).",
-    entrees:'Desserts fabriqués, emballages (S3)',sorties:'Produits conditionnés étiquetés',
-    acteurs:'Opérateurs conditionnement',outils:'Balance, étiqueteuse, filmeuse',
-    tags:['Étiquetage','Allergènes','Conditionnement']},
-  R6:{name:'Expédition & livraison',cat:'realisation',catLabel:'Réalisation',
+  R4:{name:'Expédition & livraison',cat:'realisation',catLabel:'Réalisation',
     badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
     desc:"Prépare les tournées, charge les commandes en chaîne du froid, livre les restaurateurs dans les délais convenus et gère les bons de livraison.",
     entrees:'Commandes conditionnées, planning livraison',sorties:'Livraisons effectuées, BL signés',
     acteurs:'Livreur, chef labo',outils:'Véhicule réfrigéré, BL, GPS',
     tags:['Chaîne du froid','Délais','BL'],
     sousProcessus:[
-      {code:'R6.1',name:'Préparer commandes'},
-      {code:'R6.2',name:'Livrer commandes'}
+      {code:'R4.1',name:'Préparer commandes'},
+      {code:'R4.2',name:'Livrer commandes'}
     ]},
   S1:{name:'Ressources humaines',cat:'support',catLabel:'Support',
     badgeBg:'#FAEEDA',badgeTxt:'#854F0B',dotColor:'#BA7517',
@@ -541,8 +504,8 @@ const PROCESSES = {
     tags:['Préventif','Curatif','Étalonnage']},
   S3:{name:'Achats & logistique interne',cat:'support',catLabel:'Support',
     badgeBg:'#FAEEDA',badgeTxt:'#854F0B',dotColor:'#BA7517',
-    desc:"Gère les achats hors matières premières (emballages, produits d'entretien, EPI, consommables) et la logistique interne du laboratoire. Met notamment à disposition les emballages nécessaires au conditionnement (R5).",
-    entrees:'Besoins des équipes',sorties:'Consommables disponibles, emballages (vers R5)',
+    desc:"Gère les achats hors matières premières (emballages, produits d'entretien, EPI, consommables) et la logistique interne du laboratoire. Met notamment à disposition les emballages nécessaires au conditionnement (R3).",
+    entrees:'Besoins des équipes',sorties:'Consommables disponibles, emballages (vers R3)',
     acteurs:'Dirigeant, responsable achats',outils:'Bons de commande, stocks consommables',
     tags:['Emballages','EPI','Consommables']},
   S4:{name:"Systèmes d'information",cat:'support',catLabel:'Support',
