@@ -508,7 +508,11 @@ const PROCESSES = {
     acteurs:'Livreur, chef labo',outils:'Véhicule réfrigéré, BL, GPS',
     tags:['Chaîne du froid','Délais','BL'],
     sousProcessus:[
-      {code:'R4.1',name:'Préparer commandes'},
+      {code:'R4.1',name:'Préparer commandes',sousProcessus:[
+        {code:'R4.1.1',name:'Éditer les bons de préparation'},
+        {code:'R4.1.2',name:'Étiquetter les compléments de production'},
+        {code:'R4.1.3',name:'Préparer les commandes clients'}
+      ]},
       {code:'R4.2',name:'Livrer commandes',sousProcessus:[
         {code:'R4.2.1',name:'Charger véhicules de livraisons'},
         {code:'R4.2.2',name:'Déposer commandes sur site clients'},
