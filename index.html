@@ -509,7 +509,12 @@ const PROCESSES = {
     tags:['Chaîne du froid','Délais','BL'],
     sousProcessus:[
       {code:'R4.1',name:'Préparer commandes'},
-      {code:'R4.2',name:'Livrer commandes'}
+      {code:'R4.2',name:'Livrer commandes',sousProcessus:[
+        {code:'R4.2.1',name:'Charger véhicules de livraisons'},
+        {code:'R4.2.2',name:'Déposer commandes sur site clients'},
+        {code:'R4.2.3',name:'Gérer bons de livraison'},
+        {code:'R4.2.4',name:'Encaisser / Relancer clients'}
+      ]}
     ]},
   S1:{name:'Gérer le personnel',cat:'support',catLabel:'Support',
     badgeBg:'#FAEEDA',badgeTxt:'#854F0B',dotColor:'#BA7517',
