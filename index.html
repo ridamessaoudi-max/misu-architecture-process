@@ -63,7 +63,9 @@ header { background: var(--surface); border-bottom: 1px solid var(--border); pad
 .proc-node rect { transition: filter .15s; }
 .proc-node:hover rect { filter: brightness(.94); }
 .proc-node.dimmed { opacity: .25; }
-.proc-node.selected rect { outline: 3px solid var(--text); }
+.proc-node.selected { filter: drop-shadow(0 0 3px rgba(26,25,22,0.55)); }
+.proc-l2-row { cursor: pointer; }
+.proc-l2-row:hover rect { filter: brightness(.9); }
 .detail-pane { border-left: 1px solid var(--border); background: var(--surface); display: flex; flex-direction: column; position: sticky; top: 64px; height: calc(100vh - 64px); overflow-y: auto; }
 .detail-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; color: var(--text-hint); }
 .detail-empty-icon { width: 56px; height: 56px; border: 1.5px dashed var(--border); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 22px; }
@@ -208,7 +210,7 @@ footer { grid-column: 1 / -1; border-top: 1px solid var(--border); padding: 16px
       </div>
 
       <div class="diagram-wrap">
-        <svg width="100%" viewBox="0 0 680 600" id="diagram">
+        <svg width="100%" viewBox="0 0 680 694" id="diagram">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -244,119 +246,166 @@ footer { grid-column: 1 / -1; border-top: 1px solid var(--border); padding: 16px
             <text x="573" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#534AB7">finances</text>
           </g>
 
-          <!-- RÉALISATION — R1/R2 colonne gauche, R3 milieu grand, R4 droite grand -->
-          <rect x="20" y="150" width="640" height="190" rx="12" fill="#0F6E56" stroke="#085041" stroke-width="1"/>
+          <!-- RÉALISATION — R1/R2 colonne gauche, R3 milieu, R4 droite -->
+          <rect x="20" y="150" width="640" height="300" rx="12" fill="#0F6E56" stroke="#085041" stroke-width="1"/>
           <text x="36" y="174" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#E1F5EE">Réalisation</text>
-
-          <!-- R1 Commercialisation (haut gauche) -->
-          <g class="proc-node" data-code="R1" data-cat="realisation" onclick="selectNode('R1')">
-            <rect x="36" y="182" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-            <text x="105" y="208" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R1</text>
-            <text x="105" y="224" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Commercia-</text>
-            <text x="105" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">liser</text>
-            <g class="subproc-indicator">
-              <circle cx="164" cy="192" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
-              <text x="164" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">4</text>
-            </g>
-          </g>
-          <!-- Arrow R1 → R2 (vertical downward) -->
-          <line x1="105" y1="246" x2="105" y2="262" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
           <!-- Dashed arc R1 → R3 "commandes clients" -->
           <path d="M 105 182 C 105 157, 307 157, 307 182" fill="none" stroke="#1D9E75" stroke-width="1.2" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
           <rect x="149" y="151" width="115" height="14" rx="7" fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.8"/>
           <text x="206" y="161" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#04342C">commandes clients</text>
 
-          <!-- R2 Approvisionnement (bas gauche) - badge 4 -->
+          <!-- R1 Commercialiser (haut gauche) — L2 visible -->
+          <g class="proc-node" data-code="R1" data-cat="realisation" onclick="selectNode('R1')">
+            <rect x="36" y="182" width="138" height="120" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="105" y="197" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R1</text>
+            <text x="105" y="211" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">Commercialiser</text>
+            <line x1="44" y1="220" x2="168" y2="220" stroke="#1D9E75" stroke-width="0.6" opacity="0.5"/>
+          </g>
+          <g class="proc-node" data-code="R1.1" data-cat="realisation" onclick="selectNode('R1.1')">
+            <rect x="40" y="224" width="130" height="16" rx="3" fill="#C8E8DF" stroke="none"/>
+            <text x="46" y="234" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#0F6E56">R1.1</text>
+            <text x="74" y="234" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#04342C">Enregistrer commandes</text>
+          </g>
+          <g class="proc-node" data-code="R1.2" data-cat="realisation" onclick="selectNode('R1.2')">
+            <rect x="40" y="243" width="130" height="16" rx="3" fill="#C8E8DF" stroke="none"/>
+            <text x="46" y="253" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#0F6E56">R1.2</text>
+            <text x="74" y="253" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#04342C">Évaluer commandes</text>
+          </g>
+          <g class="proc-node" data-code="R1.3" data-cat="realisation" onclick="selectNode('R1.3')">
+            <rect x="40" y="262" width="130" height="16" rx="3" fill="#C8E8DF" stroke="none"/>
+            <text x="46" y="272" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#0F6E56">R1.3</text>
+            <text x="74" y="272" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#04342C">Communiquer l'offre</text>
+          </g>
+          <g class="proc-node" data-code="R1.4" data-cat="realisation" onclick="selectNode('R1.4')">
+            <rect x="40" y="281" width="130" height="16" rx="3" fill="#C8E8DF" stroke="none"/>
+            <text x="46" y="291" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#0F6E56">R1.4</text>
+            <text x="74" y="291" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#04342C">Fidéliser clients</text>
+          </g>
+
+          <!-- Arrow R1 → R2 (vertical downward) -->
+          <line x1="105" y1="302" x2="105" y2="312" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- R2 Approvisionner (bas gauche) — L2 visible -->
           <g class="proc-node" data-code="R2" data-cat="realisation" onclick="selectNode('R2')">
-            <rect x="36" y="262" width="138" height="64" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-            <text x="105" y="288" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R2</text>
-            <text x="105" y="304" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Approvision-</text>
-            <text x="105" y="318" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">ner</text>
-            <g class="subproc-indicator">
-              <circle cx="164" cy="272" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
-              <text x="164" y="275.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">4</text>
-            </g>
+            <rect x="36" y="312" width="138" height="120" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="105" y="327" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R2</text>
+            <text x="105" y="341" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">Approvisionner</text>
+            <line x1="44" y1="350" x2="168" y2="350" stroke="#1D9E75" stroke-width="0.6" opacity="0.5"/>
           </g>
+          <g class="proc-node" data-code="R2.1" data-cat="realisation" onclick="selectNode('R2.1')">
+            <rect x="40" y="354" width="130" height="16" rx="3" fill="#C8E8DF" stroke="none"/>
+            <text x="46" y="364" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#0F6E56">R2.1</text>
+            <text x="74" y="364" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#04342C">Passer commandes</text>
+          </g>
+          <g class="proc-node" data-code="R2.2" data-cat="realisation" onclick="selectNode('R2.2')">
+            <rect x="40" y="373" width="130" height="16" rx="3" fill="#C8E8DF" stroke="none"/>
+            <text x="46" y="383" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#0F6E56">R2.2</text>
+            <text x="74" y="383" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#04342C">Planifier livraisons</text>
+          </g>
+          <g class="proc-node" data-code="R2.3" data-cat="realisation" onclick="selectNode('R2.3')">
+            <rect x="40" y="392" width="130" height="16" rx="3" fill="#C8E8DF" stroke="none"/>
+            <text x="46" y="402" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#0F6E56">R2.3</text>
+            <text x="74" y="402" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#04342C">Réceptionner MP</text>
+          </g>
+          <g class="proc-node" data-code="R2.4" data-cat="realisation" onclick="selectNode('R2.4')">
+            <rect x="40" y="411" width="130" height="16" rx="3" fill="#C8E8DF" stroke="none"/>
+            <text x="46" y="421" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#0F6E56">R2.4</text>
+            <text x="74" y="421" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#04342C">Stocker matières</text>
+          </g>
+
           <!-- Arrow R2 → R3 (horizontal right) -->
-          <line x1="174" y1="294" x2="192" y2="294" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <line x1="174" y1="372" x2="192" y2="372" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-          <!-- R3 Fabrication desserts (milieu, grand) - badge 7 -->
+          <!-- R3 Fabriquer les desserts (milieu, grand) — L2 visible -->
           <g class="proc-node" data-code="R3" data-cat="realisation" onclick="selectNode('R3')">
-            <rect x="192" y="182" width="230" height="144" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-            <text x="307" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R3</text>
-            <text x="307" y="254" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Fabriquer</text>
-            <text x="307" y="268" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">les desserts</text>
-            <g class="subproc-indicator">
-              <circle cx="412" cy="192" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
-              <text x="412" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">2</text>
-            </g>
+            <rect x="192" y="182" width="230" height="268" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="307" y="200" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R3</text>
+            <text x="307" y="215" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">Fabriquer les desserts</text>
+            <line x1="200" y1="226" x2="414" y2="226" stroke="#1D9E75" stroke-width="0.6" opacity="0.5"/>
           </g>
-          <!-- Arrow R3 → R4 (horizontal right) -->
-          <line x1="422" y1="254" x2="438" y2="254" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <g class="proc-node" data-code="R3.1" data-cat="realisation" onclick="selectNode('R3.1')">
+            <rect x="197" y="318" width="220" height="22" rx="4" fill="#C8E8DF" stroke="none"/>
+            <text x="204" y="331" font-family="'DM Mono',monospace" font-size="7.5" font-weight="600" dominant-baseline="middle" fill="#0F6E56">R3.1</text>
+            <text x="234" y="331" font-family="'DM Sans',sans-serif" font-size="8.5" dominant-baseline="middle" fill="#04342C">Piloter la production</text>
+          </g>
+          <g class="proc-node" data-code="R3.2" data-cat="realisation" onclick="selectNode('R3.2')">
+            <rect x="197" y="346" width="220" height="22" rx="4" fill="#C8E8DF" stroke="none"/>
+            <text x="204" y="359" font-family="'DM Mono',monospace" font-size="7.5" font-weight="600" dominant-baseline="middle" fill="#0F6E56">R3.2</text>
+            <text x="234" y="359" font-family="'DM Sans',sans-serif" font-size="8.5" dominant-baseline="middle" fill="#04342C">Réaliser la production</text>
+          </g>
 
-          <!-- R4 Expédition & livraison (droite, grand) - badge 2 -->
+          <!-- Arrow R3 → R4 (horizontal right) -->
+          <line x1="422" y1="316" x2="438" y2="316" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- R4 Expédier les commandes (droite, grand) — L2 visible -->
           <g class="proc-node" data-code="R4" data-cat="realisation" onclick="selectNode('R4')">
-            <rect x="438" y="182" width="204" height="144" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
-            <text x="540" y="238" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R4</text>
-            <text x="540" y="254" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">Expédier les</text>
-            <text x="540" y="268" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">commandes</text>
-            <g class="subproc-indicator">
-              <circle cx="632" cy="192" r="9" fill="#0F6E56" stroke="#E1F5EE" stroke-width="1.5"/>
-              <text x="632" y="195.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#E1F5EE">2</text>
-            </g>
+            <rect x="438" y="182" width="204" height="268" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+            <text x="540" y="200" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#04342C">R4</text>
+            <text x="540" y="215" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#0F6E56">Expédier les commandes</text>
+            <line x1="446" y1="226" x2="634" y2="226" stroke="#1D9E75" stroke-width="0.6" opacity="0.5"/>
+          </g>
+          <g class="proc-node" data-code="R4.1" data-cat="realisation" onclick="selectNode('R4.1')">
+            <rect x="443" y="318" width="194" height="22" rx="4" fill="#C8E8DF" stroke="none"/>
+            <text x="450" y="331" font-family="'DM Mono',monospace" font-size="7.5" font-weight="600" dominant-baseline="middle" fill="#0F6E56">R4.1</text>
+            <text x="480" y="331" font-family="'DM Sans',sans-serif" font-size="8.5" dominant-baseline="middle" fill="#04342C">Préparer commandes</text>
+          </g>
+          <g class="proc-node" data-code="R4.2" data-cat="realisation" onclick="selectNode('R4.2')">
+            <rect x="443" y="346" width="194" height="22" rx="4" fill="#C8E8DF" stroke="none"/>
+            <text x="450" y="359" font-family="'DM Mono',monospace" font-size="7.5" font-weight="600" dominant-baseline="middle" fill="#0F6E56">R4.2</text>
+            <text x="480" y="359" font-family="'DM Sans',sans-serif" font-size="8.5" dominant-baseline="middle" fill="#04342C">Livrer commandes</text>
           </g>
 
           <!-- SUPPORT -->
-          <rect x="20" y="368" width="640" height="110" rx="12" fill="#854F0B" stroke="#633806" stroke-width="1"/>
-          <text x="36" y="392" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAEEDA">Support</text>
+          <rect x="20" y="468" width="640" height="110" rx="12" fill="#854F0B" stroke="#633806" stroke-width="1"/>
+          <text x="36" y="492" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAEEDA">Support</text>
 
           <g class="proc-node" data-code="S1" data-cat="support" onclick="selectNode('S1')">
-            <rect x="36" y="400" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-            <text x="105" y="426" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S1</text>
-            <text x="105" y="442" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Gérer le</text>
-            <text x="105" y="456" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">personnel</text>
+            <rect x="36" y="500" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="105" y="526" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S1</text>
+            <text x="105" y="542" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Gérer le</text>
+            <text x="105" y="556" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">personnel</text>
           </g>
           <g class="proc-node" data-code="S2" data-cat="support" onclick="selectNode('S2')">
-            <rect x="192" y="400" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-            <text x="261" y="426" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S2</text>
-            <text x="261" y="442" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Maintenir les</text>
-            <text x="261" y="456" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">équipements</text>
+            <rect x="192" y="500" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="261" y="526" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S2</text>
+            <text x="261" y="542" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Maintenir les</text>
+            <text x="261" y="556" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">équipements</text>
           </g>
           <g class="proc-node" data-code="S3" data-cat="support" onclick="selectNode('S3')">
-            <rect x="348" y="400" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-            <text x="417" y="426" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S3</text>
-            <text x="417" y="442" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Gérer achats</text>
-            <text x="417" y="456" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">&amp; logistique</text>
+            <rect x="348" y="500" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="417" y="526" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S3</text>
+            <text x="417" y="542" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Gérer achats</text>
+            <text x="417" y="556" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">&amp; logistique</text>
           </g>
 
           <!-- S3 → R3 (fabrication) vertical arrow "emballages" -->
-          <line x1="417" y1="400" x2="417" y2="326" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow)"/>
-          <rect x="387" y="354" width="60" height="14" rx="7" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
-          <text x="417" y="364" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#412402">emballages</text>
+          <line x1="417" y1="500" x2="417" y2="454" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <rect x="387" y="470" width="60" height="14" rx="7" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+          <text x="417" y="480" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#412402">emballages</text>
 
           <g class="proc-node" data-code="S4" data-cat="support" onclick="selectNode('S4')">
-            <rect x="504" y="400" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-            <text x="573" y="426" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S4</text>
-            <text x="573" y="442" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Gérer les</text>
-            <text x="573" y="456" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">syst. d'info</text>
+            <rect x="504" y="500" width="138" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+            <text x="573" y="526" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">S4</text>
+            <text x="573" y="542" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#412402">Gérer les</text>
+            <text x="573" y="556" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#854F0B">syst. d'info</text>
           </g>
 
           <!-- CONFORMITÉ ET QUALITÉ -->
-          <rect x="20" y="502" width="640" height="84" rx="12" fill="#993C1D" stroke="#712B13" stroke-width="1"/>
-          <text x="36" y="526" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAECE7">Conformité et qualité</text>
+          <rect x="20" y="596" width="640" height="84" rx="12" fill="#993C1D" stroke="#712B13" stroke-width="1"/>
+          <text x="36" y="620" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FAECE7">Conformité et qualité</text>
 
           <g class="proc-node" data-code="C1" data-cat="conformite" onclick="selectNode('C1')">
-            <rect x="36" y="532" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
-            <text x="134" y="557" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C1 — Maîtriser HACCP &amp; hygiène</text>
+            <rect x="36" y="626" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+            <text x="134" y="651" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C1 — Maîtriser HACCP &amp; hygiène</text>
           </g>
           <g class="proc-node" data-code="C2" data-cat="conformite" onclick="selectNode('C2')">
-            <rect x="242" y="532" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
-            <text x="340" y="557" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C2 — Assurer la traçabilité</text>
+            <rect x="242" y="626" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+            <text x="340" y="651" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C2 — Assurer la traçabilité</text>
           </g>
           <g class="proc-node" data-code="C3" data-cat="conformite" onclick="selectNode('C3')">
-            <rect x="448" y="532" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
-            <text x="546" y="557" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C3 — Améliorer en continu</text>
+            <rect x="448" y="626" width="196" height="42" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+            <text x="546" y="651" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#4A1B0C">C3 — Améliorer en continu</text>
           </g>
 
         </svg>
@@ -404,7 +453,7 @@ footer { grid-column: 1 / -1; border-top: 1px solid var(--border); padding: 16px
           <div class="subproc-title">Sous-processus</div>
           <div class="subproc-list" id="subproc-list"></div>
         </div>
-        <div class="alloc-block">
+        <div class="alloc-block" id="alloc-block">
           <div class="alloc-title">Personnes allouées</div>
           <div class="alloc-list" id="alloc-list"></div>
           <div class="alloc-warn" id="alloc-warn" style="display:none;">
@@ -561,10 +610,70 @@ const PROCESSES = {
     desc:"Collecte et analyse les non-conformités, réclamations clients et résultats d'audit. Définit et suit les actions correctives et préventives (CAPA). Alimente le processus de pilotage.",
     entrees:'NC, réclamations, audits',sorties:'Actions correctives, indicateurs qualité',
     acteurs:'Dirigeant, responsable qualité',outils:'Registre NC, CAPA, revue de direction',
-    tags:['CAPA','NC','Revue direction']}
+    tags:['CAPA','NC','Revue direction']},
+  'R1.1':{name:'Enregistrer commandes',cat:'realisation',catLabel:'Réalisation',parent:'R1',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
+  'R1.2':{name:'Évaluer commandes',cat:'realisation',catLabel:'Réalisation',parent:'R1',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
+  'R1.3':{name:"Communiquer l'offre",cat:'realisation',catLabel:'Réalisation',parent:'R1',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
+  'R1.4':{name:'Fidéliser clients',cat:'realisation',catLabel:'Réalisation',parent:'R1',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
+  'R2.1':{name:'Passer commandes fournisseurs',cat:'realisation',catLabel:'Réalisation',parent:'R2',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
+  'R2.2':{name:'Planifier livraisons fournisseurs',cat:'realisation',catLabel:'Réalisation',parent:'R2',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
+  'R2.3':{name:'Réceptionner les matières premières',cat:'realisation',catLabel:'Réalisation',parent:'R2',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
+  'R2.4':{name:'Stocker les matières (FIFO, DLC, réappro)',cat:'realisation',catLabel:'Réalisation',parent:'R2',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
+  'R3.1':{name:'Piloter la production',cat:'realisation',catLabel:'Réalisation',parent:'R3',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[],
+    sousProcessus:[
+      {code:'R3.1.1',name:'Planifier les tâches de production (planning)'},
+      {code:'R3.1.2',name:'Optimiser les séquences de fabrication'},
+      {code:'R3.1.3',name:'Relever présence des opérateurs'},
+      {code:'R3.1.4',name:'Superviser la production'}
+    ]},
+  'R3.2':{name:'Réaliser la production',cat:'realisation',catLabel:'Réalisation',parent:'R3',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[],
+    sousProcessus:[
+      {code:'R3.2.1',name:'Produire les desserts'},
+      {code:'R3.2.2',name:'Contrôler la qualité de la production'},
+      {code:'R3.2.3',name:'Gérer la préparation de palettes'},
+      {code:'R3.2.4',name:'Conditionner les produits (portionnage, étiquetage, filmage)'},
+      {code:'R3.2.5',name:'Stocker produits finis'}
+    ]},
+  'R4.1':{name:'Préparer commandes',cat:'realisation',catLabel:'Réalisation',parent:'R4',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[],
+    sousProcessus:[
+      {code:'R4.1.1',name:'Éditer les bons de préparation'},
+      {code:'R4.1.2',name:'Étiquetter les compléments de production'},
+      {code:'R4.1.3',name:'Préparer les commandes clients'}
+    ]},
+  'R4.2':{name:'Livrer commandes',cat:'realisation',catLabel:'Réalisation',parent:'R4',
+    badgeBg:'#E1F5EE',badgeTxt:'#0F6E56',dotColor:'#1D9E75',
+    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[],
+    sousProcessus:[
+      {code:'R4.2.1',name:'Charger véhicules de livraisons'},
+      {code:'R4.2.2',name:'Déposer commandes sur site clients'},
+      {code:'R4.2.3',name:'Gérer bons de livraison'},
+      {code:'R4.2.4',name:'Encaisser / Relancer clients'}
+    ]}
 };
 
-const ALL_CODES = Object.keys(PROCESSES);
+const ALL_CODES = Object.keys(PROCESSES).filter(k => !k.includes('.'));
 
 const AVATAR_COLORS = ['#534AB7','#1D9E75','#BA7517','#D85A30','#3C3489'];
 
@@ -660,9 +769,13 @@ function selectNode(code) {
 }
 
 function highlightNode(code) {
+  const parentCode = PROCESSES[code]?.parent;
   document.querySelectorAll('.proc-node').forEach(n => {
-    n.classList.toggle('dimmed', n.dataset.code !== code);
-    n.classList.toggle('selected', n.dataset.code === code);
+    const nCode = n.dataset.code;
+    const isSelected = nCode === code;
+    const isParent = parentCode && nCode === parentCode;
+    n.classList.toggle('dimmed', !isSelected && !isParent);
+    n.classList.toggle('selected', isSelected);
   });
 }
 
@@ -675,14 +788,40 @@ function renderPanel(code) {
   document.getElementById('panel-cat-label').textContent = d.catLabel;
   document.getElementById('panel-code').textContent = code;
   document.getElementById('panel-name').textContent = d.name;
-  document.getElementById('panel-desc').textContent = d.desc;
-  document.getElementById('props-grid').innerHTML = `
-    <div class="prop-card"><div class="prop-label">Entrées</div><div class="prop-value">${d.entrees}</div></div>
-    <div class="prop-card"><div class="prop-label">Sorties</div><div class="prop-value">${d.sorties}</div></div>
-    <div class="prop-card"><div class="prop-label">Acteurs</div><div class="prop-value">${d.acteurs}</div></div>
-    <div class="prop-card"><div class="prop-label">Outils & supports</div><div class="prop-value">${d.outils}</div></div>`;
-  document.getElementById('tags-row').innerHTML = d.tags.map(t =>
-    `<span class="tag">${t}</span>`).join('');
+
+  const descEl = document.getElementById('panel-desc');
+  if (d.desc) {
+    descEl.style.display = '';
+    descEl.textContent = d.desc;
+  } else if (d.parent) {
+    descEl.style.display = '';
+    descEl.textContent = `Sous-processus de ${d.parent} — ${PROCESSES[d.parent].name}`;
+    descEl.style.fontStyle = 'italic';
+  } else {
+    descEl.style.display = 'none';
+    descEl.style.fontStyle = '';
+  }
+
+  const propsGrid = document.getElementById('props-grid');
+  if (d.entrees || d.sorties || d.acteurs || d.outils) {
+    propsGrid.style.display = '';
+    propsGrid.innerHTML = `
+      <div class="prop-card"><div class="prop-label">Entrées</div><div class="prop-value">${d.entrees}</div></div>
+      <div class="prop-card"><div class="prop-label">Sorties</div><div class="prop-value">${d.sorties}</div></div>
+      <div class="prop-card"><div class="prop-label">Acteurs</div><div class="prop-value">${d.acteurs}</div></div>
+      <div class="prop-card"><div class="prop-label">Outils & supports</div><div class="prop-value">${d.outils}</div></div>`;
+  } else {
+    propsGrid.style.display = 'none';
+  }
+
+  const tagsRow = document.getElementById('tags-row');
+  if (d.tags && d.tags.length) {
+    tagsRow.style.display = '';
+    tagsRow.innerHTML = d.tags.map(t => `<span class="tag">${t}</span>`).join('');
+  } else {
+    tagsRow.style.display = 'none';
+  }
+
   const subBlock = document.getElementById('subproc-block');
   if (d.sousProcessus && d.sousProcessus.length) {
     subBlock.style.display = '';
@@ -698,9 +837,18 @@ function renderPanel(code) {
   } else {
     subBlock.style.display = 'none';
   }
-  renderAllocationBlock(code);
+
+  const allocBlock = document.getElementById('alloc-block');
+  if (d.parent) {
+    allocBlock.style.display = 'none';
+  } else {
+    allocBlock.style.display = '';
+    renderAllocationBlock(code);
+  }
+
   const visible = getVisibleCodes();
-  const idx = visible.indexOf(code);
+  const baseCode = d.parent || code;
+  const idx = visible.indexOf(baseCode);
   document.getElementById('btn-prev').disabled = idx <= 0;
   document.getElementById('btn-next').disabled = idx >= visible.length - 1;
   document.getElementById('detail-empty').style.display = 'none';
@@ -719,7 +867,8 @@ function closePanel() {
 
 function navigate(dir) {
   const visible = getVisibleCodes();
-  const idx = visible.indexOf(currentCode);
+  const baseCode = (PROCESSES[currentCode]?.parent) || currentCode;
+  const idx = visible.indexOf(baseCode);
   const next = visible[idx + dir];
   if (next) selectNode(next);
 }
@@ -749,7 +898,7 @@ function applyFilter() {
     const show = catMatch && searchMatch;
     n.style.opacity = show ? '1' : '0.15';
     n.style.pointerEvents = show ? '' : 'none';
-    if (show) count++;
+    if (show && !d.parent) count++;
   });
   document.getElementById('proc-count').textContent =
     count + ' processus affiché' + (count > 1 ? 's' : '') + ' · ' +
@@ -836,6 +985,7 @@ function renderCoverageIndicators() {
   document.querySelectorAll('.coverage-warn').forEach(el => el.remove());
   document.querySelectorAll('.proc-node').forEach(n => {
     const code = n.dataset.code;
+    if (!ALLOCATIONS.hasOwnProperty(code)) return;
     if (ALLOCATIONS[code] && ALLOCATIONS[code].length > 0) return;
     const rect = n.querySelector('rect');
     const x = parseFloat(rect.getAttribute('x'));
