@@ -13,24 +13,7 @@
   --text: #1A1916;
   --text-muted: #6B6860;
   --text-hint: #A09D97;
-  --pilotage-bg: #1B3A7A;
-  --pilotage-light: #E8EEFA;
-  --pilotage-mid: #3D5CC2;
-  --pilotage-dark: #0F2148;
-  --real-bg: #1A5C3E;
-  --real-light: #E4F5EC;
-  --real-mid: #268F5A;
-  --real-dark: #0A3526;
-  --support-bg: #7A3D10;
-  --support-light: #FEF0E2;
-  --support-mid: #C06E1C;
-  --support-dark: #401E08;
-  --conform-bg: #82192A;
-  --conform-light: #FBE8EB;
-  --conform-mid: #C43040;
-  --conform-dark: #480C17;
   --radius: 10px;
-  --shadow: 0 2px 16px rgba(0,0,0,.07);
   --shadow-lg: 0 8px 40px rgba(0,0,0,.12);
   --panel-w: 380px;
 }
@@ -43,40 +26,43 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .logo-text{font-size:15px;font-weight:500;color:var(--text)}
 .header-meta{font-size:12px;color:var(--text-hint)}
 
-/* ── LAYOUT ── */
+/* LAYOUT */
 .app{display:flex;min-height:calc(100vh - 64px)}
 .diagram-pane{flex:1;padding:32px 40px;overflow-y:auto;transition:padding-right .3s}
 .app.panel-open .diagram-pane{padding-right:calc(var(--panel-w) + 48px)}
 
-/* ── INTRO ── */
+/* INTRO */
 .diagram-intro{margin-bottom:24px}
 .diagram-intro h1{font-family:'DM Serif Display',serif;font-size:26px;font-weight:400;color:var(--text);margin-bottom:6px}
 .diagram-intro p{font-size:13px;color:var(--text-muted);line-height:1.6;max-width:600px}
 
-/* ── SEARCH ── */
+/* SEARCH */
 .search-bar{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;margin-bottom:24px;max-width:400px}
 .search-bar input{border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;width:100%}
 .search-bar input::placeholder{color:var(--text-hint)}
 .search-icon{color:var(--text-hint)}
 
-/* ── DIAGRAM ── */
+/* DIAGRAM */
 .diagram-wrap{display:flex;flex-direction:column;gap:16px}
 
-/* DOMAIN BAND */
+/* DOMAIN */
 .domain-band{border-radius:12px;overflow:hidden}
-.domain-header{padding:10px 18px;display:flex;align-items:center;gap:10px}
+.domain-header{padding:10px 18px}
 .domain-label{font-size:13px;font-weight:600;letter-spacing:.3px}
 .domain-body{padding:14px 14px 16px;display:flex;flex-direction:column;gap:10px}
 
+/* PROCESS ROW */
+.process-row{display:flex;flex-direction:row;gap:10px;align-items:stretch}
+
 /* PROCESS CARD */
-.process-card{background:var(--surface);border-radius:10px;border:1px solid var(--border);overflow:hidden}
+.process-card{flex:1;min-width:0;background:var(--surface);border-radius:10px;border:1px solid var(--border);overflow:hidden}
 .process-header{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border)}
 .process-header:hover{background:#f5f3ef}
 .process-code-badge{font-size:10px;font-weight:600;letter-spacing:.5px;padding:3px 8px;border-radius:20px;white-space:nowrap}
 .process-name{font-size:13px;font-weight:500;color:var(--text);flex:1}
 
 /* SUB-PROCESS CHIPS */
-.subproc-wrap{padding:8px 12px 12px;display:flex;flex-direction:row;gap:6px}
+.subproc-wrap{padding:8px 10px 10px;display:flex;flex-direction:row;gap:6px}
 .subproc-chip{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;padding:8px 10px;border-radius:7px;font-size:12px;cursor:pointer;border:1px solid transparent;transition:all .15s;flex:1;min-width:0}
 .subproc-chip:hover{filter:brightness(.95);transform:translateY(-1px)}
 .subproc-chip.active{box-shadow:0 0 0 2px var(--chip-accent)}
@@ -84,7 +70,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .subproc-chip .chip-name{font-weight:500;line-height:1.3;word-break:break-word}
 .subproc-chip .chip-tasks{font-size:10px;opacity:.55;white-space:nowrap}
 
-/* ── PANEL ── */
+/* PANEL */
 .panel{position:fixed;top:64px;right:0;width:var(--panel-w);height:calc(100vh - 64px);background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:90;box-shadow:var(--shadow-lg)}
 .panel.open{transform:translateX(0)}
 .panel-header{padding:20px 20px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
@@ -96,7 +82,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .panel-close:hover{background:var(--border)}
 .panel-body{flex:1;overflow-y:auto;padding:20px}
 
-/* Task list */
+/* Tasks */
 .tasks-section{margin-bottom:20px}
 .tasks-title{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:10px;font-weight:500}
 .task-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);margin-bottom:6px}
@@ -104,7 +90,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .task-name{font-size:13px;color:var(--text);line-height:1.4}
 .no-tasks{font-size:13px;color:var(--text-hint);font-style:italic}
 
-/* Sub-process list in process panel */
+/* Sub-process list in panel */
 .sp-list-section{margin-bottom:20px}
 .sp-list-title{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:10px;font-weight:500}
 .sp-list-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);margin-bottom:5px;cursor:pointer;transition:background .12s}
@@ -120,6 +106,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 
 /* Hidden */
 .domain-band.hidden,.process-card.hidden,.subproc-chip.hidden{display:none}
+.process-row:not(:has(.process-card:not(.hidden))){display:none}
 
 /* Scrollbar */
 ::-webkit-scrollbar{width:5px;height:5px}
@@ -156,7 +143,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
     <div class="diagram-wrap" id="diagram"></div>
   </div>
 
-  <!-- DETAIL PANEL -->
   <div class="panel" id="panel">
     <div class="panel-header">
       <div class="panel-badge" id="panel-badge">
@@ -185,17 +171,19 @@ const DOMAINS = [
     code: 'P', name: 'Pilotage',
     cat: 'pilotage',
     bg: '#1B3A7A', light: '#E8EEFA', mid: '#3D5CC2', dark: '#0F2148',
-    processes: [
-      { code:'P1', name:'Piloter la stratégie', subProcesses:[] },
-      { code:'P2', name:"Gérer l'offre", subProcesses:[
-        { code:'P2.1', name:'Gérer prestations de communication', tasks:[] },
-        { code:'P2.2', name:'Gérer opérations marketing', tasks:[] }
-      ]},
-      { code:'P3', name:'Piloter la performance', subProcesses:[
-        { code:'P3.1', name:'Calculer/Surveiller prix de revient desserts', tasks:[] },
-        { code:'P3.2', name:'Surveiller/Négocier prix fournisseurs', tasks:[] }
-      ]},
-      { code:'P4', name:'Gérer les finances', subProcesses:[
+    rows: [
+      [{ code:'P1', name:'Piloter la stratégie', subProcesses:[] }],
+      [
+        { code:'P2', name:"Gérer l'offre", subProcesses:[
+          { code:'P2.1', name:'Gérer prestations de communication', tasks:[] },
+          { code:'P2.2', name:'Gérer opérations marketing', tasks:[] }
+        ]},
+        { code:'P3', name:'Piloter la performance', subProcesses:[
+          { code:'P3.1', name:'Calculer/Surveiller prix de revient desserts', tasks:[] },
+          { code:'P3.2', name:'Surveiller/Négocier prix fournisseurs', tasks:[] }
+        ]}
+      ],
+      [{ code:'P4', name:'Gérer les finances', subProcesses:[
         { code:'P4.1', name:'Facturer', tasks:[
           { code:'P4.1.1', name:'Créer factures clients' },
           { code:'P4.1.2', name:'Envoyer factures aux clients' },
@@ -217,125 +205,131 @@ const DOMAINS = [
           { code:'P4.4.1', name:'Assurer relation avec le comptable' },
           { code:'P4.4.2', name:'Réunir éléments comptables' }
         ]}
-      ]}
+      ]}]
     ]
   },
   {
     code: 'R', name: 'Réalisation',
     cat: 'realisation',
     bg: '#1A5C3E', light: '#E4F5EC', mid: '#268F5A', dark: '#0A3526',
-    processes: [
-      { code:'R1', name:'Commercialiser', subProcesses:[
+    rows: [
+      [{ code:'R1', name:'Commercialiser', subProcesses:[
         { code:'R1.1', name:'Gérer comptes clients', tasks:[] },
         { code:'R1.2', name:'Enregistrer/Évaluer commandes', tasks:[] },
         { code:'R1.3', name:"Communiquer l'offre", tasks:[] },
         { code:'R1.4', name:'Fidéliser clients', tasks:[] },
         { code:'R1.5', name:'Assurer service après-vente', tasks:[] }
-      ]},
-      { code:'R2', name:'Approvisionner', subProcesses:[
-        { code:'R2.1', name:'Passer commandes fournisseurs', tasks:[] },
-        { code:'R2.2', name:'Planifier livraisons fournisseurs', tasks:[] },
-        { code:'R2.3', name:'Réceptionner commandes fournisseurs', tasks:[] },
-        { code:'R2.4', name:'Stocker commandes fournisseurs', tasks:[] }
-      ]},
-      { code:'R3', name:'Fabriquer', subProcesses:[
-        { code:'R3.1', name:'Piloter production', tasks:[
-          { code:'R3.1.1', name:'Planifier tâches production' },
-          { code:'R3.1.2', name:'Relever présence opérateurs' },
-          { code:'R3.1.3', name:'Superviser production' },
-          { code:'R3.1.4', name:'Optimiser séquences production' }
+      ]}],
+      [
+        { code:'R2', name:'Approvisionner', subProcesses:[
+          { code:'R2.1', name:'Passer commandes fournisseurs', tasks:[] },
+          { code:'R2.2', name:'Planifier livraisons fournisseurs', tasks:[] },
+          { code:'R2.3', name:'Réceptionner commandes fournisseurs', tasks:[] },
+          { code:'R2.4', name:'Stocker commandes fournisseurs', tasks:[] }
         ]},
-        { code:'R3.2', name:'Réaliser production', tasks:[
-          { code:'R3.2.1', name:'Produire desserts' },
-          { code:'R3.2.2', name:'Conditionner desserts' },
-          { code:'R3.2.3', name:'Contrôler qualité desserts' },
-          { code:'R3.2.4', name:'Gérer préparation palettes' },
-          { code:'R3.2.5', name:'Préparer palettes' },
-          { code:'R3.2.6', name:'Stocker desserts' },
-          { code:'R3.2.7', name:'Faire inventaire desserts en stock' }
-        ]}
-      ]},
-      { code:'R4', name:'Expédier', subProcesses:[
-        { code:'R4.1', name:'Préparer expédition', tasks:[
-          { code:'R4.1.1', name:'Contrôler si commandes prises en charge' },
-          { code:'R4.1.2', name:'Préparer départ livreur' },
-          { code:'R4.1.3', name:'Éditer/Imprimer les bons de livraison' },
-          { code:'R4.1.4', name:'Éditer bons de préparation' },
-          { code:'R4.1.5', name:'Imprimer étiquettes' },
-          { code:'R4.1.6', name:'Imprimer étiquettes commandes spéciales' },
-          { code:'R4.1.7', name:'Étiqueter compléments de production' },
-          { code:'R4.1.8', name:'Préparer commandes clients' },
-          { code:'R4.1.9', name:"Créer bordereau d'envoi pour palettes" }
+        { code:'R3', name:'Fabriquer', subProcesses:[
+          { code:'R3.1', name:'Piloter production', tasks:[
+            { code:'R3.1.1', name:'Planifier tâches production' },
+            { code:'R3.1.2', name:'Relever présence opérateurs' },
+            { code:'R3.1.3', name:'Superviser production' },
+            { code:'R3.1.4', name:'Optimiser séquences production' }
+          ]},
+          { code:'R3.2', name:'Réaliser production', tasks:[
+            { code:'R3.2.1', name:'Produire desserts' },
+            { code:'R3.2.2', name:'Conditionner desserts' },
+            { code:'R3.2.3', name:'Contrôler qualité desserts' },
+            { code:'R3.2.4', name:'Gérer préparation palettes' },
+            { code:'R3.2.5', name:'Préparer palettes' },
+            { code:'R3.2.6', name:'Stocker desserts' },
+            { code:'R3.2.7', name:'Faire inventaire desserts en stock' }
+          ]}
         ]},
-        { code:'R4.2', name:'Livrer commandes clients', tasks:[
-          { code:'R4.2.1', name:'Planifier livraisons en IdF' },
-          { code:'R4.2.2', name:'Planifier livraison palettes vers clients hors IdF' },
-          { code:'R4.2.3', name:'Charger véhicules de livraison' },
-          { code:'R4.2.4', name:'Superviser livreurs en tournées' },
-          { code:'R4.2.5', name:'Déposer commandes sur site clients' },
-          { code:'R4.2.6', name:'Gérer bons de livraisons' },
-          { code:'R4.2.7', name:'Encaisser/Relancer clients' }
+        { code:'R4', name:'Expédier', subProcesses:[
+          { code:'R4.1', name:'Préparer expédition', tasks:[
+            { code:'R4.1.1', name:'Contrôler si commandes prises en charge' },
+            { code:'R4.1.2', name:'Préparer départ livreur' },
+            { code:'R4.1.3', name:'Éditer/Imprimer les bons de livraison' },
+            { code:'R4.1.4', name:'Éditer bons de préparation' },
+            { code:'R4.1.5', name:'Imprimer étiquettes' },
+            { code:'R4.1.6', name:'Imprimer étiquettes commandes spéciales' },
+            { code:'R4.1.7', name:'Étiqueter compléments de production' },
+            { code:'R4.1.8', name:'Préparer commandes clients' },
+            { code:'R4.1.9', name:"Créer bordereau d'envoi pour palettes" }
+          ]},
+          { code:'R4.2', name:'Livrer commandes clients', tasks:[
+            { code:'R4.2.1', name:'Planifier livraisons en IdF' },
+            { code:'R4.2.2', name:'Planifier livraison palettes vers clients hors IdF' },
+            { code:'R4.2.3', name:'Charger véhicules de livraison' },
+            { code:'R4.2.4', name:'Superviser livreurs en tournées' },
+            { code:'R4.2.5', name:'Déposer commandes sur site clients' },
+            { code:'R4.2.6', name:'Gérer bons de livraisons' },
+            { code:'R4.2.7', name:'Encaisser/Relancer clients' }
+          ]}
         ]}
-      ]},
-      { code:'R5', name:'Gérer documentation', subProcesses:[
+      ],
+      [{ code:'R5', name:'Gérer documentation', subProcesses:[
         { code:'R5.1', name:'Traiter e-mails', tasks:[] },
         { code:'R5.2', name:'Trier documents', tasks:[] },
         { code:'R5.3', name:'Archiver documents', tasks:[] }
-      ]}
+      ]}]
     ]
   },
   {
     code: 'S', name: 'Support',
     cat: 'support',
     bg: '#7A3D10', light: '#FEF0E2', mid: '#C06E1C', dark: '#401E08',
-    processes: [
-      { code:'S1', name:'Gérer le personnel', subProcesses:[
-        { code:'S1.1', name:'Gérer contrats', tasks:[
-          { code:'S1.1.1', name:'Enregistrer salariés' },
-          { code:'S1.1.2', name:'Suivre signature contrats salariés' }
+    rows: [
+      [
+        { code:'S1', name:'Gérer le personnel', subProcesses:[
+          { code:'S1.1', name:'Gérer contrats', tasks:[
+            { code:'S1.1.1', name:'Enregistrer salariés' },
+            { code:'S1.1.2', name:'Suivre signature contrats salariés' }
+          ]},
+          { code:'S1.2', name:'Gérer paie', tasks:[
+            { code:'S1.2.1', name:"Saisir éléments de salaire de l'équipe de production" },
+            { code:'S1.2.2', name:'Enregistrement présence/absence des salariés' },
+            { code:'S1.2.3', name:'Enregistrement des éléments de salaire' }
+          ]}
         ]},
-        { code:'S1.2', name:'Gérer paie', tasks:[
-          { code:'S1.2.1', name:"Saisir éléments de salaire de l'équipe de production" },
-          { code:'S1.2.2', name:'Enregistrement présence/absence des salariés' },
-          { code:'S1.2.3', name:'Enregistrement des éléments de salaire' }
+        { code:'S2', name:'Maintenir les équipements', subProcesses:[
+          { code:'S2.1', name:'Contrôler propreté camions', tasks:[] },
+          { code:'S2.2', name:'Contrôler mécanique camions', tasks:[] }
+        ]},
+        { code:'S3', name:'Gérer achats hors MP et logistique', subProcesses:[
+          { code:'S3.1', name:'Gérer contrats fournisseurs', tasks:[] },
+          { code:'S3.2', name:'Acheter fournitures de bureau', tasks:[] }
+        ]},
+        { code:'S4', name:"Gérer système d'information", subProcesses:[
+          { code:'S4.2', name:'Gérer matériel informatique', tasks:[] },
+          { code:'S4.3', name:'Gérer solutions logicielles', tasks:[] },
+          { code:'S4.4', name:'Gérer système de surveillance', tasks:[] }
         ]}
-      ]},
-      { code:'S2', name:'Maintenir les équipements', subProcesses:[
-        { code:'S2.1', name:'Contrôler propreté camions', tasks:[] },
-        { code:'S2.2', name:'Contrôler mécanique camions', tasks:[] }
-      ]},
-      { code:'S3', name:'Gérer achats hors MP et logistique', subProcesses:[
-        { code:'S3.1', name:'Gérer contrats fournisseurs', tasks:[] },
-        { code:'S3.2', name:'Acheter fournitures de bureau', tasks:[] }
-      ]},
-      { code:'S4', name:"Gérer système d'information", subProcesses:[
-        { code:'S4.2', name:'Gérer matériel informatique', tasks:[] },
-        { code:'S4.3', name:'Gérer solutions logicielles', tasks:[] },
-        { code:'S4.4', name:'Gérer système de surveillance', tasks:[] }
-      ]}
+      ]
     ]
   },
   {
     code: 'C', name: 'Conformité et Qualité',
     cat: 'conformite',
     bg: '#82192A', light: '#FBE8EB', mid: '#C43040', dark: '#480C17',
-    processes: [
-      { code:'C1', name:'Maîtriser hygiène', subProcesses:[
-        { code:'C1.1', name:'Ranger chambre froide MP', tasks:[] },
-        { code:'C1.2', name:'Ranger chambre froide négative', tasks:[] },
-        { code:'C1.3', name:'Ranger stockage marchandises', tasks:[] },
-        { code:'C1.4', name:'Nettoyer local', tasks:[] }
-      ]},
-      { code:'C2', name:'Assurer la traçabilité', subProcesses:[] },
-      { code:'C3', name:'Améliorer en continu', subProcesses:[] }
+    rows: [
+      [
+        { code:'C1', name:'Maîtriser hygiène', subProcesses:[
+          { code:'C1.1', name:'Ranger chambre froide MP', tasks:[] },
+          { code:'C1.2', name:'Ranger chambre froide négative', tasks:[] },
+          { code:'C1.3', name:'Ranger stockage marchandises', tasks:[] },
+          { code:'C1.4', name:'Nettoyer local', tasks:[] }
+        ]},
+        { code:'C2', name:'Assurer la traçabilité', subProcesses:[] },
+        { code:'C3', name:'Améliorer en continu', subProcesses:[] }
+      ]
     ]
   }
 ];
 
 const ALL_NODES = [];
 DOMAINS.forEach(dom => {
-  dom.processes.forEach(proc => {
-    ALL_NODES.push({ code: proc.code, name: proc.name, type: 'process', domain: dom });
+  dom.rows.flat().forEach(proc => {
+    ALL_NODES.push({ code: proc.code, name: proc.name, type: 'process', domain: dom, proc: proc });
     proc.subProcesses.forEach(sp => {
       ALL_NODES.push({ code: sp.code, name: sp.name, type: 'subProcess', domain: dom, process: proc, tasks: sp.tasks });
     });
@@ -364,46 +358,49 @@ function buildDiagram() {
     const body = document.createElement('div');
     body.className = 'domain-body';
 
-    dom.processes.forEach(proc => {
-      const card = document.createElement('div');
-      card.className = 'process-card';
-      card.id = 'proc-' + proc.code;
-      card.dataset.code = proc.code;
-      card.dataset.cat = dom.cat;
+    dom.rows.forEach(row => {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'process-row';
 
-      const header = document.createElement('div');
-      header.className = 'process-header';
-      header.innerHTML =
-        '<span class="process-code-badge" style="background:' + dom.light + ';color:' + dom.dark + '">' + proc.code + '</span>' +
-        '<span class="process-name">' + proc.name + '</span>';
-      header.addEventListener('click', () => openNodePanel(proc.code));
-      card.appendChild(header);
+      row.forEach(proc => {
+        const card = document.createElement('div');
+        card.className = 'process-card';
+        card.id = 'proc-' + proc.code;
+        card.dataset.code = proc.code;
+        card.dataset.cat = dom.cat;
 
-      if (proc.subProcesses.length) {
-        const spWrap = document.createElement('div');
-        spWrap.className = 'subproc-wrap';
+        const header = document.createElement('div');
+        header.className = 'process-header';
+        header.innerHTML =
+          '<span class="process-code-badge" style="background:' + dom.light + ';color:' + dom.dark + '">' + proc.code + '</span>' +
+          '<span class="process-name">' + proc.name + '</span>';
+        header.addEventListener('click', () => openNodePanel(proc.code));
+        card.appendChild(header);
 
-        proc.subProcesses.forEach(sp => {
-          const chip = document.createElement('span');
-          chip.className = 'subproc-chip';
-          chip.id = 'sp-' + sp.code;
-          chip.dataset.code = sp.code;
-          chip.dataset.cat = dom.cat;
-          chip.style.cssText = 'background:' + dom.light + ';color:' + dom.dark + ';--chip-accent:' + dom.mid;
-          chip.innerHTML =
-            '<span class="chip-code">' + sp.code + '</span>' +
-            '<span class="chip-name">' + sp.name + '</span>' +
-            (sp.tasks.length ? '<span class="chip-tasks">(' + sp.tasks.length + ' tâches)</span>' : '');
-          chip.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openNodePanel(sp.code);
+        if (proc.subProcesses.length) {
+          const spWrap = document.createElement('div');
+          spWrap.className = 'subproc-wrap';
+          proc.subProcesses.forEach(sp => {
+            const chip = document.createElement('span');
+            chip.className = 'subproc-chip';
+            chip.id = 'sp-' + sp.code;
+            chip.dataset.code = sp.code;
+            chip.dataset.cat = dom.cat;
+            chip.style.cssText = 'background:' + dom.light + ';color:' + dom.dark + ';--chip-accent:' + dom.mid;
+            chip.innerHTML =
+              '<span class="chip-code">' + sp.code + '</span>' +
+              '<span class="chip-name">' + sp.name + '</span>' +
+              (sp.tasks.length ? '<span class="chip-tasks">(' + sp.tasks.length + ' tâches)</span>' : '');
+            chip.addEventListener('click', e => { e.stopPropagation(); openNodePanel(sp.code); });
+            spWrap.appendChild(chip);
           });
-          spWrap.appendChild(chip);
-        });
-        card.appendChild(spWrap);
-      }
+          card.appendChild(spWrap);
+        }
 
-      body.appendChild(card);
+        rowEl.appendChild(card);
+      });
+
+      body.appendChild(rowEl);
     });
 
     band.appendChild(body);
@@ -425,9 +422,7 @@ function openNodePanel(code) {
   }
 
   const dom = node.domain;
-  const badge = document.getElementById('panel-badge');
-  badge.style.background = dom.light;
-  badge.style.color = dom.dark;
+  document.getElementById('panel-badge').style.cssText = 'background:' + dom.light + ';color:' + dom.dark;
   document.getElementById('panel-badge-dot').style.background = dom.mid;
   document.getElementById('panel-cat-label').textContent = dom.name;
   document.getElementById('panel-code').textContent = code;
@@ -449,13 +444,12 @@ function openNodePanel(code) {
       });
       body.appendChild(sec);
     } else {
-      const p = document.createElement('p');
-      p.className = 'no-tasks';
+      const p = document.createElement('p'); p.className = 'no-tasks';
       p.textContent = 'Aucune tâche détaillée pour ce sous-processus.';
       body.appendChild(p);
     }
   } else {
-    const proc = DOMAINS.flatMap(d => d.processes).find(p => p.code === code);
+    const proc = node.proc;
     if (proc && proc.subProcesses.length) {
       const sec = document.createElement('div');
       sec.className = 'sp-list-section';
@@ -469,8 +463,7 @@ function openNodePanel(code) {
       });
       body.appendChild(sec);
     } else {
-      const p = document.createElement('p');
-      p.className = 'no-tasks';
+      const p = document.createElement('p'); p.className = 'no-tasks';
       p.textContent = "Ce processus n'a pas de sous-processus.";
       body.appendChild(p);
     }
@@ -479,10 +472,6 @@ function openNodePanel(code) {
   updateNavButtons();
   document.getElementById('panel').classList.add('open');
   document.getElementById('app').classList.add('panel-open');
-}
-
-function ensureProcessOpen(procCode) {
-  // sub-processes are always visible
 }
 
 function closePanel() {
@@ -521,18 +510,15 @@ function doSearch(q) {
       const card = document.getElementById('proc-' + node.code);
       if (card) {
         card.classList.remove('hidden');
-        const band = card.closest('.domain-band');
-        if (band) band.classList.remove('hidden');
+        card.closest('.domain-band')?.classList.remove('hidden');
         card.querySelectorAll('.subproc-chip').forEach(c => c.classList.remove('hidden'));
       }
     } else {
       const chip = document.getElementById('sp-' + node.code);
       if (chip) {
         chip.classList.remove('hidden');
-        const card = chip.closest('.process-card');
-        if (card) card.classList.remove('hidden');
-        const band = chip.closest('.domain-band');
-        if (band) band.classList.remove('hidden');
+        chip.closest('.process-card')?.classList.remove('hidden');
+        chip.closest('.domain-band')?.classList.remove('hidden');
       }
     }
   });
