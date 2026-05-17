@@ -271,11 +271,8 @@ function toggleAlloc(code, pid){
   const i = ALLOCS[code].indexOf(pid);
   if(i>=0) ALLOCS[code].splice(i,1); else ALLOCS[code].push(pid);
   saveAllocs();
-  // refresh panel alloc UI in place
   refreshAllocUI(code);
-  // refresh diagram dots
   refreshDiagramDots(code);
-  // refresh resources if visible
   if(document.getElementById('view-ressources').classList.contains('active')) renderResourcesView();
 }
 function refreshAllocUI(code){
@@ -290,10 +287,8 @@ function refreshAllocUI(code){
   });
 }
 function refreshDiagramDots(code){
-  // update dots on process card header
   const dotsEl = document.getElementById('dots-'+code);
   if(dotsEl) { dotsEl.innerHTML = ''; renderDots(code, dotsEl); }
-  // update chip dots
   const chipDotsEl = document.getElementById('chipdots-'+code);
   if(chipDotsEl) { chipDotsEl.innerHTML = ''; renderDots(code, chipDotsEl); }
 }
@@ -351,7 +346,9 @@ const DOMAINS = [
           {code:'R2.1',name:'Passer commandes fournisseurs',tasks:[]},
           {code:'R2.2',name:'Planifier livraisons fournisseurs',tasks:[]},
           {code:'R2.3',name:'Réceptionner commandes fournisseurs',tasks:[]},
-          {code:'R2.4',name:'Stocker commandes fournisseurs',tasks:[]}]},
+          {code:'R2.4',name:'Gérer stock',tasks:[
+            {code:'R2.4.1',name:'Surveiller quantités disponibles'},
+            {code:'R2.4.2',name:'Identifier besoins MP'}]}]},
        {code:'R3',name:'Fabriquer',subProcesses:[
           {code:'R3.1',name:'Piloter production',tasks:[
             {code:'R3.1.1',name:'Planifier tâches production'},
@@ -544,7 +541,6 @@ function openNodePanel(code){
   body.innerHTML='';
 
   if(node.type==='process'){
-    // sub-process list
     const proc=node.proc;
     if(proc.subProcesses.length){
       const sec=document.createElement('div');
@@ -562,7 +558,6 @@ function openNodePanel(code){
     body.appendChild(buildAllocSection(code));
 
   } else if(node.type==='subProcess'){
-    // task list with mini alloc
     if(node.tasks && node.tasks.length){
       const sec=document.createElement('div');
       sec.className='tasks-section';
@@ -655,7 +650,6 @@ function renderResourcesView(){
     items.forEach(i=>counts[i.type]=(counts[i.type]||0)+1);
     const card=document.createElement('div');
     card.className='person-card';
-    // header
     const cardHdr=document.createElement('div');
     cardHdr.className='person-card-header';
     cardHdr.innerHTML=
@@ -665,13 +659,11 @@ function renderResourcesView(){
         '<div class="person-stats">'+buildStats(counts)+'</div>'+
       '</div>';
     card.appendChild(cardHdr);
-    // assignments
     const asgn=document.createElement('div');
     asgn.className='person-assignments';
     if(items.length===0){
       asgn.innerHTML='<div class="assign-empty">Aucune allocation</div>';
     } else {
-      // group by domain
       const byDomain={};
       items.forEach(item=>{
         const key=item.domain.name;
@@ -688,7 +680,6 @@ function renderResourcesView(){
           row.className='assign-row';
           row.style.cursor='pointer';
           const typeLabel={process:'Processus',subProcess:'Sous-proc.',task:'Tâche'}[item.type];
-          const typeColor={process:grp.domain.mid,subProcess:grp.domain.dark+'AA',task:grp.domain.dark+'66'}[item.type];
           row.innerHTML=
             '<span class="assign-badge" style="background:'+grp.domain.light+';color:'+grp.domain.dark+'">'+item.code+'</span>'+
             '<span class="assign-type">'+typeLabel+'</span>'+
