@@ -310,8 +310,9 @@ const DOMAINS = [
     rows:[
       [{code:'P1',name:'Piloter la stratégie',subProcesses:[]}],
       [{code:'P2',name:"Gérer l'offre",subProcesses:[
-          {code:'P2.1',name:'Gérer prestations de communication',tasks:[]},
-          {code:'P2.2',name:'Gérer opérations marketing',tasks:[]}]},
+          {code:'P2.1',name:"Créer et Mettre à jour l'offre",tasks:[]},
+          {code:'P2.2',name:'Gérer prestations de communication',tasks:[]},
+          {code:'P2.3',name:'Gérer opérations marketing',tasks:[]}]},
        {code:'P3',name:'Piloter la performance',subProcesses:[
           {code:'P3.1',name:'Calculer/Surveiller prix de revient desserts',tasks:[]},
           {code:'P3.2',name:'Surveiller/Négocier prix fournisseurs',tasks:[]}]}],
@@ -348,7 +349,7 @@ const DOMAINS = [
           {code:'R2.3',name:'Réceptionner commandes fournisseurs',tasks:[]},
           {code:'R2.4',name:'Gérer stock',tasks:[
             {code:'R2.4.1',name:'Surveiller quantités disponibles'},
-            {code:'R2.4.2',name:'Identifier besoins MP'}]}]},
+            {code:'R2.4.2',name:'Définir références et quantités à acheter'}]}]},
        {code:'R3',name:'Fabriquer',subProcesses:[
           {code:'R3.1',name:'Piloter production',tasks:[
             {code:'R3.1.1',name:'Planifier tâches production'},
