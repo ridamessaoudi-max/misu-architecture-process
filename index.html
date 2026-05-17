@@ -48,7 +48,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .diagram-pane{flex:1;padding:32px 40px;overflow-y:auto;transition:padding-right .3s}
 .app.panel-open .diagram-pane{padding-right:calc(var(--panel-w) + 48px)}
 
-/* ── HEADER ── */
+/* ── INTRO ── */
 .diagram-intro{margin-bottom:24px}
 .diagram-intro h1{font-family:'DM Serif Display',serif;font-size:26px;font-weight:400;color:var(--text);margin-bottom:6px}
 .diagram-intro p{font-size:13px;color:var(--text-muted);line-height:1.6;max-width:600px}
@@ -70,21 +70,19 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 
 /* PROCESS CARD */
 .process-card{background:var(--surface);border-radius:10px;border:1px solid var(--border);overflow:hidden}
-.process-header{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;transition:background .15s}
+.process-header{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border)}
 .process-header:hover{background:#f5f3ef}
 .process-code-badge{font-size:10px;font-weight:600;letter-spacing:.5px;padding:3px 8px;border-radius:20px;white-space:nowrap}
 .process-name{font-size:13px;font-weight:500;color:var(--text);flex:1}
-.process-toggle{font-size:14px;color:var(--text-hint);transition:transform .2s;user-select:none}
-.process-card.open .process-toggle{transform:rotate(90deg)}
 
 /* SUB-PROCESS CHIPS */
-.subproc-wrap{padding:0 14px 12px;display:flex;flex-wrap:wrap;gap:6px}
-.subproc-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;font-size:12px;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap}
-.subproc-chip:hover{filter:brightness(.95);transform:translateY(-1px)}
+.subproc-wrap{padding:8px 12px 12px;display:flex;flex-direction:column;gap:5px}
+.subproc-chip{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:7px;font-size:12px;cursor:pointer;border:1px solid transparent;transition:all .15s;width:100%}
+.subproc-chip:hover{filter:brightness(.95);transform:translateX(2px)}
 .subproc-chip.active{box-shadow:0 0 0 2px var(--chip-accent)}
-.subproc-chip .chip-code{font-weight:600;opacity:.8}
-.subproc-chip .chip-name{font-weight:400}
-.subproc-chip .chip-tasks{font-size:10px;opacity:.6;margin-left:2px}
+.subproc-chip .chip-code{font-weight:600;opacity:.8;white-space:nowrap;min-width:36px}
+.subproc-chip .chip-name{font-weight:400;flex:1}
+.subproc-chip .chip-tasks{font-size:10px;opacity:.6;white-space:nowrap}
 
 /* ── PANEL ── */
 .panel{position:fixed;top:64px;right:0;width:var(--panel-w);height:calc(100vh - 64px);background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:90;box-shadow:var(--shadow-lg)}
@@ -114,16 +112,16 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .sp-item-code{font-size:11px;font-weight:600;color:var(--text-muted);min-width:44px;padding-top:1px}
 .sp-item-name{font-size:13px;color:var(--text);line-height:1.4}
 
-/* Nav buttons */
+/* Nav */
 .panel-nav{display:flex;gap:8px;padding:12px 20px;border-top:1px solid var(--border);flex-shrink:0}
 .btn-nav{flex:1;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text);cursor:pointer;transition:background .12s}
 .btn-nav:hover:not(:disabled){background:var(--border)}
 .btn-nav:disabled{opacity:.35;cursor:default}
 
-/* ── HIDDEN ── */
+/* Hidden */
 .domain-band.hidden,.process-card.hidden,.subproc-chip.hidden{display:none}
 
-/* ── SCROLLBAR ── */
+/* Scrollbar */
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
@@ -145,7 +143,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
   <div class="diagram-pane">
     <div class="diagram-intro">
       <h1>Vue d'ensemble des processus</h1>
-      <p>Cliquez sur un processus pour voir ses sous-processus. Cliquez sur un sous-processus pour afficher sa fiche détaillée avec ses tâches.</p>
+      <p>Cliquez sur un sous-processus pour afficher sa fiche détaillée avec ses tâches. Cliquez sur un processus pour ouvrir sa fiche de synthèse.</p>
     </div>
 
     <div class="search-bar">
@@ -377,22 +375,13 @@ function buildDiagram() {
       header.className = 'process-header';
       header.innerHTML =
         '<span class="process-code-badge" style="background:' + dom.light + ';color:' + dom.dark + '">' + proc.code + '</span>' +
-        '<span class="process-name">' + proc.name + '</span>' +
-        (proc.subProcesses.length ? '<span class="process-toggle">›</span>' : '');
-      header.addEventListener('click', () => {
-        if (proc.subProcesses.length) {
-          card.classList.toggle('open');
-          const sw = card.querySelector('.subproc-wrap');
-          if (sw) sw.style.display = card.classList.contains('open') ? '' : 'none';
-        }
-        openNodePanel(proc.code);
-      });
+        '<span class="process-name">' + proc.name + '</span>';
+      header.addEventListener('click', () => openNodePanel(proc.code));
       card.appendChild(header);
 
       if (proc.subProcesses.length) {
         const spWrap = document.createElement('div');
         spWrap.className = 'subproc-wrap';
-        spWrap.style.display = 'none';
 
         proc.subProcesses.forEach(sp => {
           const chip = document.createElement('span');
@@ -404,7 +393,7 @@ function buildDiagram() {
           chip.innerHTML =
             '<span class="chip-code">' + sp.code + '</span>' +
             '<span class="chip-name">' + sp.name + '</span>' +
-            (sp.tasks.length ? '<span class="chip-tasks">(' + sp.tasks.length + ')</span>' : '');
+            (sp.tasks.length ? '<span class="chip-tasks">(' + sp.tasks.length + ' tâches)</span>' : '');
           chip.addEventListener('click', (e) => {
             e.stopPropagation();
             openNodePanel(sp.code);
@@ -432,7 +421,7 @@ function openNodePanel(code) {
   document.querySelectorAll('.subproc-chip.active').forEach(c => c.classList.remove('active'));
   if (node.type === 'subProcess') {
     const chip = document.getElementById('sp-' + code);
-    if (chip) { chip.classList.add('active'); ensureProcessOpen(node.process.code); }
+    if (chip) chip.classList.add('active');
   }
 
   const dom = node.domain;
@@ -493,13 +482,7 @@ function openNodePanel(code) {
 }
 
 function ensureProcessOpen(procCode) {
-  const card = document.getElementById('proc-' + procCode);
-  if (!card) return;
-  if (!card.classList.contains('open')) {
-    card.classList.add('open');
-    const sw = card.querySelector('.subproc-wrap');
-    if (sw) sw.style.display = '';
-  }
+  // sub-processes are always visible
 }
 
 function closePanel() {
@@ -525,11 +508,6 @@ function doSearch(q) {
   const term = q.toLowerCase().trim();
   if (!term) {
     document.querySelectorAll('.domain-band,.process-card,.subproc-chip').forEach(el => el.classList.remove('hidden'));
-    document.querySelectorAll('.process-card').forEach(card => {
-      card.classList.remove('open');
-      const sw = card.querySelector('.subproc-wrap');
-      if (sw) sw.style.display = 'none';
-    });
     return;
   }
   document.querySelectorAll('.domain-band').forEach(b => b.classList.add('hidden'));
@@ -545,9 +523,6 @@ function doSearch(q) {
         card.classList.remove('hidden');
         const band = card.closest('.domain-band');
         if (band) band.classList.remove('hidden');
-        card.classList.add('open');
-        const sw = card.querySelector('.subproc-wrap');
-        if (sw) sw.style.display = '';
         card.querySelectorAll('.subproc-chip').forEach(c => c.classList.remove('hidden'));
       }
     } else {
@@ -555,12 +530,7 @@ function doSearch(q) {
       if (chip) {
         chip.classList.remove('hidden');
         const card = chip.closest('.process-card');
-        if (card) {
-          card.classList.remove('hidden');
-          card.classList.add('open');
-          const sw = card.querySelector('.subproc-wrap');
-          if (sw) sw.style.display = '';
-        }
+        if (card) card.classList.remove('hidden');
         const band = chip.closest('.domain-band');
         if (band) band.classList.remove('hidden');
       }
