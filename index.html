@@ -308,32 +308,33 @@ function renderDots(code, container){
 const DOMAINS = [
   { code:'P', name:'Pilotage', bg:'#1B3A7A', light:'#E8EEFA', mid:'#3D5CC2', dark:'#0F2148',
     rows:[
-      [{code:'P1',name:'Piloter la stratégie',subProcesses:[]}],
-      [{code:'P2',name:"Gérer l'offre",subProcesses:[
-          {code:'P2.1',name:"Créer et Mettre à jour l'offre",tasks:[]},
-          {code:'P2.2',name:'Gérer prestations de communication',tasks:[]},
-          {code:'P2.3',name:'Gérer opérations marketing',tasks:[]}]},
-       {code:'P3',name:'Piloter la performance',subProcesses:[
-          {code:'P3.1',name:'Calculer/Surveiller prix de revient desserts',tasks:[]},
-          {code:'P3.2',name:'Surveiller/Négocier prix fournisseurs',tasks:[]}]}],
-      [{code:'P4',name:'Gérer les finances',subProcesses:[
-          {code:'P4.1',name:'Facturer',tasks:[
-            {code:'P4.1.1',name:'Créer factures clients'},
-            {code:'P4.1.2',name:'Envoyer factures aux clients'},
-            {code:'P4.1.3',name:'Déclencher prélèvements clients'},
-            {code:'P4.1.4',name:"Envoyer factures et Grand Livre aux clients sur demande en fin d'année"},
-            {code:'P4.1.5',name:"Gérer les retours d'argent"},
-            {code:'P4.1.6',name:'Pointer règlements des factures clients'}]},
-          {code:'P4.2',name:'Recouvrer',tasks:[
-            {code:'P4.2.1',name:'Relancer clients pour paiement factures'},
-            {code:'P4.2.2',name:'Récupérer dettes sur site client'}]},
-          {code:'P4.3',name:'Décaisser',tasks:[
-            {code:'P4.3.1',name:'Payer fournisseurs'},
-            {code:'P4.3.2',name:'Pointer les débits associés aux achats fournisseurs'},
-            {code:'P4.3.3',name:'Réaliser virements salaires'}]},
-          {code:'P4.4',name:'Gérer comptabilité',tasks:[
-            {code:'P4.4.1',name:'Assurer relation avec le comptable'},
-            {code:'P4.4.2',name:'Réunir éléments comptables'}]}]}]
+      [{code:'P1',name:'Définir et Partager la vision',subProcesses:[]}],
+      [{code:'P2',name:'Définir et Piloter la stratégie',subProcesses:[]}],
+      [{code:'P3',name:"Gérer l'offre",subProcesses:[
+          {code:'P3.1',name:"Créer et Mettre à jour l'offre",tasks:[]},
+          {code:'P3.2',name:'Gérer prestations de communication',tasks:[]},
+          {code:'P3.3',name:'Gérer opérations marketing',tasks:[]}]},
+       {code:'P4',name:'Piloter la performance',subProcesses:[
+          {code:'P4.1',name:'Calculer/Surveiller prix de revient desserts',tasks:[]},
+          {code:'P4.2',name:'Surveiller/Négocier prix fournisseurs',tasks:[]}]}],
+      [{code:'P5',name:'Gérer les finances',subProcesses:[
+          {code:'P5.1',name:'Facturer',tasks:[
+            {code:'P5.1.1',name:'Créer factures clients'},
+            {code:'P5.1.2',name:'Envoyer factures aux clients'},
+            {code:'P5.1.3',name:'Déclencher prélèvements clients'},
+            {code:'P5.1.4',name:"Envoyer factures et Grand Livre aux clients sur demande en fin d'année"},
+            {code:'P5.1.5',name:"Gérer les retours d'argent"},
+            {code:'P5.1.6',name:'Pointer règlements des factures clients'}]},
+          {code:'P5.2',name:'Recouvrer',tasks:[
+            {code:'P5.2.1',name:'Relancer clients pour paiement factures'},
+            {code:'P5.2.2',name:'Récupérer dettes sur site client'}]},
+          {code:'P5.3',name:'Décaisser',tasks:[
+            {code:'P5.3.1',name:'Payer fournisseurs'},
+            {code:'P5.3.2',name:'Pointer les débits associés aux achats fournisseurs'},
+            {code:'P5.3.3',name:'Réaliser virements salaires'}]},
+          {code:'P5.4',name:'Gérer comptabilité',tasks:[
+            {code:'P5.4.1',name:'Assurer relation avec le comptable'},
+            {code:'P5.4.2',name:'Réunir éléments comptables'}]}]}]
     ]},
   { code:'R', name:'Réalisation', bg:'#1A5C3E', light:'#E4F5EC', mid:'#268F5A', dark:'#0A3526',
     rows:[
