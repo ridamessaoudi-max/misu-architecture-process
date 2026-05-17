@@ -13,55 +13,70 @@
   --text: #1A1916;
   --text-muted: #6B6860;
   --text-hint: #A09D97;
-  --radius: 10px;
   --shadow-lg: 0 8px 40px rgba(0,0,0,.12);
   --panel-w: 380px;
+  --sidebar-w: 220px;
+  --header-h: 64px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100}
-.logo{display:flex;align-items:center;gap:12px}
-.logo-mark{width:32px;height:32px;background:var(--text);border-radius:6px;display:flex;align-items:center;justify-content:center}
-.logo-mark svg{width:18px;height:18px;fill:white}
-.logo-text{font-size:15px;font-weight:500;color:var(--text)}
-.header-meta{font-size:12px;color:var(--text-hint)}
 
-/* LAYOUT */
-.app{display:flex;min-height:calc(100vh - 64px)}
+/* HEADER */
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:16px;height:var(--header-h);position:sticky;top:0;z-index:200}
+.sidebar-toggle{width:36px;height:36px;border:1px solid var(--border);border-radius:8px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);flex-shrink:0;transition:background .15s}
+.sidebar-toggle:hover{background:var(--bg)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:30px;height:30px;background:var(--text);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px;fill:white}
+.logo-text{font-size:14px;font-weight:500;color:var(--text)}
+.header-right{margin-left:auto;font-size:12px;color:var(--text-hint)}
+.header-view-title{font-size:13px;font-weight:500;color:var(--text-muted)}
+
+/* ROOT LAYOUT */
+.root{display:flex;height:calc(100vh - var(--header-h))}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;transition:width .25s cubic-bezier(.4,0,.2,1);z-index:100}
+.sidebar.collapsed{width:0}
+.sidebar-inner{width:var(--sidebar-w);display:flex;flex-direction:column;height:100%;padding:16px 12px}
+.sidebar-section{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-hint);font-weight:600;padding:0 8px;margin-bottom:6px;margin-top:16px}
+.sidebar-section:first-child{margin-top:0}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;transition:background .12s,color .12s;color:var(--text-muted);font-size:13px;font-weight:500;white-space:nowrap;user-select:none}
+.nav-item:hover{background:var(--bg);color:var(--text)}
+.nav-item.active{background:#1A1916;color:#fff}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:.7}
+.nav-item.active svg{opacity:1}
+.sidebar-footer{margin-top:auto;padding-top:16px;border-top:1px solid var(--border);font-size:11px;color:var(--text-hint);padding:16px 8px 0}
+
+/* MAIN */
+.main{flex:1;overflow:hidden;display:flex;position:relative}
+
+/* VIEWS */
+.view{flex:1;overflow-y:auto;display:none;flex-direction:column}
+.view.active{display:flex}
+
+/* PROCESSUS VIEW */
+.app-inner{flex:1;display:flex;position:relative;overflow:hidden}
+.app-inner.panel-open .diagram-pane{padding-right:calc(var(--panel-w) + 48px)}
 .diagram-pane{flex:1;padding:32px 40px;overflow-y:auto;transition:padding-right .3s}
-.app.panel-open .diagram-pane{padding-right:calc(var(--panel-w) + 48px)}
-
-/* INTRO */
 .diagram-intro{margin-bottom:24px}
-.diagram-intro h1{font-family:'DM Serif Display',serif;font-size:26px;font-weight:400;color:var(--text);margin-bottom:6px}
+.diagram-intro h1{font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;color:var(--text);margin-bottom:6px}
 .diagram-intro p{font-size:13px;color:var(--text-muted);line-height:1.6;max-width:600px}
-
-/* SEARCH */
 .search-bar{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;margin-bottom:24px;max-width:400px}
 .search-bar input{border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;width:100%}
 .search-bar input::placeholder{color:var(--text-hint)}
 .search-icon{color:var(--text-hint)}
-
-/* DIAGRAM */
 .diagram-wrap{display:flex;flex-direction:column;gap:16px}
-
-/* DOMAIN */
 .domain-band{border-radius:12px;overflow:hidden}
 .domain-header{padding:10px 18px}
 .domain-label{font-size:13px;font-weight:600;letter-spacing:.3px}
 .domain-body{padding:14px 14px 16px;display:flex;flex-direction:column;gap:10px}
-
-/* PROCESS ROW */
 .process-row{display:flex;flex-direction:row;gap:10px;align-items:stretch}
-
-/* PROCESS CARD */
 .process-card{flex:1;min-width:0;background:var(--surface);border-radius:10px;border:1px solid var(--border);overflow:hidden}
 .process-header{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border)}
 .process-header:hover{background:#f5f3ef}
 .process-code-badge{font-size:10px;font-weight:600;letter-spacing:.5px;padding:3px 8px;border-radius:20px;white-space:nowrap}
 .process-name{font-size:13px;font-weight:500;color:var(--text);flex:1}
-
-/* SUB-PROCESS CHIPS */
 .subproc-wrap{padding:8px 10px 10px;display:flex;flex-direction:row;gap:6px}
 .subproc-chip{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;padding:8px 10px;border-radius:7px;font-size:12px;cursor:pointer;border:1px solid transparent;transition:all .15s;flex:1;min-width:0}
 .subproc-chip:hover{filter:brightness(.95);transform:translateY(-1px)}
@@ -70,8 +85,8 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .subproc-chip .chip-name{font-weight:500;line-height:1.3;word-break:break-word}
 .subproc-chip .chip-tasks{font-size:10px;opacity:.55;white-space:nowrap}
 
-/* PANEL */
-.panel{position:fixed;top:64px;right:0;width:var(--panel-w);height:calc(100vh - 64px);background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:90;box-shadow:var(--shadow-lg)}
+/* DETAIL PANEL */
+.panel{position:absolute;top:0;right:0;width:var(--panel-w);height:100%;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:90;box-shadow:var(--shadow-lg)}
 .panel.open{transform:translateX(0)}
 .panel-header{padding:20px 20px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
 .panel-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;margin-bottom:10px}
@@ -81,34 +96,35 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .panel-close{width:28px;height:28px;background:var(--bg);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;color:var(--text-muted);font-size:16px;margin-top:2px}
 .panel-close:hover{background:var(--border)}
 .panel-body{flex:1;overflow-y:auto;padding:20px}
-
-/* Tasks */
 .tasks-section{margin-bottom:20px}
 .tasks-title{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:10px;font-weight:500}
 .task-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);margin-bottom:6px}
 .task-code{font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;min-width:48px;padding-top:1px}
 .task-name{font-size:13px;color:var(--text);line-height:1.4}
 .no-tasks{font-size:13px;color:var(--text-hint);font-style:italic}
-
-/* Sub-process list in panel */
 .sp-list-section{margin-bottom:20px}
 .sp-list-title{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:10px;font-weight:500}
 .sp-list-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);margin-bottom:5px;cursor:pointer;transition:background .12s}
 .sp-list-item:hover{background:#eeeae4}
 .sp-item-code{font-size:11px;font-weight:600;color:var(--text-muted);min-width:44px;padding-top:1px}
 .sp-item-name{font-size:13px;color:var(--text);line-height:1.4}
-
-/* Nav */
 .panel-nav{display:flex;gap:8px;padding:12px 20px;border-top:1px solid var(--border);flex-shrink:0}
 .btn-nav{flex:1;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text);cursor:pointer;transition:background .12s}
 .btn-nav:hover:not(:disabled){background:var(--border)}
 .btn-nav:disabled{opacity:.35;cursor:default}
 
-/* Hidden */
+/* PLACEHOLDER VIEWS */
+.placeholder-view{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;text-align:center}
+.placeholder-icon{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.placeholder-title{font-family:'DM Serif Display',serif;font-size:28px;font-weight:400;color:var(--text)}
+.placeholder-subtitle{font-size:14px;color:var(--text-muted);max-width:360px;line-height:1.6}
+.placeholder-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;background:var(--bg);border:1px solid var(--border);color:var(--text-muted)}
+
+/* HIDDEN */
 .domain-band.hidden,.process-card.hidden,.subproc-chip.hidden{display:none}
 .process-row:not(:has(.process-card:not(.hidden))){display:none}
 
-/* Scrollbar */
+/* SCROLLBAR */
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
@@ -117,55 +133,141 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 <body>
 
 <header>
+  <button class="sidebar-toggle" onclick="toggleSidebar()" title="Menu">
+    <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+      <rect x="2" y="4" width="14" height="1.5" rx=".75" fill="currentColor"/>
+      <rect x="2" y="8.25" width="14" height="1.5" rx=".75" fill="currentColor"/>
+      <rect x="2" y="12.5" width="14" height="1.5" rx=".75" fill="currentColor"/>
+    </svg>
+  </button>
   <div class="logo">
     <div class="logo-mark">
       <svg viewBox="0 0 20 20"><path d="M3 4h14v2H3zM3 9h10v2H3zM3 14h14v2H3z"/></svg>
     </div>
-    <span class="logo-text">Architecture des processus</span>
+    <span class="logo-text">MISU</span>
   </div>
-  <span class="header-meta">MISU · Document de travail</span>
+  <span class="header-view-title" id="header-view-title">Architecture des processus</span>
+  <span class="header-right">Document de travail</span>
 </header>
 
-<div class="app" id="app">
-  <div class="diagram-pane">
-    <div class="diagram-intro">
-      <h1>Vue d'ensemble des processus</h1>
-      <p>Cliquez sur un sous-processus pour afficher sa fiche détaillée avec ses tâches. Cliquez sur un processus pour ouvrir sa fiche de synthèse.</p>
-    </div>
+<div class="root">
 
-    <div class="search-bar">
-      <span class="search-icon">
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2"/><line x1="10.5" y1="10.5" x2="13.5" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      </span>
-      <input type="search" id="search" placeholder="Rechercher un processus ou sous-processus…" oninput="doSearch(this.value)">
-    </div>
-
-    <div class="diagram-wrap" id="diagram"></div>
-  </div>
-
-  <div class="panel" id="panel">
-    <div class="panel-header">
-      <div class="panel-badge" id="panel-badge">
-        <span id="panel-badge-dot" style="width:7px;height:7px;border-radius:50%;display:inline-block"></span>
-        <span id="panel-cat-label"></span>
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+      <div class="sidebar-section">Navigation</div>
+      <div class="nav-item active" id="nav-processus" onclick="switchView('processus')">
+        <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity=".4"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity=".4"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity=".4"/></svg>
+        Processus
       </div>
-      <div class="panel-title-row">
-        <div>
-          <div class="panel-code" id="panel-code"></div>
-          <div class="panel-name" id="panel-name"></div>
+      <div class="nav-item" id="nav-ressources" onclick="switchView('ressources')">
+        <svg viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="3" fill="currentColor"/><circle cx="11" cy="5" r="2" fill="currentColor" opacity=".4"/><path d="M1 13c0-2.21 2.24-4 5-4s5 1.79 5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M11 9c1.66 0 3 1.34 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".4"/></svg>
+        Ressources
+      </div>
+      <div class="nav-item" id="nav-planning" onclick="switchView('planning')">
+        <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 1v4M11 1v4M1 7h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Planning
+      </div>
+      <div class="sidebar-footer">MISU · 2026</div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- VIEW : PROCESSUS -->
+    <div class="view active" id="view-processus">
+      <div class="app-inner" id="app-inner">
+        <div class="diagram-pane">
+          <div class="diagram-intro">
+            <h1>Architecture des processus</h1>
+            <p>Cliquez sur un sous-processus pour afficher sa fiche détaillée avec ses tâches. Cliquez sur un processus pour ouvrir sa fiche de synthèse.</p>
+          </div>
+          <div class="search-bar">
+            <span class="search-icon">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2"/><line x1="10.5" y1="10.5" x2="13.5" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </span>
+            <input type="search" id="search" placeholder="Rechercher un processus ou sous-processus…" oninput="doSearch(this.value)">
+          </div>
+          <div class="diagram-wrap" id="diagram"></div>
         </div>
-        <button class="panel-close" onclick="closePanel()">×</button>
+        <div class="panel" id="panel">
+          <div class="panel-header">
+            <div class="panel-badge" id="panel-badge">
+              <span id="panel-badge-dot" style="width:7px;height:7px;border-radius:50%;display:inline-block"></span>
+              <span id="panel-cat-label"></span>
+            </div>
+            <div class="panel-title-row">
+              <div>
+                <div class="panel-code" id="panel-code"></div>
+                <div class="panel-name" id="panel-name"></div>
+              </div>
+              <button class="panel-close" onclick="closePanel()">×</button>
+            </div>
+          </div>
+          <div class="panel-body" id="panel-body"></div>
+          <div class="panel-nav">
+            <button class="btn-nav" id="btn-prev" onclick="navPanel(-1)">← Précédent</button>
+            <button class="btn-nav" id="btn-next" onclick="navPanel(1)">Suivant →</button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="panel-body" id="panel-body"></div>
-    <div class="panel-nav">
-      <button class="btn-nav" id="btn-prev" onclick="navPanel(-1)">← Précédent</button>
-      <button class="btn-nav" id="btn-next" onclick="navPanel(1)">Suivant →</button>
+
+    <!-- VIEW : RESSOURCES -->
+    <div class="view" id="view-ressources">
+      <div class="placeholder-view">
+        <div class="placeholder-icon" style="background:#E8EEFA">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="12" cy="10" r="6" fill="#3D5CC2"/><circle cx="22" cy="10" r="4" fill="#3D5CC2" opacity=".35"/><path d="M2 26c0-4.42 4.48-8 10-8s10 3.58 10 8" stroke="#3D5CC2" stroke-width="2.5" stroke-linecap="round"/><path d="M22 18c3.31 0 6 2.69 6 6" stroke="#3D5CC2" stroke-width="2.5" stroke-linecap="round" opacity=".35"/></svg>
+        </div>
+        <div class="placeholder-title">Ressources</div>
+        <div class="placeholder-subtitle">La gestion des ressources humaines sera disponible ici — assignation des collaborateurs aux processus, suivi des compétences et couverture des activités.</div>
+        <div class="placeholder-badge">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 4v3M6 8.5v.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          En cours de développement
+        </div>
+      </div>
     </div>
+
+    <!-- VIEW : PLANNING -->
+    <div class="view" id="view-planning">
+      <div class="placeholder-view">
+        <div class="placeholder-icon" style="background:#E4F5EC">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="2" y="6" width="28" height="22" rx="4" stroke="#268F5A" stroke-width="2"/><path d="M10 2v8M22 2v8M2 14h28" stroke="#268F5A" stroke-width="2" stroke-linecap="round"/><rect x="7" y="18" width="4" height="4" rx="1" fill="#268F5A" opacity=".5"/><rect x="14" y="18" width="4" height="4" rx="1" fill="#268F5A"/><rect x="21" y="18" width="4" height="4" rx="1" fill="#268F5A" opacity=".3"/></svg>
+        </div>
+        <div class="placeholder-title">Planning</div>
+        <div class="placeholder-subtitle">Le planning des activités et la répartition des tâches dans le temps seront disponibles ici — calendrier, jalons et suivi de l'avancement.</div>
+        <div class="placeholder-badge">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 4v3M6 8.5v.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          En cours de développement
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <script>
+let sidebarOpen = true;
+function toggleSidebar() {
+  sidebarOpen = !sidebarOpen;
+  document.getElementById('sidebar').classList.toggle('collapsed', !sidebarOpen);
+}
+
+const VIEW_TITLES = {
+  processus: 'Architecture des processus',
+  ressources: 'Ressources',
+  planning: 'Planning'
+};
+
+function switchView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.getElementById('nav-' + name).classList.add('active');
+  document.getElementById('header-view-title').textContent = VIEW_TITLES[name];
+}
+
 const DOMAINS = [
   {
     code: 'P', name: 'Pilotage',
@@ -278,51 +380,47 @@ const DOMAINS = [
     code: 'S', name: 'Support',
     cat: 'support',
     bg: '#7A3D10', light: '#FEF0E2', mid: '#C06E1C', dark: '#401E08',
-    rows: [
-      [
-        { code:'S1', name:'Gérer le personnel', subProcesses:[
-          { code:'S1.1', name:'Gérer contrats', tasks:[
-            { code:'S1.1.1', name:'Enregistrer salariés' },
-            { code:'S1.1.2', name:'Suivre signature contrats salariés' }
-          ]},
-          { code:'S1.2', name:'Gérer paie', tasks:[
-            { code:'S1.2.1', name:"Saisir éléments de salaire de l'équipe de production" },
-            { code:'S1.2.2', name:'Enregistrement présence/absence des salariés' },
-            { code:'S1.2.3', name:'Enregistrement des éléments de salaire' }
-          ]}
+    rows: [[{
+      code:'S1', name:'Gérer le personnel', subProcesses:[
+        { code:'S1.1', name:'Gérer contrats', tasks:[
+          { code:'S1.1.1', name:'Enregistrer salariés' },
+          { code:'S1.1.2', name:'Suivre signature contrats salariés' }
         ]},
-        { code:'S2', name:'Maintenir les équipements', subProcesses:[
-          { code:'S2.1', name:'Contrôler propreté camions', tasks:[] },
-          { code:'S2.2', name:'Contrôler mécanique camions', tasks:[] }
-        ]},
-        { code:'S3', name:'Gérer achats hors MP et logistique', subProcesses:[
-          { code:'S3.1', name:'Gérer contrats fournisseurs', tasks:[] },
-          { code:'S3.2', name:'Acheter fournitures de bureau', tasks:[] }
-        ]},
-        { code:'S4', name:"Gérer système d'information", subProcesses:[
-          { code:'S4.2', name:'Gérer matériel informatique', tasks:[] },
-          { code:'S4.3', name:'Gérer solutions logicielles', tasks:[] },
-          { code:'S4.4', name:'Gérer système de surveillance', tasks:[] }
+        { code:'S1.2', name:'Gérer paie', tasks:[
+          { code:'S1.2.1', name:"Saisir éléments de salaire de l'équipe de production" },
+          { code:'S1.2.2', name:'Enregistrement présence/absence des salariés' },
+          { code:'S1.2.3', name:'Enregistrement des éléments de salaire' }
         ]}
-      ]
-    ]
+      ]},
+      { code:'S2', name:'Maintenir les équipements', subProcesses:[
+        { code:'S2.1', name:'Contrôler propreté camions', tasks:[] },
+        { code:'S2.2', name:'Contrôler mécanique camions', tasks:[] }
+      ]},
+      { code:'S3', name:'Gérer achats hors MP et logistique', subProcesses:[
+        { code:'S3.1', name:'Gérer contrats fournisseurs', tasks:[] },
+        { code:'S3.2', name:'Acheter fournitures de bureau', tasks:[] }
+      ]},
+      { code:'S4', name:"Gérer système d'information", subProcesses:[
+        { code:'S4.2', name:'Gérer matériel informatique', tasks:[] },
+        { code:'S4.3', name:'Gérer solutions logicielles', tasks:[] },
+        { code:'S4.4', name:'Gérer système de surveillance', tasks:[] }
+      ]}
+    ]]
   },
   {
     code: 'C', name: 'Conformité et Qualité',
     cat: 'conformite',
     bg: '#82192A', light: '#FBE8EB', mid: '#C43040', dark: '#480C17',
-    rows: [
-      [
-        { code:'C1', name:'Maîtriser hygiène', subProcesses:[
-          { code:'C1.1', name:'Ranger chambre froide MP', tasks:[] },
-          { code:'C1.2', name:'Ranger chambre froide négative', tasks:[] },
-          { code:'C1.3', name:'Ranger stockage marchandises', tasks:[] },
-          { code:'C1.4', name:'Nettoyer local', tasks:[] }
-        ]},
-        { code:'C2', name:'Assurer la traçabilité', subProcesses:[] },
-        { code:'C3', name:'Améliorer en continu', subProcesses:[] }
-      ]
-    ]
+    rows: [[{
+      code:'C1', name:'Maîtriser hygiène', subProcesses:[
+        { code:'C1.1', name:'Ranger chambre froide MP', tasks:[] },
+        { code:'C1.2', name:'Ranger chambre froide négative', tasks:[] },
+        { code:'C1.3', name:'Ranger stockage marchandises', tasks:[] },
+        { code:'C1.4', name:'Nettoyer local', tasks:[] }
+      ]},
+      { code:'C2', name:'Assurer la traçabilité', subProcesses:[] },
+      { code:'C3', name:'Améliorer en continu', subProcesses:[] }
+    ]]
   }
 ];
 
@@ -341,42 +439,30 @@ function findNode(code) { return ALL_NODES.find(n => n.code === code); }
 function buildDiagram() {
   const wrap = document.getElementById('diagram');
   wrap.innerHTML = '';
-
   DOMAINS.forEach(dom => {
     const band = document.createElement('div');
     band.className = 'domain-band';
-    band.dataset.cat = dom.cat;
     band.style.background = dom.light;
     band.style.border = '1.5px solid ' + dom.mid + '30';
-
     const hdr = document.createElement('div');
     hdr.className = 'domain-header';
     hdr.style.background = dom.bg;
     hdr.innerHTML = '<span class="domain-label" style="color:' + dom.light + '">' + dom.name + '</span>';
     band.appendChild(hdr);
-
     const body = document.createElement('div');
     body.className = 'domain-body';
-
     dom.rows.forEach(row => {
       const rowEl = document.createElement('div');
       rowEl.className = 'process-row';
-
       row.forEach(proc => {
         const card = document.createElement('div');
         card.className = 'process-card';
         card.id = 'proc-' + proc.code;
-        card.dataset.code = proc.code;
-        card.dataset.cat = dom.cat;
-
         const header = document.createElement('div');
         header.className = 'process-header';
-        header.innerHTML =
-          '<span class="process-code-badge" style="background:' + dom.light + ';color:' + dom.dark + '">' + proc.code + '</span>' +
-          '<span class="process-name">' + proc.name + '</span>';
+        header.innerHTML = '<span class="process-code-badge" style="background:' + dom.light + ';color:' + dom.dark + '">' + proc.code + '</span><span class="process-name">' + proc.name + '</span>';
         header.addEventListener('click', () => openNodePanel(proc.code));
         card.appendChild(header);
-
         if (proc.subProcesses.length) {
           const spWrap = document.createElement('div');
           spWrap.className = 'subproc-wrap';
@@ -384,25 +470,17 @@ function buildDiagram() {
             const chip = document.createElement('span');
             chip.className = 'subproc-chip';
             chip.id = 'sp-' + sp.code;
-            chip.dataset.code = sp.code;
-            chip.dataset.cat = dom.cat;
             chip.style.cssText = 'background:' + dom.light + ';color:' + dom.dark + ';--chip-accent:' + dom.mid;
-            chip.innerHTML =
-              '<span class="chip-code">' + sp.code + '</span>' +
-              '<span class="chip-name">' + sp.name + '</span>' +
-              (sp.tasks.length ? '<span class="chip-tasks">(' + sp.tasks.length + ' tâches)</span>' : '');
+            chip.innerHTML = '<span class="chip-code">' + sp.code + '</span><span class="chip-name">' + sp.name + '</span>' + (sp.tasks.length ? '<span class="chip-tasks">(' + sp.tasks.length + ' tâches)</span>' : '');
             chip.addEventListener('click', e => { e.stopPropagation(); openNodePanel(sp.code); });
             spWrap.appendChild(chip);
           });
           card.appendChild(spWrap);
         }
-
         rowEl.appendChild(card);
       });
-
       body.appendChild(rowEl);
     });
-
     band.appendChild(body);
     wrap.appendChild(band);
   });
@@ -414,69 +492,40 @@ function openNodePanel(code) {
   const node = findNode(code);
   if (!node) return;
   currentCode = code;
-
   document.querySelectorAll('.subproc-chip.active').forEach(c => c.classList.remove('active'));
-  if (node.type === 'subProcess') {
-    const chip = document.getElementById('sp-' + code);
-    if (chip) chip.classList.add('active');
-  }
-
+  if (node.type === 'subProcess') { const chip = document.getElementById('sp-' + code); if (chip) chip.classList.add('active'); }
   const dom = node.domain;
   document.getElementById('panel-badge').style.cssText = 'background:' + dom.light + ';color:' + dom.dark;
   document.getElementById('panel-badge-dot').style.background = dom.mid;
   document.getElementById('panel-cat-label').textContent = dom.name;
   document.getElementById('panel-code').textContent = code;
   document.getElementById('panel-name').textContent = node.name;
-
   const body = document.getElementById('panel-body');
   body.innerHTML = '';
-
   if (node.type === 'subProcess') {
     if (node.tasks && node.tasks.length) {
-      const sec = document.createElement('div');
-      sec.className = 'tasks-section';
+      const sec = document.createElement('div'); sec.className = 'tasks-section';
       sec.innerHTML = '<div class="tasks-title">Tâches (' + node.tasks.length + ')</div>';
-      node.tasks.forEach(t => {
-        const item = document.createElement('div');
-        item.className = 'task-item';
-        item.innerHTML = '<span class="task-code">' + t.code + '</span><span class="task-name">' + t.name + '</span>';
-        sec.appendChild(item);
-      });
+      node.tasks.forEach(t => { const item = document.createElement('div'); item.className = 'task-item'; item.innerHTML = '<span class="task-code">' + t.code + '</span><span class="task-name">' + t.name + '</span>'; sec.appendChild(item); });
       body.appendChild(sec);
-    } else {
-      const p = document.createElement('p'); p.className = 'no-tasks';
-      p.textContent = 'Aucune tâche détaillée pour ce sous-processus.';
-      body.appendChild(p);
-    }
+    } else { const p = document.createElement('p'); p.className = 'no-tasks'; p.textContent = 'Aucune tâche détaillée pour ce sous-processus.'; body.appendChild(p); }
   } else {
     const proc = node.proc;
     if (proc && proc.subProcesses.length) {
-      const sec = document.createElement('div');
-      sec.className = 'sp-list-section';
+      const sec = document.createElement('div'); sec.className = 'sp-list-section';
       sec.innerHTML = '<div class="sp-list-title">Sous-processus (' + proc.subProcesses.length + ')</div>';
-      proc.subProcesses.forEach(sp => {
-        const item = document.createElement('div');
-        item.className = 'sp-list-item';
-        item.innerHTML = '<span class="sp-item-code">' + sp.code + '</span><span class="sp-item-name">' + sp.name + (sp.tasks.length ? ' <span style="opacity:.5;font-size:11px">(' + sp.tasks.length + ' tâches)</span>' : '') + '</span>';
-        item.addEventListener('click', () => openNodePanel(sp.code));
-        sec.appendChild(item);
-      });
+      proc.subProcesses.forEach(sp => { const item = document.createElement('div'); item.className = 'sp-list-item'; item.innerHTML = '<span class="sp-item-code">' + sp.code + '</span><span class="sp-item-name">' + sp.name + (sp.tasks.length ? ' <span style="opacity:.5;font-size:11px">(' + sp.tasks.length + ' tâches)</span>' : '') + '</span>'; item.addEventListener('click', () => openNodePanel(sp.code)); sec.appendChild(item); });
       body.appendChild(sec);
-    } else {
-      const p = document.createElement('p'); p.className = 'no-tasks';
-      p.textContent = "Ce processus n'a pas de sous-processus.";
-      body.appendChild(p);
-    }
+    } else { const p = document.createElement('p'); p.className = 'no-tasks'; p.textContent = "Ce processus n'a pas de sous-processus."; body.appendChild(p); }
   }
-
   updateNavButtons();
   document.getElementById('panel').classList.add('open');
-  document.getElementById('app').classList.add('panel-open');
+  document.getElementById('app-inner').classList.add('panel-open');
 }
 
 function closePanel() {
   document.getElementById('panel').classList.remove('open');
-  document.getElementById('app').classList.remove('panel-open');
+  document.getElementById('app-inner').classList.remove('panel-open');
   document.querySelectorAll('.subproc-chip.active').forEach(c => c.classList.remove('active'));
   currentCode = null;
 }
@@ -495,31 +544,18 @@ function navPanel(dir) {
 
 function doSearch(q) {
   const term = q.toLowerCase().trim();
-  if (!term) {
-    document.querySelectorAll('.domain-band,.process-card,.subproc-chip').forEach(el => el.classList.remove('hidden'));
-    return;
-  }
+  if (!term) { document.querySelectorAll('.domain-band,.process-card,.subproc-chip').forEach(el => el.classList.remove('hidden')); return; }
   document.querySelectorAll('.domain-band').forEach(b => b.classList.add('hidden'));
   document.querySelectorAll('.process-card').forEach(c => c.classList.add('hidden'));
   document.querySelectorAll('.subproc-chip').forEach(c => c.classList.add('hidden'));
-
   ALL_NODES.forEach(node => {
-    const match = node.code.toLowerCase().includes(term) || node.name.toLowerCase().includes(term);
-    if (!match) return;
+    if (!node.code.toLowerCase().includes(term) && !node.name.toLowerCase().includes(term)) return;
     if (node.type === 'process') {
       const card = document.getElementById('proc-' + node.code);
-      if (card) {
-        card.classList.remove('hidden');
-        card.closest('.domain-band')?.classList.remove('hidden');
-        card.querySelectorAll('.subproc-chip').forEach(c => c.classList.remove('hidden'));
-      }
+      if (card) { card.classList.remove('hidden'); card.closest('.domain-band')?.classList.remove('hidden'); card.querySelectorAll('.subproc-chip').forEach(c => c.classList.remove('hidden')); }
     } else {
       const chip = document.getElementById('sp-' + node.code);
-      if (chip) {
-        chip.classList.remove('hidden');
-        chip.closest('.process-card')?.classList.remove('hidden');
-        chip.closest('.domain-band')?.classList.remove('hidden');
-      }
+      if (chip) { chip.classList.remove('hidden'); chip.closest('.process-card')?.classList.remove('hidden'); chip.closest('.domain-band')?.classList.remove('hidden'); }
     }
   });
 }
