@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Architecture des processus — Laboratoire de desserts</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<title>Architecture des processus — MISU</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #F7F5F0;
@@ -32,127 +32,101 @@
   --radius: 10px;
   --shadow: 0 2px 16px rgba(0,0,0,.07);
   --shadow-lg: 0 8px 40px rgba(0,0,0,.12);
+  --panel-w: 380px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 64px; position: sticky; top: 0; z-index: 100; }
-.logo { display: flex; align-items: center; gap: 12px; }
-.logo-mark { width: 32px; height: 32px; background: var(--text); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
-.logo-mark svg { width: 18px; height: 18px; fill: white; }
-.logo-text { font-family: 'DM Serif Display', serif; font-size: 17px; color: var(--text); letter-spacing: -.3px; }
-.header-meta { font-size: 12px; color: var(--text-hint); letter-spacing: .5px; text-transform: uppercase; }
-.app { display: grid; grid-template-columns: 1fr 380px; min-height: calc(100vh - 64px); }
-.diagram-pane { padding: 32px 40px; overflow-y: auto; }
-.diagram-intro { margin-bottom: 28px; }
-.diagram-intro h1 { font-family: 'DM Serif Display', serif; font-size: 26px; font-weight: 400; color: var(--text); margin-bottom: 6px; letter-spacing: -.5px; }
-.diagram-intro p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
-.legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
-.leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); background: var(--surface); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; cursor: pointer; transition: all .15s; user-select: none; }
-.leg-item:hover { border-color: var(--text-muted); }
-.leg-item.active { background: var(--text); color: white; border-color: var(--text); }
-.leg-item.active .leg-dot { opacity: 1; }
-.leg-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
-.search-bar { position: relative; margin-bottom: 24px; }
-.search-bar input { width: 100%; padding: 10px 16px 10px 40px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text); outline: none; transition: border-color .15s; }
-.search-bar input:focus { border-color: var(--text-muted); }
-.search-bar input::placeholder { color: var(--text-hint); }
-.search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-hint); pointer-events: none; }
-.diagram-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); overflow: auto; }
-.diagram-wrap svg { display: block; }
-.proc-node { cursor: pointer; transition: opacity .15s; }
-.proc-node rect { transition: filter .15s; }
-.proc-node:hover rect { filter: brightness(.94); }
-.proc-node.dimmed { opacity: .25; }
-.proc-node.selected { filter: drop-shadow(0 0 3px rgba(26,25,22,0.55)); }
-.proc-l2-row { cursor: pointer; }
-.proc-l2-row:hover rect { filter: brightness(.9); }
-.detail-pane { border-left: 1px solid var(--border); background: var(--surface); display: flex; flex-direction: column; position: sticky; top: 64px; height: calc(100vh - 64px); overflow-y: auto; }
-.detail-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; color: var(--text-hint); }
-.detail-empty-icon { width: 56px; height: 56px; border: 1.5px dashed var(--border); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 22px; }
-.detail-empty p { font-size: 13px; line-height: 1.6; }
-.detail-content { display: none; flex-direction: column; height: 100%; }
-.detail-content.visible { display: flex; }
-.panel-header { padding: 24px 24px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-.panel-badge { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px 4px 8px; border-radius: 20px; font-size: 11px; font-weight: 500; letter-spacing: .3px; margin-bottom: 14px; }
-.panel-badge-dot { width: 6px; height: 6px; border-radius: 50%; }
-.panel-code { display: inline-block; font-size: 11px; font-weight: 500; font-family: 'DM Mono', monospace; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 2px 7px; color: var(--text-muted); margin-bottom: 8px; }
-.panel-name { font-family: 'DM Serif Display', serif; font-size: 22px; font-weight: 400; color: var(--text); line-height: 1.2; letter-spacing: -.4px; }
-.panel-body { flex: 1; padding: 20px 24px; overflow-y: auto; }
-.panel-desc { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
-.props-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-.prop-card { background: var(--bg); border-radius: 8px; padding: 12px 14px; border: 1px solid var(--border); }
-.prop-label { font-size: 10px; text-transform: uppercase; letter-spacing: .8px; color: var(--text-hint); margin-bottom: 5px; }
-.prop-value { font-size: 12.5px; color: var(--text); line-height: 1.5; }
-.tags-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
-.subproc-block { margin-bottom: 24px; }
-.subproc-title { font-size: 10px; text-transform: uppercase; letter-spacing: .8px; color: var(--text-hint); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-.subproc-title::after { content: ""; flex: 1; height: 1px; background: var(--border); }
-.subproc-list { display: flex; flex-direction: column; gap: 6px; }
-.subproc-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px; color: var(--text); line-height: 1.4; }
-.subproc-l2 { font-weight: 500; background: var(--surface); }
-.subproc-l3 { margin-left: 18px; font-size: 12px; }
-.subproc-code { font-family: 'DM Mono', monospace; font-size: 10.5px; font-weight: 500; color: var(--text-muted); background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; flex-shrink: 0; }
-.subproc-indicator { pointer-events: none; }
-.tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); }
-.panel-footer { padding: 16px 24px; border-top: 1px solid var(--border); flex-shrink: 0; }
-.nav-btns { display: flex; gap: 8px; margin-bottom: 10px; }
-.btn { flex: 1; padding: 9px 12px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--text); transition: all .15s; text-align: center; }
-.btn:hover { background: var(--bg); }
-.btn:disabled { opacity: .35; cursor: default; }
-.btn-primary { background: var(--text); color: white; border-color: var(--text); }
-.btn-primary:hover { background: #333; }
-.close-link { display: block; text-align: center; font-size: 11px; color: var(--text-hint); cursor: pointer; padding: 4px; transition: color .15s; }
-.close-link:hover { color: var(--text-muted); }
-.tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
-.tab { padding: 10px 18px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all .15s; margin-bottom: -1px; display: flex; align-items: center; gap: 8px; }
-.tab:hover { color: var(--text); }
-.tab.active { color: var(--text); border-bottom-color: var(--text); }
-.tab-count { font-size: 10px; background: var(--bg); color: var(--text-muted); padding: 2px 7px; border-radius: 10px; border: 1px solid var(--border); font-weight: 400; }
-.tab.active .tab-count { background: var(--text); color: white; border-color: var(--text); }
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
-.rh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
-.rh-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: var(--shadow); transition: border-color .15s; }
-.rh-card:hover { border-color: var(--text-muted); }
-.rh-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
-.rh-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 16px; color: white; flex-shrink: 0; }
-.rh-name { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--text); letter-spacing: -.2px; line-height: 1.1; }
-.rh-role { font-size: 11px; color: var(--text-hint); margin-top: 2px; }
-.rh-section-label { font-size: 10px; text-transform: uppercase; letter-spacing: .8px; color: var(--text-hint); margin-bottom: 8px; }
-.rh-procs { display: flex; flex-wrap: wrap; gap: 5px; }
-.rh-proc-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 3px 9px; border-radius: 20px; background: var(--bg); border: 1px solid var(--border); color: var(--text); cursor: pointer; transition: all .15s; }
-.rh-proc-chip:hover { border-color: var(--text-muted); }
-.rh-proc-chip-code { font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--text-muted); font-weight: 500; }
-.rh-empty-procs { font-size: 11.5px; color: var(--text-hint); font-style: italic; }
-.coverage-banner { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; margin-bottom: 14px; font-size: 12.5px; }
-.coverage-banner.ok { background: #E8F5EF; border: 1px solid #268F5A; color: #0A3526; }
-.coverage-banner.warn { background: #FBE8EB; border: 1px solid #C43040; color: #480C17; }
-.coverage-icon { width: 18px; height: 18px; flex-shrink: 0; }
-.coverage-warn { pointer-events: none; }
-.alloc-block { margin-bottom: 24px; }
-.alloc-title { font-size: 10px; text-transform: uppercase; letter-spacing: .8px; color: var(--text-hint); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-.alloc-title::after { content: ""; flex: 1; height: 1px; background: var(--border); }
-.alloc-list { display: flex; flex-direction: column; gap: 6px; }
-.alloc-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: background .15s; user-select: none; }
-.alloc-item:hover { background: var(--surface); }
-.alloc-item input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--text); }
-.alloc-item-avatar { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 12px; color: white; flex-shrink: 0; }
-.alloc-item-name { font-size: 13px; color: var(--text); }
-.alloc-warn { margin-top: 8px; font-size: 11.5px; color: #82192A; display: flex; align-items: center; gap: 6px; }
-footer { grid-column: 1 / -1; border-top: 1px solid var(--border); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; background: var(--surface); font-size: 11px; color: var(--text-hint); }
-@media print {
-  header, footer, .detail-pane { display: none; }
-  .app { grid-template-columns: 1fr; }
-  .diagram-pane { padding: 20px; }
-  .diagram-wrap { box-shadow: none; border: 1px solid #ccc; }
-}
-@media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; }
-  .detail-pane { position: fixed; right: 0; top: 64px; bottom: 0; width: 340px; transform: translateX(100%); transition: transform .25s; z-index: 90; box-shadow: var(--shadow-lg); }
-  .detail-pane.open { transform: translateX(0); }
-  header { padding: 0 20px; }
-  .diagram-pane { padding: 20px; }
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{width:32px;height:32px;background:var(--text);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:18px;height:18px;fill:white}
+.logo-text{font-size:15px;font-weight:500;color:var(--text)}
+.header-meta{font-size:12px;color:var(--text-hint)}
+
+/* ── LAYOUT ── */
+.app{display:flex;min-height:calc(100vh - 64px)}
+.diagram-pane{flex:1;padding:32px 40px;overflow-y:auto;transition:padding-right .3s}
+.app.panel-open .diagram-pane{padding-right:calc(var(--panel-w) + 48px)}
+
+/* ── HEADER ── */
+.diagram-intro{margin-bottom:24px}
+.diagram-intro h1{font-family:'DM Serif Display',serif;font-size:26px;font-weight:400;color:var(--text);margin-bottom:6px}
+.diagram-intro p{font-size:13px;color:var(--text-muted);line-height:1.6;max-width:600px}
+
+/* ── SEARCH ── */
+.search-bar{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;margin-bottom:24px;max-width:400px}
+.search-bar input{border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;width:100%}
+.search-bar input::placeholder{color:var(--text-hint)}
+.search-icon{color:var(--text-hint)}
+
+/* ── DIAGRAM ── */
+.diagram-wrap{display:flex;flex-direction:column;gap:16px}
+
+/* DOMAIN BAND */
+.domain-band{border-radius:12px;overflow:hidden}
+.domain-header{padding:10px 18px;display:flex;align-items:center;gap:10px}
+.domain-label{font-size:13px;font-weight:600;letter-spacing:.3px}
+.domain-body{padding:14px 14px 16px;display:flex;flex-direction:column;gap:10px}
+
+/* PROCESS CARD */
+.process-card{background:var(--surface);border-radius:10px;border:1px solid var(--border);overflow:hidden}
+.process-header{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;transition:background .15s}
+.process-header:hover{background:#f5f3ef}
+.process-code-badge{font-size:10px;font-weight:600;letter-spacing:.5px;padding:3px 8px;border-radius:20px;white-space:nowrap}
+.process-name{font-size:13px;font-weight:500;color:var(--text);flex:1}
+.process-toggle{font-size:14px;color:var(--text-hint);transition:transform .2s;user-select:none}
+.process-card.open .process-toggle{transform:rotate(90deg)}
+
+/* SUB-PROCESS CHIPS */
+.subproc-wrap{padding:0 14px 12px;display:flex;flex-wrap:wrap;gap:6px}
+.subproc-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;font-size:12px;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap}
+.subproc-chip:hover{filter:brightness(.95);transform:translateY(-1px)}
+.subproc-chip.active{box-shadow:0 0 0 2px var(--chip-accent)}
+.subproc-chip .chip-code{font-weight:600;opacity:.8}
+.subproc-chip .chip-name{font-weight:400}
+.subproc-chip .chip-tasks{font-size:10px;opacity:.6;margin-left:2px}
+
+/* ── PANEL ── */
+.panel{position:fixed;top:64px;right:0;width:var(--panel-w);height:calc(100vh - 64px);background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:90;box-shadow:var(--shadow-lg)}
+.panel.open{transform:translateX(0)}
+.panel-header{padding:20px 20px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
+.panel-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;margin-bottom:10px}
+.panel-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.panel-code{font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:2px}
+.panel-name{font-size:18px;font-weight:500;color:var(--text);line-height:1.3}
+.panel-close{width:28px;height:28px;background:var(--bg);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;color:var(--text-muted);font-size:16px;margin-top:2px}
+.panel-close:hover{background:var(--border)}
+.panel-body{flex:1;overflow-y:auto;padding:20px}
+
+/* Task list */
+.tasks-section{margin-bottom:20px}
+.tasks-title{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:10px;font-weight:500}
+.task-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);margin-bottom:6px}
+.task-code{font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;min-width:48px;padding-top:1px}
+.task-name{font-size:13px;color:var(--text);line-height:1.4}
+.no-tasks{font-size:13px;color:var(--text-hint);font-style:italic}
+
+/* Sub-process list in process panel */
+.sp-list-section{margin-bottom:20px}
+.sp-list-title{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:10px;font-weight:500}
+.sp-list-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);margin-bottom:5px;cursor:pointer;transition:background .12s}
+.sp-list-item:hover{background:#eeeae4}
+.sp-item-code{font-size:11px;font-weight:600;color:var(--text-muted);min-width:44px;padding-top:1px}
+.sp-item-name{font-size:13px;color:var(--text);line-height:1.4}
+
+/* Nav buttons */
+.panel-nav{display:flex;gap:8px;padding:12px 20px;border-top:1px solid var(--border);flex-shrink:0}
+.btn-nav{flex:1;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text);cursor:pointer;transition:background .12s}
+.btn-nav:hover:not(:disabled){background:var(--border)}
+.btn-nav:disabled{opacity:.35;cursor:default}
+
+/* ── HIDDEN ── */
+.domain-band.hidden,.process-card.hidden,.subproc-chip.hidden{display:none}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 </style>
 </head>
 <body>
@@ -164,876 +138,437 @@ footer { grid-column: 1 / -1; border-top: 1px solid var(--border); padding: 16px
     </div>
     <span class="logo-text">Architecture des processus</span>
   </div>
-  <span class="header-meta">Laboratoire de desserts · Document de travail</span>
+  <span class="header-meta">MISU · Document de travail</span>
 </header>
 
-<div class="app">
-
+<div class="app" id="app">
   <div class="diagram-pane">
     <div class="diagram-intro">
       <h1>Vue d'ensemble des processus</h1>
-      <p>Cliquez sur un processus pour afficher sa description détaillée, ses entrées, sorties, acteurs et outils. Utilisez la recherche ou les filtres pour naviguer.</p>
+      <p>Cliquez sur un processus pour voir ses sous-processus. Cliquez sur un sous-processus pour afficher sa fiche détaillée avec ses tâches.</p>
     </div>
 
-    <div class="tabs">
-      <button class="tab active" data-tab="diagram" onclick="switchTab('diagram', this)">Diagramme</button>
-      <button class="tab" data-tab="rh" onclick="switchTab('rh', this)">
-        Ressources humaines
-        <span class="tab-count" id="rh-tab-count">5</span>
-      </button>
+    <div class="search-bar">
+      <span class="search-icon">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2"/><line x1="10.5" y1="10.5" x2="13.5" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </span>
+      <input type="search" id="search" placeholder="Rechercher un processus ou sous-processus…" oninput="doSearch(this.value)">
     </div>
 
-    <div class="tab-panel active" id="panel-diagram">
-      <div id="coverage-banner"></div>
-
-      <div class="legend">
-        <div class="leg-item" data-filter="all" onclick="setFilter('all', this)"><span>Tous</span></div>
-        <div class="leg-item" data-filter="pilotage" onclick="setFilter('pilotage', this)">
-          <div class="leg-dot" style="background:#3D5CC2"></div>Pilotage
-        </div>
-        <div class="leg-item" data-filter="realisation" onclick="setFilter('realisation', this)">
-          <div class="leg-dot" style="background:#1A5C3E"></div>Réalisation
-        </div>
-        <div class="leg-item" data-filter="support" onclick="setFilter('support', this)">
-          <div class="leg-dot" style="background:#7A3D10"></div>Support
-        </div>
-        <div class="leg-item" data-filter="conformite" onclick="setFilter('conformite', this)">
-          <div class="leg-dot" style="background:#82192A"></div>Conformité et qualité
-        </div>
-      </div>
-
-      <div class="search-bar">
-        <span class="search-icon">
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2"/><line x1="10.5" y1="10.5" x2="13.5" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        </span>
-        <input type="search" id="search" placeholder="Rechercher un processus…" oninput="doSearch(this.value)">
-      </div>
-
-      <div class="diagram-wrap">
-        <svg width="100%" viewBox="0 0 680 694" id="diagram">
-          <defs>
-            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </marker>
-          </defs>
-
-          <!-- PILOTAGE -->
-          <rect x="20" y="16" width="640" height="110" rx="12" fill="#1B3A7A" stroke="#0F2148" stroke-width="1"/>
-          <text x="36" y="40" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#E8EEFA">Pilotage</text>
-
-          <g class="proc-node" data-code="P1" data-cat="pilotage" onclick="selectNode('P1')">
-            <rect x="36" y="50" width="138" height="64" rx="8" fill="#E8EEFA" stroke="#3D5CC2" stroke-width="1"/>
-            <text x="105" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#0F2148">P1</text>
-            <text x="105" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#0F2148">Piloter la</text>
-            <text x="105" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#3D5CC2">stratégie</text>
-          </g>
-          <g class="proc-node" data-code="P2" data-cat="pilotage" onclick="selectNode('P2')">
-            <rect x="192" y="50" width="138" height="64" rx="8" fill="#E8EEFA" stroke="#3D5CC2" stroke-width="1"/>
-            <text x="261" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#0F2148">P2</text>
-            <text x="261" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#0F2148">Gérer</text>
-            <text x="261" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#3D5CC2">l'offre</text>
-          </g>
-          <g class="proc-node" data-code="P3" data-cat="pilotage" onclick="selectNode('P3')">
-            <rect x="348" y="50" width="138" height="64" rx="8" fill="#E8EEFA" stroke="#3D5CC2" stroke-width="1"/>
-            <text x="417" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#0F2148">P3</text>
-            <text x="417" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#0F2148">Piloter la</text>
-            <text x="417" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#3D5CC2">performance</text>
-          </g>
-          <g class="proc-node" data-code="P4" data-cat="pilotage" onclick="selectNode('P4')">
-            <rect x="504" y="50" width="138" height="64" rx="8" fill="#E8EEFA" stroke="#3D5CC2" stroke-width="1"/>
-            <text x="573" y="76" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#0F2148">P4</text>
-            <text x="573" y="92" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#0F2148">Gérer les</text>
-            <text x="573" y="106" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#3D5CC2">finances</text>
-          </g>
-
-          <!-- RÉALISATION — R1/R2 colonne gauche, R3 milieu, R4 droite -->
-          <rect x="20" y="150" width="640" height="300" rx="12" fill="#1A5C3E" stroke="#134A31" stroke-width="1"/>
-          <text x="36" y="174" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#E4F5EC">Réalisation</text>
-
-          <!-- Dashed arc R1 → R3 "commandes clients" -->
-          <path d="M 105 182 C 105 157, 307 157, 307 182" fill="none" stroke="#268F5A" stroke-width="1.2" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
-          <rect x="149" y="151" width="115" height="14" rx="7" fill="#E4F5EC" stroke="#268F5A" stroke-width="0.8"/>
-          <text x="206" y="161" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#0A3526">commandes clients</text>
-
-          <!-- R1 Commercialiser (haut gauche) — L2 visible -->
-          <g class="proc-node" data-code="R1" data-cat="realisation" onclick="selectNode('R1')">
-            <rect x="36" y="182" width="138" height="120" rx="8" fill="#E4F5EC" stroke="#268F5A" stroke-width="1"/>
-            <text x="105" y="197" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#0A3526">R1</text>
-            <text x="105" y="211" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#1A5C3E">Commercialiser</text>
-            <line x1="44" y1="220" x2="168" y2="220" stroke="#268F5A" stroke-width="0.6" opacity="0.5"/>
-          </g>
-          <g class="proc-node" data-code="R1.1" data-cat="realisation" onclick="selectNode('R1.1')">
-            <rect x="40" y="224" width="130" height="16" rx="3" fill="#B8DFC8" stroke="none"/>
-            <text x="46" y="234" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#1A5C3E">R1.1</text>
-            <text x="74" y="234" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#0A3526">Enregistrer commandes</text>
-          </g>
-          <g class="proc-node" data-code="R1.2" data-cat="realisation" onclick="selectNode('R1.2')">
-            <rect x="40" y="243" width="130" height="16" rx="3" fill="#B8DFC8" stroke="none"/>
-            <text x="46" y="253" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#1A5C3E">R1.2</text>
-            <text x="74" y="253" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#0A3526">Évaluer commandes</text>
-          </g>
-          <g class="proc-node" data-code="R1.3" data-cat="realisation" onclick="selectNode('R1.3')">
-            <rect x="40" y="262" width="130" height="16" rx="3" fill="#B8DFC8" stroke="none"/>
-            <text x="46" y="272" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#1A5C3E">R1.3</text>
-            <text x="74" y="272" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#0A3526">Communiquer l'offre</text>
-          </g>
-          <g class="proc-node" data-code="R1.4" data-cat="realisation" onclick="selectNode('R1.4')">
-            <rect x="40" y="281" width="130" height="16" rx="3" fill="#B8DFC8" stroke="none"/>
-            <text x="46" y="291" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#1A5C3E">R1.4</text>
-            <text x="74" y="291" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#0A3526">Fidéliser clients</text>
-          </g>
-
-          <!-- Arrow R1 → R2 (vertical downward) -->
-          <line x1="105" y1="302" x2="105" y2="312" stroke="#268F5A" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- R2 Approvisionner (bas gauche) — L2 visible -->
-          <g class="proc-node" data-code="R2" data-cat="realisation" onclick="selectNode('R2')">
-            <rect x="36" y="312" width="138" height="120" rx="8" fill="#E4F5EC" stroke="#268F5A" stroke-width="1"/>
-            <text x="105" y="327" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#0A3526">R2</text>
-            <text x="105" y="341" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#1A5C3E">Approvisionner</text>
-            <line x1="44" y1="350" x2="168" y2="350" stroke="#268F5A" stroke-width="0.6" opacity="0.5"/>
-          </g>
-          <g class="proc-node" data-code="R2.1" data-cat="realisation" onclick="selectNode('R2.1')">
-            <rect x="40" y="354" width="130" height="16" rx="3" fill="#B8DFC8" stroke="none"/>
-            <text x="46" y="364" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#1A5C3E">R2.1</text>
-            <text x="74" y="364" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#0A3526">Passer commandes</text>
-          </g>
-          <g class="proc-node" data-code="R2.2" data-cat="realisation" onclick="selectNode('R2.2')">
-            <rect x="40" y="373" width="130" height="16" rx="3" fill="#B8DFC8" stroke="none"/>
-            <text x="46" y="383" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#1A5C3E">R2.2</text>
-            <text x="74" y="383" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#0A3526">Planifier livraisons</text>
-          </g>
-          <g class="proc-node" data-code="R2.3" data-cat="realisation" onclick="selectNode('R2.3')">
-            <rect x="40" y="392" width="130" height="16" rx="3" fill="#B8DFC8" stroke="none"/>
-            <text x="46" y="402" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#1A5C3E">R2.3</text>
-            <text x="74" y="402" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#0A3526">Réceptionner MP</text>
-          </g>
-          <g class="proc-node" data-code="R2.4" data-cat="realisation" onclick="selectNode('R2.4')">
-            <rect x="40" y="411" width="130" height="16" rx="3" fill="#B8DFC8" stroke="none"/>
-            <text x="46" y="421" font-family="'DM Mono',monospace" font-size="7" font-weight="600" dominant-baseline="middle" fill="#1A5C3E">R2.4</text>
-            <text x="74" y="421" font-family="'DM Sans',sans-serif" font-size="7.5" dominant-baseline="middle" fill="#0A3526">Stocker matières</text>
-          </g>
-
-          <!-- Arrow R2 → R3 (horizontal right) -->
-          <line x1="174" y1="372" x2="192" y2="372" stroke="#268F5A" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- R3 Fabriquer les desserts (milieu, grand) — L2 visible -->
-          <g class="proc-node" data-code="R3" data-cat="realisation" onclick="selectNode('R3')">
-            <rect x="192" y="182" width="230" height="268" rx="8" fill="#E4F5EC" stroke="#268F5A" stroke-width="1"/>
-            <text x="307" y="200" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#0A3526">R3</text>
-            <text x="307" y="215" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#1A5C3E">Fabriquer les desserts</text>
-            <line x1="200" y1="226" x2="414" y2="226" stroke="#268F5A" stroke-width="0.6" opacity="0.5"/>
-          </g>
-          <g class="proc-node" data-code="R3.1" data-cat="realisation" onclick="selectNode('R3.1')">
-            <rect x="197" y="318" width="220" height="22" rx="4" fill="#B8DFC8" stroke="none"/>
-            <text x="204" y="331" font-family="'DM Mono',monospace" font-size="7.5" font-weight="600" dominant-baseline="middle" fill="#1A5C3E">R3.1</text>
-            <text x="234" y="331" font-family="'DM Sans',sans-serif" font-size="8.5" dominant-baseline="middle" fill="#0A3526">Piloter la production</text>
-          </g>
-          <g class="proc-node" data-code="R3.2" data-cat="realisation" onclick="selectNode('R3.2')">
-            <rect x="197" y="346" width="220" height="22" rx="4" fill="#B8DFC8" stroke="none"/>
-            <text x="204" y="359" font-family="'DM Mono',monospace" font-size="7.5" font-weight="600" dominant-baseline="middle" fill="#1A5C3E">R3.2</text>
-            <text x="234" y="359" font-family="'DM Sans',sans-serif" font-size="8.5" dominant-baseline="middle" fill="#0A3526">Réaliser la production</text>
-          </g>
-
-          <!-- Arrow R3 → R4 (horizontal right) -->
-          <line x1="422" y1="316" x2="438" y2="316" stroke="#268F5A" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- R4 Expédier les commandes (droite, grand) — L2 visible -->
-          <g class="proc-node" data-code="R4" data-cat="realisation" onclick="selectNode('R4')">
-            <rect x="438" y="182" width="204" height="268" rx="8" fill="#E4F5EC" stroke="#268F5A" stroke-width="1"/>
-            <text x="540" y="200" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#0A3526">R4</text>
-            <text x="540" y="215" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#1A5C3E">Expédier les commandes</text>
-            <line x1="446" y1="226" x2="634" y2="226" stroke="#268F5A" stroke-width="0.6" opacity="0.5"/>
-          </g>
-          <g class="proc-node" data-code="R4.1" data-cat="realisation" onclick="selectNode('R4.1')">
-            <rect x="443" y="318" width="194" height="22" rx="4" fill="#B8DFC8" stroke="none"/>
-            <text x="450" y="331" font-family="'DM Mono',monospace" font-size="7.5" font-weight="600" dominant-baseline="middle" fill="#1A5C3E">R4.1</text>
-            <text x="480" y="331" font-family="'DM Sans',sans-serif" font-size="8.5" dominant-baseline="middle" fill="#0A3526">Préparer commandes</text>
-          </g>
-          <g class="proc-node" data-code="R4.2" data-cat="realisation" onclick="selectNode('R4.2')">
-            <rect x="443" y="346" width="194" height="22" rx="4" fill="#B8DFC8" stroke="none"/>
-            <text x="450" y="359" font-family="'DM Mono',monospace" font-size="7.5" font-weight="600" dominant-baseline="middle" fill="#1A5C3E">R4.2</text>
-            <text x="480" y="359" font-family="'DM Sans',sans-serif" font-size="8.5" dominant-baseline="middle" fill="#0A3526">Livrer commandes</text>
-          </g>
-
-          <!-- SUPPORT -->
-          <rect x="20" y="468" width="640" height="110" rx="12" fill="#7A3D10" stroke="#5F2F0C" stroke-width="1"/>
-          <text x="36" y="492" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FEF0E2">Support</text>
-
-          <g class="proc-node" data-code="S1" data-cat="support" onclick="selectNode('S1')">
-            <rect x="36" y="500" width="138" height="64" rx="8" fill="#FEF0E2" stroke="#C06E1C" stroke-width="1"/>
-            <text x="105" y="526" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#401E08">S1</text>
-            <text x="105" y="542" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#401E08">Gérer le</text>
-            <text x="105" y="556" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#7A3D10">personnel</text>
-          </g>
-          <g class="proc-node" data-code="S2" data-cat="support" onclick="selectNode('S2')">
-            <rect x="192" y="500" width="138" height="64" rx="8" fill="#FEF0E2" stroke="#C06E1C" stroke-width="1"/>
-            <text x="261" y="526" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#401E08">S2</text>
-            <text x="261" y="542" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#401E08">Maintenir les</text>
-            <text x="261" y="556" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#7A3D10">équipements</text>
-          </g>
-          <g class="proc-node" data-code="S3" data-cat="support" onclick="selectNode('S3')">
-            <rect x="348" y="500" width="138" height="64" rx="8" fill="#FEF0E2" stroke="#C06E1C" stroke-width="1"/>
-            <text x="417" y="526" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#401E08">S3</text>
-            <text x="417" y="542" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#401E08">Gérer achats</text>
-            <text x="417" y="556" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#7A3D10">&amp; logistique</text>
-          </g>
-
-          <!-- S3 → R3 (fabrication) vertical arrow "emballages" -->
-          <line x1="417" y1="500" x2="417" y2="454" stroke="#C06E1C" stroke-width="1.5" marker-end="url(#arrow)"/>
-          <rect x="387" y="470" width="60" height="14" rx="7" fill="#FEF0E2" stroke="#C06E1C" stroke-width="0.8"/>
-          <text x="417" y="480" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="9" fill="#401E08">emballages</text>
-
-          <g class="proc-node" data-code="S4" data-cat="support" onclick="selectNode('S4')">
-            <rect x="504" y="500" width="138" height="64" rx="8" fill="#FEF0E2" stroke="#C06E1C" stroke-width="1"/>
-            <text x="573" y="526" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#401E08">S4</text>
-            <text x="573" y="542" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#401E08">Gérer les</text>
-            <text x="573" y="556" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="#7A3D10">syst. d'info</text>
-          </g>
-
-          <!-- CONFORMITÉ ET QUALITÉ -->
-          <rect x="20" y="596" width="640" height="84" rx="12" fill="#82192A" stroke="#671422" stroke-width="1"/>
-          <text x="36" y="620" font-family="'DM Sans',sans-serif" font-size="13" font-weight="500" fill="#FBE8EB">Conformité et qualité</text>
-
-          <g class="proc-node" data-code="C1" data-cat="conformite" onclick="selectNode('C1')">
-            <rect x="36" y="626" width="196" height="42" rx="8" fill="#FBE8EB" stroke="#C43040" stroke-width="1"/>
-            <text x="134" y="651" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#480C17">C1 — Maîtriser HACCP &amp; hygiène</text>
-          </g>
-          <g class="proc-node" data-code="C2" data-cat="conformite" onclick="selectNode('C2')">
-            <rect x="242" y="626" width="196" height="42" rx="8" fill="#FBE8EB" stroke="#C43040" stroke-width="1"/>
-            <text x="340" y="651" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#480C17">C2 — Assurer la traçabilité</text>
-          </g>
-          <g class="proc-node" data-code="C3" data-cat="conformite" onclick="selectNode('C3')">
-            <rect x="448" y="626" width="196" height="42" rx="8" fill="#FBE8EB" stroke="#C43040" stroke-width="1"/>
-            <text x="546" y="651" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="500" fill="#480C17">C3 — Améliorer en continu</text>
-          </g>
-
-        </svg>
-      </div>
-
-      <p style="margin-top:14px;font-size:11px;color:var(--text-hint);text-align:right;" id="proc-count">15 processus · 4 domaines</p>
-    </div><!-- /tab-panel diagram -->
-
-    <div class="tab-panel" id="panel-rh">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:18px;">
-        <p style="font-size:13px;color:var(--text-muted);line-height:1.6;max-width:520px;">
-          Liste de l'équipe et des processus dont chaque personne est responsable. Cliquez sur un processus pour ouvrir sa fiche et ajuster les allocations. <span style="color:var(--text-hint);">Les allocations sont enregistrées localement dans votre navigateur.</span>
-        </p>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;">
-          <div id="rh-coverage-summary" style="font-size:11px;color:var(--text-hint);text-align:right;"></div>
-          <button class="btn" onclick="resetAllocations()" style="font-size:11px;padding:6px 10px;">Réinitialiser les allocations</button>
-        </div>
-      </div>
-      <div class="rh-grid" id="rh-grid"></div>
-    </div>
-  </div><!-- /diagram-pane -->
-
-  <div class="detail-pane" id="detail-pane">
-    <div class="detail-empty" id="detail-empty">
-      <div class="detail-empty-icon">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="11" x2="13" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="14" x2="11" y2="14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      </div>
-      <p>Sélectionnez un processus dans le diagramme pour afficher sa fiche détaillée.</p>
-    </div>
-
-    <div class="detail-content" id="detail-content">
-      <div class="panel-header">
-        <div class="panel-badge" id="panel-badge">
-          <div class="panel-badge-dot" id="panel-badge-dot"></div>
-          <span id="panel-cat-label"></span>
-        </div>
-        <div class="panel-code" id="panel-code"></div>
-        <div class="panel-name" id="panel-name"></div>
-      </div>
-      <div class="panel-body">
-        <p class="panel-desc" id="panel-desc"></p>
-        <div class="props-grid" id="props-grid"></div>
-        <div class="tags-row" id="tags-row"></div>
-        <div class="subproc-block" id="subproc-block" style="display:none;">
-          <div class="subproc-title">Sous-processus</div>
-          <div class="subproc-list" id="subproc-list"></div>
-        </div>
-        <div class="alloc-block" id="alloc-block">
-          <div class="alloc-title">Personnes allouées</div>
-          <div class="alloc-list" id="alloc-list"></div>
-          <div class="alloc-warn" id="alloc-warn" style="display:none;">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L13 12H1L7 1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><line x1="7" y1="5" x2="7" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="10" r=".7" fill="currentColor"/></svg>
-            Aucune personne allouée à ce processus
-          </div>
-        </div>
-      </div>
-      <div class="panel-footer">
-        <div class="nav-btns">
-          <button class="btn" id="btn-prev" onclick="navigate(-1)">← Précédent</button>
-          <button class="btn" id="btn-next" onclick="navigate(1)">Suivant →</button>
-        </div>
-        <span class="close-link" onclick="closePanel()">Fermer la fiche</span>
-      </div>
-    </div>
+    <div class="diagram-wrap" id="diagram"></div>
   </div>
 
-</div><!-- /app -->
-
-<footer>
-  <span>Document confidentiel · Usage interne</span>
-  <span id="footer-date"></span>
-</footer>
+  <!-- DETAIL PANEL -->
+  <div class="panel" id="panel">
+    <div class="panel-header">
+      <div class="panel-badge" id="panel-badge">
+        <span id="panel-badge-dot" style="width:7px;height:7px;border-radius:50%;display:inline-block"></span>
+        <span id="panel-cat-label"></span>
+      </div>
+      <div class="panel-title-row">
+        <div>
+          <div class="panel-code" id="panel-code"></div>
+          <div class="panel-name" id="panel-name"></div>
+        </div>
+        <button class="panel-close" onclick="closePanel()">×</button>
+      </div>
+    </div>
+    <div class="panel-body" id="panel-body"></div>
+    <div class="panel-nav">
+      <button class="btn-nav" id="btn-prev" onclick="navPanel(-1)">← Précédent</button>
+      <button class="btn-nav" id="btn-next" onclick="navPanel(1)">Suivant →</button>
+    </div>
+  </div>
+</div>
 
 <script>
-const PROCESSES = {
-  P1:{name:'Piloter la stratégie',cat:'pilotage',catLabel:'Pilotage',
-    badgeBg:'#E8EEFA',badgeTxt:'#1B3A7A',dotColor:'#3D5CC2',
-    desc:"Définit la vision, les objectifs à moyen terme et les priorités de l'entreprise. Ce processus fixe le cap pour tous les autres : choix des marchés cibles, positionnement (restauration rapide), politique tarifaire et investissements.",
-    entrees:'Vision dirigeant, analyse marché',sorties:'Plan stratégique, objectifs annuels',
-    acteurs:'Dirigeant, direction',outils:'Business plan, tableaux de bord',
-    tags:['Stratégique','Annuel','Direction']},
-  P2:{name:"Gérer l'offre",cat:'pilotage',catLabel:'Pilotage',
-    badgeBg:'#E8EEFA',badgeTxt:'#1B3A7A',dotColor:'#3D5CC2',
-    desc:"Pilote le portefeuille produits : création de nouvelles recettes, évolution saisonnière de la gamme et tarification.",
-    entrees:'Tendances marché, retours clients',sorties:'Catalogue produits, fiches recettes',
-    acteurs:'Dirigeant, chef labo',outils:'Fiches recettes, costing produit',
-    tags:['Innovation','Gamme','Recettes']},
-  P3:{name:'Piloter la performance',cat:'pilotage',catLabel:'Pilotage',
-    badgeBg:'#E8EEFA',badgeTxt:'#1B3A7A',dotColor:'#3D5CC2',
-    desc:"Mesure et analyse les indicateurs clés : volumes produits, taux de rebut, respect des délais, marges par produit. Déclenche les actions correctives.",
-    entrees:'Données production, finance, qualité',sorties:'Tableaux de bord, décisions correctives',
-    acteurs:'Dirigeant',outils:'Indicateurs KPI, reporting',
-    tags:['KPI','Hebdomadaire','Correction']},
-  P4:{name:'Gérer les finances',cat:'pilotage',catLabel:'Pilotage',
-    badgeBg:'#E8EEFA',badgeTxt:'#1B3A7A',dotColor:'#3D5CC2',
-    desc:"Suit les coûts de revient, gère la trésorerie, établit les devis et factures clients, analyse la rentabilité par référence.",
-    entrees:'Achats, ventes, charges',sorties:'Bilan, facturation, prévisions',
-    acteurs:'Dirigeant, comptable',outils:'Logiciel comptable, tableur',
-    tags:['Finance','Mensuel','Rentabilité']},
-  R1:{name:'Commercialiser',cat:'realisation',catLabel:'Réalisation',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:"Gère la relation avec les clients restaurateurs : prospection, devis, prise de commandes, suivi des comptes. Inclut la communication et la fidélisation.",
-    entrees:'Catalogue produits, tarifs',sorties:'Commandes clients, contrats',
-    acteurs:'Dirigeant, commercial',outils:'Carnet de commandes, téléphone',
-    tags:['Client','Commandes','B2B'],
-    sousProcessus:[
-      {code:'R1.1',name:'Enregistrer commandes'},
-      {code:'R1.2',name:'Évaluer commandes'},
-      {code:'R1.3',name:"Communiquer l'offre"},
-      {code:'R1.4',name:'Fidéliser clients'}
-    ]},
-  R2:{name:'Approvisionner',cat:'realisation',catLabel:'Réalisation',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:"Sélectionne les fournisseurs, négocie les conditions et émet les bons de commande. Gère la réception des livraisons (contrôle visuel, conformité au BDC, températures) et l'entreposage des matières premières selon les règles FIFO, DLC et réapprovisionnement.",
-    entrees:'Besoins production, cahier des charges',sorties:'Matières premières disponibles pour production',
-    acteurs:'Dirigeant, responsable achats, magasinier, responsable qualité',outils:'Liste fournisseurs agréés, BDC, fiches stock, thermomètre',
-    tags:['Fournisseurs','Réception','Stockage','FIFO','DLC'],
-    sousProcessus:[
-      {code:'R2.1',name:'Passer commandes fournisseurs'},
-      {code:'R2.2',name:'Planifier livraisons fournisseurs'},
-      {code:'R2.3',name:'Réceptionner les matières premières'},
-      {code:'R2.4',name:'Stocker les matières (FIFO, DLC, réappro)'}
-    ]},
-  R3:{name:'Fabriquer les desserts',cat:'realisation',catLabel:'Réalisation',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:"Processus cœur de métier : planification des fabrications, production des recettes (tiramisu et dérivés) selon les fiches techniques, puis conditionnement des produits. Inclut le pesage, le montage, le refroidissement, le contrôle qualité, l'étiquetage (DLC, allergènes) et le filmage par commande.",
-    entrees:'Commandes clients, matières disponibles (R2), emballages (S3)',sorties:'Produits conditionnés et étiquetés prêts à expédier',
-    acteurs:'Chef labo, pâtissiers, opérateurs conditionnement',outils:'Fiches recettes, matériel labo, balance, étiqueteuse, filmeuse',
-    tags:['Production','Planification','Conditionnement','Cœur de métier'],
-    sousProcessus:[
-      {code:'R3.1',name:'Piloter la production',sousProcessus:[
-        {code:'R3.1.1',name:'Planifier les tâches de production (planning)'},
-        {code:'R3.1.2',name:'Optimiser les séquences de fabrication'},
-        {code:'R3.1.3',name:'Relever présence des opérateurs'},
-        {code:'R3.1.4',name:'Superviser la production'}
+const DOMAINS = [
+  {
+    code: 'P', name: 'Pilotage',
+    cat: 'pilotage',
+    bg: '#1B3A7A', light: '#E8EEFA', mid: '#3D5CC2', dark: '#0F2148',
+    processes: [
+      { code:'P1', name:'Piloter la stratégie', subProcesses:[] },
+      { code:'P2', name:"Gérer l'offre", subProcesses:[
+        { code:'P2.1', name:'Gérer prestations de communication', tasks:[] },
+        { code:'P2.2', name:'Gérer opérations marketing', tasks:[] }
       ]},
-      {code:'R3.2',name:'Réaliser la production',sousProcessus:[
-        {code:'R3.2.1',name:'Produire les desserts'},
-        {code:'R3.2.2',name:'Contrôler la qualité de la production'},
-        {code:'R3.2.3',name:'Gérer la préparation de palettes'},
-        {code:'R3.2.4',name:'Conditionner les produits (portionnage, étiquetage, filmage)'},
-        {code:'R3.2.5',name:'Stocker produits finis'}
-      ]}
-    ]},
-  R4:{name:'Expédier les commandes',cat:'realisation',catLabel:'Réalisation',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:"Prépare les tournées, charge les commandes en chaîne du froid, livre les restaurateurs dans les délais convenus et gère les bons de livraison.",
-    entrees:'Commandes conditionnées, planning livraison',sorties:'Livraisons effectuées, BL signés',
-    acteurs:'Livreur, chef labo',outils:'Véhicule réfrigéré, BL, GPS',
-    tags:['Chaîne du froid','Délais','BL'],
-    sousProcessus:[
-      {code:'R4.1',name:'Préparer commandes',sousProcessus:[
-        {code:'R4.1.1',name:'Éditer les bons de préparation'},
-        {code:'R4.1.2',name:'Étiquetter les compléments de production'},
-        {code:'R4.1.3',name:'Préparer les commandes clients'}
+      { code:'P3', name:'Piloter la performance', subProcesses:[
+        { code:'P3.1', name:'Calculer/Surveiller prix de revient desserts', tasks:[] },
+        { code:'P3.2', name:'Surveiller/Négocier prix fournisseurs', tasks:[] }
       ]},
-      {code:'R4.2',name:'Livrer commandes',sousProcessus:[
-        {code:'R4.2.1',name:'Charger véhicules de livraisons'},
-        {code:'R4.2.2',name:'Déposer commandes sur site clients'},
-        {code:'R4.2.3',name:'Gérer bons de livraison'},
-        {code:'R4.2.4',name:'Encaisser / Relancer clients'}
+      { code:'P4', name:'Gérer les finances', subProcesses:[
+        { code:'P4.1', name:'Facturer', tasks:[
+          { code:'P4.1.1', name:'Créer factures clients' },
+          { code:'P4.1.2', name:'Envoyer factures aux clients' },
+          { code:'P4.1.3', name:'Déclencher prélèvements clients' },
+          { code:'P4.1.4', name:"Envoyer factures et Grand Livre aux clients sur demande en fin d'année" },
+          { code:'P4.1.5', name:"Gérer les retours d'argent" },
+          { code:'P4.1.6', name:'Pointer règlements des factures clients' }
+        ]},
+        { code:'P4.2', name:'Recouvrer', tasks:[
+          { code:'P4.2.1', name:'Relancer clients pour paiement factures' },
+          { code:'P4.2.2', name:'Récupérer dettes sur site client' }
+        ]},
+        { code:'P4.3', name:'Décaisser', tasks:[
+          { code:'P4.3.1', name:'Payer fournisseurs' },
+          { code:'P4.3.2', name:'Pointer les débits associés aux achats fournisseurs' },
+          { code:'P4.3.3', name:'Réaliser virements salaires' }
+        ]},
+        { code:'P4.4', name:'Gérer comptabilité', tasks:[
+          { code:'P4.4.1', name:'Assurer relation avec le comptable' },
+          { code:'P4.4.2', name:'Réunir éléments comptables' }
+        ]}
       ]}
-    ]},
-  S1:{name:'Gérer le personnel',cat:'support',catLabel:'Support',
-    badgeBg:'#FEF0E2',badgeTxt:'#7A3D10',dotColor:'#C06E1C',
-    desc:"Recrutement, formation aux bonnes pratiques d'hygiène, gestion des plannings, suivi des habilitations et des visites médicales.",
-    entrees:'Besoins en personnel, réglementation',sorties:'Équipe formée, plannings',
-    acteurs:'Dirigeant',outils:'Contrats, planning, registre formation',
-    tags:['Formation','Plannings','Habilitations']},
-  S2:{name:'Maintenir les équipements',cat:'support',catLabel:'Support',
-    badgeBg:'#FEF0E2',badgeTxt:'#7A3D10',dotColor:'#C06E1C',
-    desc:"Assure le bon fonctionnement du matériel (batteurs, réfrigérateurs, fours, cellule de refroidissement). Gère la maintenance préventive et les interventions curatives. Inclut l'étalonnage métrologique des balances et sondes thermiques.",
-    entrees:'Équipements, plan de maintenance',sorties:'Équipements opérationnels, registre maintenance',
-    acteurs:'Technicien, prestataire',outils:'Registre maintenance, contrats prestataires',
-    tags:['Préventif','Curatif','Étalonnage']},
-  S3:{name:'Gérer les achats & la logistique',cat:'support',catLabel:'Support',
-    badgeBg:'#FEF0E2',badgeTxt:'#7A3D10',dotColor:'#C06E1C',
-    desc:"Gère les achats hors matières premières (emballages, produits d'entretien, EPI, consommables) et la logistique interne du laboratoire. Met notamment à disposition les emballages nécessaires au conditionnement (R3).",
-    entrees:'Besoins des équipes',sorties:'Consommables disponibles, emballages (vers R3)',
-    acteurs:'Dirigeant, responsable achats',outils:'Bons de commande, stocks consommables',
-    tags:['Emballages','EPI','Consommables']},
-  S4:{name:"Gérer les systèmes d'information",cat:'support',catLabel:'Support',
-    badgeBg:'#FEF0E2',badgeTxt:'#7A3D10',dotColor:'#C06E1C',
-    desc:"Gère les outils numériques : logiciel de gestion des commandes, traçabilité informatique, facturation, messagerie.",
-    entrees:'Besoins utilisateurs',sorties:'Outils disponibles et sécurisés',
-    acteurs:'Dirigeant, prestataire IT',outils:'ERP/logiciel labo, cloud, téléphonie',
-    tags:['Numérique','ERP','Traçabilité']},
-  C1:{name:"Maîtriser l'HACCP & l'hygiène",cat:'conformite',catLabel:'Conformité et qualité',
-    badgeBg:'#FBE8EB',badgeTxt:'#82192A',dotColor:'#C43040',
-    desc:"Identifie les points critiques (CCP) dans les processus de fabrication, définit les limites critiques et les mesures préventives. Gère le plan de nettoyage-désinfection.",
-    entrees:'Processus de fabrication',sorties:'Plan HACCP, enregistrements NDD',
-    acteurs:'Responsable qualité, chef labo',outils:'Plan HACCP, fiches NDD',
-    tags:['CCP','Sécurité alimentaire','NDD']},
-  C2:{name:'Assurer la traçabilité',cat:'conformite',catLabel:'Conformité et qualité',
-    badgeBg:'#FBE8EB',badgeTxt:'#82192A',dotColor:'#C43040',
-    desc:"Assure la traçabilité amont (lots matières) et aval (livraisons clients) pour permettre un retrait/rappel produit rapide en cas de non-conformité.",
-    entrees:'Numéros de lot, fiches recettes, BL',sorties:'Registre traçabilité, capacité rappel',
-    acteurs:'Chef labo, responsable qualité',outils:'Étiquettes lot, registre, logiciel',
-    tags:['Amont','Aval','Rappel produit']},
-  C3:{name:'Améliorer en continu',cat:'conformite',catLabel:'Conformité et qualité',
-    badgeBg:'#FBE8EB',badgeTxt:'#82192A',dotColor:'#C43040',
-    desc:"Collecte et analyse les non-conformités, réclamations clients et résultats d'audit. Définit et suit les actions correctives et préventives (CAPA). Alimente le processus de pilotage.",
-    entrees:'NC, réclamations, audits',sorties:'Actions correctives, indicateurs qualité',
-    acteurs:'Dirigeant, responsable qualité',outils:'Registre NC, CAPA, revue de direction',
-    tags:['CAPA','NC','Revue direction']},
-  'R1.1':{name:'Enregistrer commandes',cat:'realisation',catLabel:'Réalisation',parent:'R1',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
-  'R1.2':{name:'Évaluer commandes',cat:'realisation',catLabel:'Réalisation',parent:'R1',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
-  'R1.3':{name:"Communiquer l'offre",cat:'realisation',catLabel:'Réalisation',parent:'R1',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
-  'R1.4':{name:'Fidéliser clients',cat:'realisation',catLabel:'Réalisation',parent:'R1',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
-  'R2.1':{name:'Passer commandes fournisseurs',cat:'realisation',catLabel:'Réalisation',parent:'R2',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
-  'R2.2':{name:'Planifier livraisons fournisseurs',cat:'realisation',catLabel:'Réalisation',parent:'R2',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
-  'R2.3':{name:'Réceptionner les matières premières',cat:'realisation',catLabel:'Réalisation',parent:'R2',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
-  'R2.4':{name:'Stocker les matières (FIFO, DLC, réappro)',cat:'realisation',catLabel:'Réalisation',parent:'R2',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[]},
-  'R3.1':{name:'Piloter la production',cat:'realisation',catLabel:'Réalisation',parent:'R3',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[],
-    sousProcessus:[
-      {code:'R3.1.1',name:'Planifier les tâches de production (planning)'},
-      {code:'R3.1.2',name:'Optimiser les séquences de fabrication'},
-      {code:'R3.1.3',name:'Relever présence des opérateurs'},
-      {code:'R3.1.4',name:'Superviser la production'}
-    ]},
-  'R3.2':{name:'Réaliser la production',cat:'realisation',catLabel:'Réalisation',parent:'R3',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[],
-    sousProcessus:[
-      {code:'R3.2.1',name:'Produire les desserts'},
-      {code:'R3.2.2',name:'Contrôler la qualité de la production'},
-      {code:'R3.2.3',name:'Gérer la préparation de palettes'},
-      {code:'R3.2.4',name:'Conditionner les produits (portionnage, étiquetage, filmage)'},
-      {code:'R3.2.5',name:'Stocker produits finis'}
-    ]},
-  'R4.1':{name:'Préparer commandes',cat:'realisation',catLabel:'Réalisation',parent:'R4',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[],
-    sousProcessus:[
-      {code:'R4.1.1',name:'Éditer les bons de préparation'},
-      {code:'R4.1.2',name:'Étiquetter les compléments de production'},
-      {code:'R4.1.3',name:'Préparer les commandes clients'}
-    ]},
-  'R4.2':{name:'Livrer commandes',cat:'realisation',catLabel:'Réalisation',parent:'R4',
-    badgeBg:'#E4F5EC',badgeTxt:'#1A5C3E',dotColor:'#268F5A',
-    desc:'',entrees:'',sorties:'',acteurs:'',outils:'',tags:[],
-    sousProcessus:[
-      {code:'R4.2.1',name:'Charger véhicules de livraisons'},
-      {code:'R4.2.2',name:'Déposer commandes sur site clients'},
-      {code:'R4.2.3',name:'Gérer bons de livraison'},
-      {code:'R4.2.4',name:'Encaisser / Relancer clients'}
-    ]}
-};
-
-const ALL_CODES = Object.keys(PROCESSES).filter(k => !k.includes('.'));
-
-const AVATAR_COLORS = ['#3D5CC2','#268F5A','#C06E1C','#C43040','#1B3A7A'];
-
-const PEOPLE = [
-  {id:'bali',     name:'Bali',     role:''},
-  {id:'baba',     name:'Baba',     role:''},
-  {id:'seydou',   name:'Seydou',   role:''},
-  {id:'benjamin', name:'Benjamin', role:''},
-  {id:'abou',     name:'Abou',     role:''}
+    ]
+  },
+  {
+    code: 'R', name: 'Réalisation',
+    cat: 'realisation',
+    bg: '#1A5C3E', light: '#E4F5EC', mid: '#268F5A', dark: '#0A3526',
+    processes: [
+      { code:'R1', name:'Commercialiser', subProcesses:[
+        { code:'R1.1', name:'Gérer comptes clients', tasks:[] },
+        { code:'R1.2', name:'Enregistrer/Évaluer commandes', tasks:[] },
+        { code:'R1.3', name:"Communiquer l'offre", tasks:[] },
+        { code:'R1.4', name:'Fidéliser clients', tasks:[] },
+        { code:'R1.5', name:'Assurer service après-vente', tasks:[] }
+      ]},
+      { code:'R2', name:'Approvisionner', subProcesses:[
+        { code:'R2.1', name:'Passer commandes fournisseurs', tasks:[] },
+        { code:'R2.2', name:'Planifier livraisons fournisseurs', tasks:[] },
+        { code:'R2.3', name:'Réceptionner commandes fournisseurs', tasks:[] },
+        { code:'R2.4', name:'Stocker commandes fournisseurs', tasks:[] }
+      ]},
+      { code:'R3', name:'Fabriquer', subProcesses:[
+        { code:'R3.1', name:'Piloter production', tasks:[
+          { code:'R3.1.1', name:'Planifier tâches production' },
+          { code:'R3.1.2', name:'Relever présence opérateurs' },
+          { code:'R3.1.3', name:'Superviser production' },
+          { code:'R3.1.4', name:'Optimiser séquences production' }
+        ]},
+        { code:'R3.2', name:'Réaliser production', tasks:[
+          { code:'R3.2.1', name:'Produire desserts' },
+          { code:'R3.2.2', name:'Conditionner desserts' },
+          { code:'R3.2.3', name:'Contrôler qualité desserts' },
+          { code:'R3.2.4', name:'Gérer préparation palettes' },
+          { code:'R3.2.5', name:'Préparer palettes' },
+          { code:'R3.2.6', name:'Stocker desserts' },
+          { code:'R3.2.7', name:'Faire inventaire desserts en stock' }
+        ]}
+      ]},
+      { code:'R4', name:'Expédier', subProcesses:[
+        { code:'R4.1', name:'Préparer expédition', tasks:[
+          { code:'R4.1.1', name:'Contrôler si commandes prises en charge' },
+          { code:'R4.1.2', name:'Préparer départ livreur' },
+          { code:'R4.1.3', name:'Éditer/Imprimer les bons de livraison' },
+          { code:'R4.1.4', name:'Éditer bons de préparation' },
+          { code:'R4.1.5', name:'Imprimer étiquettes' },
+          { code:'R4.1.6', name:'Imprimer étiquettes commandes spéciales' },
+          { code:'R4.1.7', name:'Étiqueter compléments de production' },
+          { code:'R4.1.8', name:'Préparer commandes clients' },
+          { code:'R4.1.9', name:"Créer bordereau d'envoi pour palettes" }
+        ]},
+        { code:'R4.2', name:'Livrer commandes clients', tasks:[
+          { code:'R4.2.1', name:'Planifier livraisons en IdF' },
+          { code:'R4.2.2', name:'Planifier livraison palettes vers clients hors IdF' },
+          { code:'R4.2.3', name:'Charger véhicules de livraison' },
+          { code:'R4.2.4', name:'Superviser livreurs en tournées' },
+          { code:'R4.2.5', name:'Déposer commandes sur site clients' },
+          { code:'R4.2.6', name:'Gérer bons de livraisons' },
+          { code:'R4.2.7', name:'Encaisser/Relancer clients' }
+        ]}
+      ]},
+      { code:'R5', name:'Gérer documentation', subProcesses:[
+        { code:'R5.1', name:'Traiter e-mails', tasks:[] },
+        { code:'R5.2', name:'Trier documents', tasks:[] },
+        { code:'R5.3', name:'Archiver documents', tasks:[] }
+      ]}
+    ]
+  },
+  {
+    code: 'S', name: 'Support',
+    cat: 'support',
+    bg: '#7A3D10', light: '#FEF0E2', mid: '#C06E1C', dark: '#401E08',
+    processes: [
+      { code:'S1', name:'Gérer le personnel', subProcesses:[
+        { code:'S1.1', name:'Gérer contrats', tasks:[
+          { code:'S1.1.1', name:'Enregistrer salariés' },
+          { code:'S1.1.2', name:'Suivre signature contrats salariés' }
+        ]},
+        { code:'S1.2', name:'Gérer paie', tasks:[
+          { code:'S1.2.1', name:"Saisir éléments de salaire de l'équipe de production" },
+          { code:'S1.2.2', name:'Enregistrement présence/absence des salariés' },
+          { code:'S1.2.3', name:'Enregistrement des éléments de salaire' }
+        ]}
+      ]},
+      { code:'S2', name:'Maintenir les équipements', subProcesses:[
+        { code:'S2.1', name:'Contrôler propreté camions', tasks:[] },
+        { code:'S2.2', name:'Contrôler mécanique camions', tasks:[] }
+      ]},
+      { code:'S3', name:'Gérer achats hors MP et logistique', subProcesses:[
+        { code:'S3.1', name:'Gérer contrats fournisseurs', tasks:[] },
+        { code:'S3.2', name:'Acheter fournitures de bureau', tasks:[] }
+      ]},
+      { code:'S4', name:"Gérer système d'information", subProcesses:[
+        { code:'S4.2', name:'Gérer matériel informatique', tasks:[] },
+        { code:'S4.3', name:'Gérer solutions logicielles', tasks:[] },
+        { code:'S4.4', name:'Gérer système de surveillance', tasks:[] }
+      ]}
+    ]
+  },
+  {
+    code: 'C', name: 'Conformité et Qualité',
+    cat: 'conformite',
+    bg: '#82192A', light: '#FBE8EB', mid: '#C43040', dark: '#480C17',
+    processes: [
+      { code:'C1', name:'Maîtriser hygiène', subProcesses:[
+        { code:'C1.1', name:'Ranger chambre froide MP', tasks:[] },
+        { code:'C1.2', name:'Ranger chambre froide négative', tasks:[] },
+        { code:'C1.3', name:'Ranger stockage marchandises', tasks:[] },
+        { code:'C1.4', name:'Nettoyer local', tasks:[] }
+      ]},
+      { code:'C2', name:'Assurer la traçabilité', subProcesses:[] },
+      { code:'C3', name:'Améliorer en continu', subProcesses:[] }
+    ]
+  }
 ];
 
-const STORAGE_KEY = 'archi_processus_labo_allocations_v1';
-const ALLOCATIONS = {};
-ALL_CODES.forEach(c => { ALLOCATIONS[c] = []; });
-
-function loadAllocations() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    const stored = JSON.parse(raw);
-    if (!stored || typeof stored !== 'object') return;
-    const validPersonIds = new Set(PEOPLE.map(p => p.id));
-    Object.keys(stored).forEach(code => {
-      if (ALL_CODES.includes(code) && Array.isArray(stored[code])) {
-        ALLOCATIONS[code] = stored[code].filter(id => validPersonIds.has(id));
-      }
+const ALL_NODES = [];
+DOMAINS.forEach(dom => {
+  dom.processes.forEach(proc => {
+    ALL_NODES.push({ code: proc.code, name: proc.name, type: 'process', domain: dom });
+    proc.subProcesses.forEach(sp => {
+      ALL_NODES.push({ code: sp.code, name: sp.name, type: 'subProcess', domain: dom, process: proc, tasks: sp.tasks });
     });
-  } catch (e) {
-    console.warn('Allocations : lecture localStorage impossible', e);
-  }
-}
+  });
+});
 
-function saveAllocations() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(ALLOCATIONS));
-  } catch (e) {
-    console.warn('Allocations : écriture localStorage impossible', e);
-  }
-}
+function findNode(code) { return ALL_NODES.find(n => n.code === code); }
 
-loadAllocations();
+function buildDiagram() {
+  const wrap = document.getElementById('diagram');
+  wrap.innerHTML = '';
 
-function avatarColor(personId) {
-  const idx = PEOPLE.findIndex(p => p.id === personId);
-  return AVATAR_COLORS[idx % AVATAR_COLORS.length];
-}
+  DOMAINS.forEach(dom => {
+    const band = document.createElement('div');
+    band.className = 'domain-band';
+    band.dataset.cat = dom.cat;
+    band.style.background = dom.light;
+    band.style.border = '1.5px solid ' + dom.mid + '30';
 
-function personInitial(name) { return name.charAt(0).toUpperCase(); }
+    const hdr = document.createElement('div');
+    hdr.className = 'domain-header';
+    hdr.style.background = dom.bg;
+    hdr.innerHTML = '<span class="domain-label" style="color:' + dom.light + '">' + dom.name + '</span>';
+    band.appendChild(hdr);
 
-function isAllocated(code, personId) {
-  return ALLOCATIONS[code] && ALLOCATIONS[code].includes(personId);
-}
+    const body = document.createElement('div');
+    body.className = 'domain-body';
 
-function toggleAllocation(code, personId) {
-  if (!ALLOCATIONS[code]) ALLOCATIONS[code] = [];
-  const idx = ALLOCATIONS[code].indexOf(personId);
-  if (idx >= 0) ALLOCATIONS[code].splice(idx, 1);
-  else ALLOCATIONS[code].push(personId);
-  saveAllocations();
-  if (currentCode === code) renderAllocationBlock(code);
-  renderCoverageIndicators();
-  renderCoverageBanner();
-  if (document.querySelector('.tab.active')?.dataset.tab === 'rh') renderRHView();
-}
+    dom.processes.forEach(proc => {
+      const card = document.createElement('div');
+      card.className = 'process-card';
+      card.id = 'proc-' + proc.code;
+      card.dataset.code = proc.code;
+      card.dataset.cat = dom.cat;
 
-function resetAllocations() {
-  if (!confirm('Réinitialiser toutes les allocations ?\nCette action effacera toutes les personnes allouées aux processus et ne peut pas être annulée.')) return;
-  ALL_CODES.forEach(c => { ALLOCATIONS[c] = []; });
-  saveAllocations();
-  if (currentCode) renderAllocationBlock(currentCode);
-  renderCoverageIndicators();
-  renderCoverageBanner();
-  renderRHView();
+      const header = document.createElement('div');
+      header.className = 'process-header';
+      header.innerHTML =
+        '<span class="process-code-badge" style="background:' + dom.light + ';color:' + dom.dark + '">' + proc.code + '</span>' +
+        '<span class="process-name">' + proc.name + '</span>' +
+        (proc.subProcesses.length ? '<span class="process-toggle">›</span>' : '');
+      header.addEventListener('click', () => {
+        if (proc.subProcesses.length) {
+          card.classList.toggle('open');
+          const sw = card.querySelector('.subproc-wrap');
+          if (sw) sw.style.display = card.classList.contains('open') ? '' : 'none';
+        }
+        openNodePanel(proc.code);
+      });
+      card.appendChild(header);
+
+      if (proc.subProcesses.length) {
+        const spWrap = document.createElement('div');
+        spWrap.className = 'subproc-wrap';
+        spWrap.style.display = 'none';
+
+        proc.subProcesses.forEach(sp => {
+          const chip = document.createElement('span');
+          chip.className = 'subproc-chip';
+          chip.id = 'sp-' + sp.code;
+          chip.dataset.code = sp.code;
+          chip.dataset.cat = dom.cat;
+          chip.style.cssText = 'background:' + dom.light + ';color:' + dom.dark + ';--chip-accent:' + dom.mid;
+          chip.innerHTML =
+            '<span class="chip-code">' + sp.code + '</span>' +
+            '<span class="chip-name">' + sp.name + '</span>' +
+            (sp.tasks.length ? '<span class="chip-tasks">(' + sp.tasks.length + ')</span>' : '');
+          chip.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openNodePanel(sp.code);
+          });
+          spWrap.appendChild(chip);
+        });
+        card.appendChild(spWrap);
+      }
+
+      body.appendChild(card);
+    });
+
+    band.appendChild(body);
+    wrap.appendChild(band);
+  });
 }
 
 let currentCode = null;
-let currentFilter = 'all';
-let currentSearch = '';
 
-document.getElementById('footer-date').textContent =
-  'Généré le ' + new Date().toLocaleDateString('fr-FR', {day:'2-digit',month:'long',year:'numeric'});
-
-document.getElementById('rh-tab-count').textContent = PEOPLE.length;
-renderCoverageIndicators();
-renderCoverageBanner();
-
-function selectNode(code) {
-  if (!PROCESSES[code]) return;
+function openNodePanel(code) {
+  const node = findNode(code);
+  if (!node) return;
   currentCode = code;
-  renderPanel(code);
-  highlightNode(code);
-  document.getElementById('detail-pane').classList.add('open');
-}
 
-function highlightNode(code) {
-  const parentCode = PROCESSES[code]?.parent;
-  document.querySelectorAll('.proc-node').forEach(n => {
-    const nCode = n.dataset.code;
-    const isSelected = nCode === code;
-    const isParent = parentCode && nCode === parentCode;
-    n.classList.toggle('dimmed', !isSelected && !isParent);
-    n.classList.toggle('selected', isSelected);
-  });
-}
+  document.querySelectorAll('.subproc-chip.active').forEach(c => c.classList.remove('active'));
+  if (node.type === 'subProcess') {
+    const chip = document.getElementById('sp-' + code);
+    if (chip) { chip.classList.add('active'); ensureProcessOpen(node.process.code); }
+  }
 
-function renderPanel(code) {
-  const d = PROCESSES[code];
+  const dom = node.domain;
   const badge = document.getElementById('panel-badge');
-  badge.style.background = d.badgeBg;
-  badge.style.color = d.badgeTxt;
-  document.getElementById('panel-badge-dot').style.background = d.dotColor;
-  document.getElementById('panel-cat-label').textContent = d.catLabel;
+  badge.style.background = dom.light;
+  badge.style.color = dom.dark;
+  document.getElementById('panel-badge-dot').style.background = dom.mid;
+  document.getElementById('panel-cat-label').textContent = dom.name;
   document.getElementById('panel-code').textContent = code;
-  document.getElementById('panel-name').textContent = d.name;
+  document.getElementById('panel-name').textContent = node.name;
 
-  const descEl = document.getElementById('panel-desc');
-  if (d.desc) {
-    descEl.style.display = '';
-    descEl.textContent = d.desc;
-  } else if (d.parent) {
-    descEl.style.display = '';
-    descEl.textContent = `Sous-processus de ${d.parent} — ${PROCESSES[d.parent].name}`;
-    descEl.style.fontStyle = 'italic';
+  const body = document.getElementById('panel-body');
+  body.innerHTML = '';
+
+  if (node.type === 'subProcess') {
+    if (node.tasks && node.tasks.length) {
+      const sec = document.createElement('div');
+      sec.className = 'tasks-section';
+      sec.innerHTML = '<div class="tasks-title">Tâches (' + node.tasks.length + ')</div>';
+      node.tasks.forEach(t => {
+        const item = document.createElement('div');
+        item.className = 'task-item';
+        item.innerHTML = '<span class="task-code">' + t.code + '</span><span class="task-name">' + t.name + '</span>';
+        sec.appendChild(item);
+      });
+      body.appendChild(sec);
+    } else {
+      const p = document.createElement('p');
+      p.className = 'no-tasks';
+      p.textContent = 'Aucune tâche détaillée pour ce sous-processus.';
+      body.appendChild(p);
+    }
   } else {
-    descEl.style.display = 'none';
-    descEl.style.fontStyle = '';
+    const proc = DOMAINS.flatMap(d => d.processes).find(p => p.code === code);
+    if (proc && proc.subProcesses.length) {
+      const sec = document.createElement('div');
+      sec.className = 'sp-list-section';
+      sec.innerHTML = '<div class="sp-list-title">Sous-processus (' + proc.subProcesses.length + ')</div>';
+      proc.subProcesses.forEach(sp => {
+        const item = document.createElement('div');
+        item.className = 'sp-list-item';
+        item.innerHTML = '<span class="sp-item-code">' + sp.code + '</span><span class="sp-item-name">' + sp.name + (sp.tasks.length ? ' <span style="opacity:.5;font-size:11px">(' + sp.tasks.length + ' tâches)</span>' : '') + '</span>';
+        item.addEventListener('click', () => openNodePanel(sp.code));
+        sec.appendChild(item);
+      });
+      body.appendChild(sec);
+    } else {
+      const p = document.createElement('p');
+      p.className = 'no-tasks';
+      p.textContent = "Ce processus n'a pas de sous-processus.";
+      body.appendChild(p);
+    }
   }
 
-  const propsGrid = document.getElementById('props-grid');
-  if (d.entrees || d.sorties || d.acteurs || d.outils) {
-    propsGrid.style.display = '';
-    propsGrid.innerHTML = `
-      <div class="prop-card"><div class="prop-label">Entrées</div><div class="prop-value">${d.entrees}</div></div>
-      <div class="prop-card"><div class="prop-label">Sorties</div><div class="prop-value">${d.sorties}</div></div>
-      <div class="prop-card"><div class="prop-label">Acteurs</div><div class="prop-value">${d.acteurs}</div></div>
-      <div class="prop-card"><div class="prop-label">Outils & supports</div><div class="prop-value">${d.outils}</div></div>`;
-  } else {
-    propsGrid.style.display = 'none';
-  }
+  updateNavButtons();
+  document.getElementById('panel').classList.add('open');
+  document.getElementById('app').classList.add('panel-open');
+}
 
-  const tagsRow = document.getElementById('tags-row');
-  if (d.tags && d.tags.length) {
-    tagsRow.style.display = '';
-    tagsRow.innerHTML = d.tags.map(t => `<span class="tag">${t}</span>`).join('');
-  } else {
-    tagsRow.style.display = 'none';
+function ensureProcessOpen(procCode) {
+  const card = document.getElementById('proc-' + procCode);
+  if (!card) return;
+  if (!card.classList.contains('open')) {
+    card.classList.add('open');
+    const sw = card.querySelector('.subproc-wrap');
+    if (sw) sw.style.display = '';
   }
-
-  const subBlock = document.getElementById('subproc-block');
-  if (d.sousProcessus && d.sousProcessus.length) {
-    subBlock.style.display = '';
-    document.getElementById('subproc-list').innerHTML = d.sousProcessus.map(sp => {
-      if (sp.sousProcessus && sp.sousProcessus.length) {
-        return `<div class="subproc-item subproc-l2"><span class="subproc-code">${sp.code}</span><span>${sp.name}</span></div>` +
-          sp.sousProcessus.map(sp3 =>
-            `<div class="subproc-item subproc-l3"><span class="subproc-code">${sp3.code}</span><span>${sp3.name}</span></div>`
-          ).join('');
-      }
-      return `<div class="subproc-item"><span class="subproc-code">${sp.code}</span><span>${sp.name}</span></div>`;
-    }).join('');
-  } else {
-    subBlock.style.display = 'none';
-  }
-
-  const allocBlock = document.getElementById('alloc-block');
-  if (d.parent) {
-    allocBlock.style.display = 'none';
-  } else {
-    allocBlock.style.display = '';
-    renderAllocationBlock(code);
-  }
-
-  const visible = getVisibleCodes();
-  const baseCode = d.parent || code;
-  const idx = visible.indexOf(baseCode);
-  document.getElementById('btn-prev').disabled = idx <= 0;
-  document.getElementById('btn-next').disabled = idx >= visible.length - 1;
-  document.getElementById('detail-empty').style.display = 'none';
-  document.getElementById('detail-content').classList.add('visible');
 }
 
 function closePanel() {
+  document.getElementById('panel').classList.remove('open');
+  document.getElementById('app').classList.remove('panel-open');
+  document.querySelectorAll('.subproc-chip.active').forEach(c => c.classList.remove('active'));
   currentCode = null;
-  document.getElementById('detail-content').classList.remove('visible');
-  document.getElementById('detail-empty').style.display = '';
-  document.getElementById('detail-pane').classList.remove('open');
-  document.querySelectorAll('.proc-node').forEach(n => {
-    n.classList.remove('dimmed', 'selected');
-  });
 }
 
-function navigate(dir) {
-  const visible = getVisibleCodes();
-  const baseCode = (PROCESSES[currentCode]?.parent) || currentCode;
-  const idx = visible.indexOf(baseCode);
-  const next = visible[idx + dir];
-  if (next) selectNode(next);
+function updateNavButtons() {
+  const idx = ALL_NODES.findIndex(n => n.code === currentCode);
+  document.getElementById('btn-prev').disabled = idx <= 0;
+  document.getElementById('btn-next').disabled = idx >= ALL_NODES.length - 1;
 }
 
-function setFilter(cat, el) {
-  currentFilter = cat;
-  document.querySelectorAll('.leg-item').forEach(l => l.classList.remove('active'));
-  el.classList.add('active');
-  applyFilter();
+function navPanel(dir) {
+  const idx = ALL_NODES.findIndex(n => n.code === currentCode);
+  const next = ALL_NODES[idx + dir];
+  if (next) openNodePanel(next.code);
 }
 
 function doSearch(q) {
-  currentSearch = q.toLowerCase();
-  applyFilter();
-}
-
-function applyFilter() {
-  let count = 0;
-  document.querySelectorAll('.proc-node').forEach(n => {
-    const code = n.dataset.code;
-    const d = PROCESSES[code];
-    const catMatch = currentFilter === 'all' || d.cat === currentFilter;
-    const searchMatch = !currentSearch ||
-      d.name.toLowerCase().includes(currentSearch) ||
-      code.toLowerCase().includes(currentSearch) ||
-      d.tags.some(t => t.toLowerCase().includes(currentSearch));
-    const show = catMatch && searchMatch;
-    n.style.opacity = show ? '1' : '0.15';
-    n.style.pointerEvents = show ? '' : 'none';
-    if (show && !d.parent) count++;
-  });
-  document.getElementById('proc-count').textContent =
-    count + ' processus affiché' + (count > 1 ? 's' : '') + ' · ' +
-    (currentFilter === 'all' ? '4 domaines' : PROCESSES[Object.keys(PROCESSES).find(k => PROCESSES[k].cat === currentFilter)]?.catLabel || '');
-  if (currentCode && PROCESSES[currentCode]) {
-    const d = PROCESSES[currentCode];
-    const catMatch = currentFilter === 'all' || d.cat === currentFilter;
-    const searchMatch = !currentSearch || d.name.toLowerCase().includes(currentSearch) || currentCode.toLowerCase().includes(currentSearch);
-    if (!catMatch || !searchMatch) closePanel();
+  const term = q.toLowerCase().trim();
+  if (!term) {
+    document.querySelectorAll('.domain-band,.process-card,.subproc-chip').forEach(el => el.classList.remove('hidden'));
+    document.querySelectorAll('.process-card').forEach(card => {
+      card.classList.remove('open');
+      const sw = card.querySelector('.subproc-wrap');
+      if (sw) sw.style.display = 'none';
+    });
+    return;
   }
-}
+  document.querySelectorAll('.domain-band').forEach(b => b.classList.add('hidden'));
+  document.querySelectorAll('.process-card').forEach(c => c.classList.add('hidden'));
+  document.querySelectorAll('.subproc-chip').forEach(c => c.classList.add('hidden'));
 
-function getVisibleCodes() {
-  return ALL_CODES.filter(code => {
-    const d = PROCESSES[code];
-    const catMatch = currentFilter === 'all' || d.cat === currentFilter;
-    const searchMatch = !currentSearch || d.name.toLowerCase().includes(currentSearch) || code.toLowerCase().includes(currentSearch);
-    return catMatch && searchMatch;
-  });
-}
-
-function renderAllocationBlock(code) {
-  const list = document.getElementById('alloc-list');
-  list.innerHTML = PEOPLE.map(p => {
-    const checked = isAllocated(code, p.id);
-    return `
-      <label class="alloc-item">
-        <input type="checkbox" ${checked ? 'checked' : ''}
-               onchange="toggleAllocation('${code}','${p.id}')">
-        <div class="alloc-item-avatar" style="background:${avatarColor(p.id)}">${personInitial(p.name)}</div>
-        <span class="alloc-item-name">${p.name}</span>
-      </label>`;
-  }).join('');
-  document.getElementById('alloc-warn').style.display =
-    (ALLOCATIONS[code] && ALLOCATIONS[code].length) ? 'none' : 'flex';
-}
-
-function renderRHView() {
-  const grid = document.getElementById('rh-grid');
-  grid.innerHTML = PEOPLE.map(p => {
-    const procs = ALL_CODES.filter(c => isAllocated(c, p.id));
-    const procsHtml = procs.length
-      ? procs.map(c => `
-          <span class="rh-proc-chip" onclick="selectFromRH('${c}')">
-            <span class="rh-proc-chip-code">${c}</span>${PROCESSES[c].name}
-          </span>`).join('')
-      : '<span class="rh-empty-procs">Aucun processus alloué</span>';
-    return `
-      <div class="rh-card">
-        <div class="rh-card-header">
-          <div class="rh-avatar" style="background:${avatarColor(p.id)}">${personInitial(p.name)}</div>
-          <div>
-            <div class="rh-name">${p.name}</div>
-            <div class="rh-role">${procs.length} processus</div>
-          </div>
-        </div>
-        <div class="rh-section-label">Processus alloués</div>
-        <div class="rh-procs">${procsHtml}</div>
-      </div>`;
-  }).join('');
-  const uncovered = ALL_CODES.filter(c => !ALLOCATIONS[c] || ALLOCATIONS[c].length === 0);
-  const summary = document.getElementById('rh-coverage-summary');
-  if (uncovered.length === 0) {
-    summary.innerHTML = `<span style="color:#1A5C3E;">✓ Tous les processus sont couverts</span>`;
-  } else {
-    summary.innerHTML = `<span style="color:#82192A;">⚠ ${uncovered.length} processus sans personne allouée</span>`;
-  }
-}
-
-function selectFromRH(code) {
-  switchTab('diagram', document.querySelector('.tab[data-tab="diagram"]'));
-  selectNode(code);
-}
-
-function switchTab(tabName, btn) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel-' + tabName).classList.add('active');
-  if (tabName === 'rh') renderRHView();
-}
-
-function renderCoverageIndicators() {
-  document.querySelectorAll('.coverage-warn').forEach(el => el.remove());
-  document.querySelectorAll('.proc-node').forEach(n => {
-    const code = n.dataset.code;
-    if (!ALLOCATIONS.hasOwnProperty(code)) return;
-    if (ALLOCATIONS[code] && ALLOCATIONS[code].length > 0) return;
-    const rect = n.querySelector('rect');
-    const x = parseFloat(rect.getAttribute('x'));
-    const y = parseFloat(rect.getAttribute('y'));
-    const ns = 'http://www.w3.org/2000/svg';
-    const g = document.createElementNS(ns, 'g');
-    g.setAttribute('class', 'coverage-warn');
-    const tri = document.createElementNS(ns, 'path');
-    tri.setAttribute('d', `M ${x+8} ${y+3} L ${x+18} ${y+3} L ${x+13} ${y+12} Z`);
-    tri.setAttribute('fill', '#C43040');
-    tri.setAttribute('stroke', '#FBE8EB');
-    tri.setAttribute('stroke-width', '0.8');
-    const exclam = document.createElementNS(ns, 'text');
-    exclam.setAttribute('x', x+13);
-    exclam.setAttribute('y', y+11);
-    exclam.setAttribute('text-anchor', 'middle');
-    exclam.setAttribute('font-family', "'DM Sans',sans-serif");
-    exclam.setAttribute('font-size', '7');
-    exclam.setAttribute('font-weight', '700');
-    exclam.setAttribute('fill', '#FBE8EB');
-    exclam.textContent = '!';
-    g.appendChild(tri);
-    g.appendChild(exclam);
-    n.appendChild(g);
+  ALL_NODES.forEach(node => {
+    const match = node.code.toLowerCase().includes(term) || node.name.toLowerCase().includes(term);
+    if (!match) return;
+    if (node.type === 'process') {
+      const card = document.getElementById('proc-' + node.code);
+      if (card) {
+        card.classList.remove('hidden');
+        const band = card.closest('.domain-band');
+        if (band) band.classList.remove('hidden');
+        card.classList.add('open');
+        const sw = card.querySelector('.subproc-wrap');
+        if (sw) sw.style.display = '';
+        card.querySelectorAll('.subproc-chip').forEach(c => c.classList.remove('hidden'));
+      }
+    } else {
+      const chip = document.getElementById('sp-' + node.code);
+      if (chip) {
+        chip.classList.remove('hidden');
+        const card = chip.closest('.process-card');
+        if (card) {
+          card.classList.remove('hidden');
+          card.classList.add('open');
+          const sw = card.querySelector('.subproc-wrap');
+          if (sw) sw.style.display = '';
+        }
+        const band = chip.closest('.domain-band');
+        if (band) band.classList.remove('hidden');
+      }
+    }
   });
 }
 
-function renderCoverageBanner() {
-  const uncovered = ALL_CODES.filter(c => !ALLOCATIONS[c] || ALLOCATIONS[c].length === 0);
-  const banner = document.getElementById('coverage-banner');
-  if (uncovered.length === 0) {
-    banner.className = 'coverage-banner ok';
-    banner.innerHTML = `
-      <svg class="coverage-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 9L8 11.5L12.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Couverture complète : chaque processus dispose d'au moins une personne allouée.</span>`;
-  } else {
-    banner.className = 'coverage-banner warn';
-    banner.innerHTML = `
-      <svg class="coverage-icon" viewBox="0 0 18 18" fill="none"><path d="M9 1.5L17 15.5H1L9 1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><line x1="9" y1="6.5" x2="9" y2="10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="9" cy="13" r="0.9" fill="currentColor"/></svg>
-      <span><strong>${uncovered.length} processus</strong> sans personne allouée : ${uncovered.join(', ')}.</span>`;
-  }
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closePanel();
-  if (e.key === 'ArrowRight' && currentCode) navigate(1);
-  if (e.key === 'ArrowLeft' && currentCode) navigate(-1);
-});
+buildDiagram();
 </script>
 </body>
 </html>
