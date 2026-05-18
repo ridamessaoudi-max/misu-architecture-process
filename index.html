@@ -191,6 +191,8 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 
 .assign-group-body{display:flex;flex-direction:column;gap:3px;padding:4px 18px 10px}
 .assign-group-body.collapsed{display:none}
+.btn-collapse-all{padding:5px 12px;background:transparent;border:1px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .12s;white-space:nowrap;flex-shrink:0}
+.btn-collapse-all:hover{background:var(--surface);border-color:var(--text-muted);color:var(--text)}
 
 .assign-row{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:6px;font-size:12px;transition:background .12s}
 .assign-row.clickable{cursor:pointer}
@@ -336,7 +338,10 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
     <div class="view" id="view-ressources">
       <div class="resources-view">
         <div class="res-intro">
-          <h1>Ressources</h1>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:6px">
+            <h1 style="margin-bottom:0">Ressources</h1>
+            <button class="btn-collapse-all" id="btn-collapse-all" onclick="toggleAllDomains()">Tout replier</button>
+          </div>
           <p>Assignations par collaborateur. Une ressource peut appartenir à plusieurs fonctions.</p>
         </div>
         <div id="person-grid-wrap"></div>
@@ -392,6 +397,7 @@ const ROLES_KEY  = 'misu_roles_v1';
 
 // ── STATE ─────────────────────────────────────────────────
 let ALLOCS = {};
+let allCollapsed = false;
 let CUSTOM_PEOPLE = [];
 let PEOPLE_ROLES  = {};
 let PEOPLE = [];
@@ -582,7 +588,7 @@ const DOMAINS = [
           {code:'C1.4',name:'Nettoyer local',tasks:[]}]},
       {code:'C2',name:'Assurer la traçabilité',subProcesses:[]},
       {code:'C3',name:'Améliorer en continu',subProcesses:[]}
-    ]]}
+    ]}
 ];
 
 const ALL_NODES=[];
@@ -797,6 +803,11 @@ function renderResourcesView(){
   const addCard=document.createElement('div');addCard.className='person-card-add';addCard.onclick=openAddModal;
   addCard.innerHTML='<div class="person-card-add-icon">+</div><div class="person-card-add-label">Ajouter une ressource</div>';
   addGrid.appendChild(addCard);wrap.appendChild(addGrid);
+
+  if(allCollapsed){
+    wrap.querySelectorAll('.assign-group-header').forEach(h=>h.classList.add('collapsed'));
+    wrap.querySelectorAll('.assign-group-body').forEach(b=>b.classList.add('collapsed'));
+  }
 }
 
 function appendSectionHeader(wrap,label,roleColors){
@@ -988,6 +999,14 @@ function doSearch(q){
       if(chip){ chip.classList.remove('hidden');chip.closest('.process-card')?.classList.remove('hidden');chip.closest('.domain-band')?.classList.remove('hidden'); }
     }
   });
+}
+
+function toggleAllDomains(){
+  allCollapsed=!allCollapsed;
+  document.querySelectorAll('.assign-group-header').forEach(h=>h.classList.toggle('collapsed',allCollapsed));
+  document.querySelectorAll('.assign-group-body').forEach(b=>b.classList.toggle('collapsed',allCollapsed));
+  const btn=document.getElementById('btn-collapse-all');
+  if(btn) btn.textContent=allCollapsed?'Tout déplier':'Tout replier';
 }
 
 // ── INIT ─────────────────────────────────────────────────
