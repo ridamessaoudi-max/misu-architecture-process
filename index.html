@@ -116,7 +116,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .avatar-btn.ia-btn.assigned{border-style:dashed}
 
 /* TASK LIST */
-.tasks-section{}
 .task-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);margin-bottom:5px}
 .task-code{font-size:10px;font-weight:600;color:var(--text-muted);white-space:nowrap;min-width:48px}
 .task-name{font-size:12px;color:var(--text);line-height:1.4;flex:1}
@@ -127,7 +126,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .mini-av.ia-mini{border-radius:5px}
 
 /* SP LIST */
-.sp-list-section{}
 .sp-list-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);margin-bottom:5px;cursor:pointer;transition:background .12s}
 .sp-list-item:hover{background:#eeeae4}
 .sp-item-code{font-size:11px;font-weight:600;color:var(--text-muted);min-width:44px;padding-top:1px}
@@ -139,14 +137,10 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .res-intro{margin-bottom:28px}
 .res-intro h1{font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;margin-bottom:6px}
 .res-intro p{font-size:13px;color:var(--text-muted);line-height:1.6}
-.res-section{margin-bottom:8px}
 .res-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;margin-top:28px}
 .res-section-header:first-child{margin-top:0}
-.res-section-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-hint);font-weight:600}
-.res-section-label.role-label{display:flex;align-items:center;gap:6px}
-.role-label-dot{width:7px;height:7px;border-radius:50%}
-.btn-add-resource{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .12s}
-.btn-add-resource:hover{border-color:var(--text-muted);color:var(--text);background:var(--bg)}
+.res-section-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-hint);font-weight:600;display:flex;align-items:center;gap:6px}
+.role-label-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .person-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 
 /* PERSON CARD */
@@ -187,10 +181,13 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .assign-type{font-size:9px;color:var(--text-hint);flex-shrink:0}
 .assign-name{color:var(--text);line-height:1.3;flex:1}
 
+/* SECTION EMPTY NOTE */
+.section-empty-note{font-size:12px;color:var(--text-hint);font-style:italic;padding:4px 2px}
+
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--surface);border-radius:16px;width:380px;overflow:hidden;box-shadow:0 16px 60px rgba(0,0,0,.2);transform:translateY(10px);transition:transform .2s}
+.modal{background:var(--surface);border-radius:16px;width:400px;overflow:hidden;box-shadow:0 16px 60px rgba(0,0,0,.2);transform:translateY(10px);transition:transform .2s}
 .modal-overlay.open .modal{transform:translateY(0)}
 .modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;border-bottom:1px solid var(--border)}
 .modal-title{font-size:16px;font-weight:600}
@@ -201,6 +198,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .form-label{font-size:10px;text-transform:uppercase;letter-spacing:.7px;font-weight:600;color:var(--text-muted)}
 .form-input{border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;background:var(--bg);width:100%;transition:border-color .12s}
 .form-input:focus{border-color:var(--text-muted);background:var(--surface)}
+.form-hint{font-size:10px;color:var(--text-hint);margin-top:2px}
 .modal-role-pills{display:flex;gap:6px;flex-wrap:wrap}
 .modal-role-pill{padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .12s}
 .modal-role-pill:hover{border-color:var(--text-muted);color:var(--text)}
@@ -240,9 +238,9 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
         <span class="form-error" id="error-name">Veuillez renseigner au moins un prénom ou un nom.</span>
       </div>
       <div class="form-field">
-        <label class="form-label">Fonction</label>
+        <label class="form-label">Fonctions <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-hint)">(plusieurs possibles)</span></label>
         <div class="modal-role-pills" id="modal-role-pills"></div>
-        <span class="form-error" id="error-role">Veuillez sélectionner une fonction.</span>
+        <span class="form-error" id="error-role">Veuillez sélectionner au moins une fonction.</span>
       </div>
     </div>
     <div class="modal-footer">
@@ -321,7 +319,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
       <div class="resources-view">
         <div class="res-intro">
           <h1>Ressources</h1>
-          <p>Assignations par collaborateur. Cliquez sur une fonction pour catégoriser une ressource.</p>
+          <p>Assignations par collaborateur. Une ressource peut appartenir à plusieurs fonctions.</p>
         </div>
         <div id="person-grid-wrap"></div>
       </div>
@@ -343,10 +341,11 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 
 <script>
 // ── CONSTANTS ─────────────────────────────────────────────
-const ROLES = ['Direction', 'Administration', 'Production', 'Livraison'];
+const ROLES = ['Direction', 'Administration', 'Finances', 'Production', 'Livraison'];
 const ROLE_COLORS = {
   'Direction':      {color:'#1B3A7A', bg:'#E8EEFA'},
   'Administration': {color:'#7A3D10', bg:'#FEF0E2'},
+  'Finances':       {color:'#0E7490', bg:'#E0F2FE'},
   'Production':     {color:'#1A5C3E', bg:'#E4F5EC'},
   'Livraison':      {color:'#82192A', bg:'#FBE8EB'},
 };
@@ -376,32 +375,41 @@ const ROLES_KEY  = 'misu_roles_v1';
 // ── STATE ─────────────────────────────────────────────────
 let ALLOCS = {};
 let CUSTOM_PEOPLE = [];
-let PEOPLE_ROLES  = {};
+let PEOPLE_ROLES  = {}; // { id: [role, ...] }
 let PEOPLE = [];
 
-// ── PEOPLE LOAD/SAVE ──────────────────────────────────────
+// ── PEOPLE LOAD / SAVE ────────────────────────────────────
 function loadPeople(){
   try{ CUSTOM_PEOPLE = JSON.parse(localStorage.getItem(PEOPLE_KEY)||'[]'); }catch(e){ CUSTOM_PEOPLE=[]; }
   try{ PEOPLE_ROLES  = JSON.parse(localStorage.getItem(ROLES_KEY)||'{}');  }catch(e){ PEOPLE_ROLES={}; }
-  PEOPLE = [...BASE_PEOPLE, ...CUSTOM_PEOPLE].map(p=>({...p, role: PEOPLE_ROLES[p.id]||null}));
+  // migrate: single-string role → array
+  Object.keys(PEOPLE_ROLES).forEach(id=>{
+    if(typeof PEOPLE_ROLES[id]==='string')
+      PEOPLE_ROLES[id] = PEOPLE_ROLES[id] ? [PEOPLE_ROLES[id]] : [];
+  });
+  PEOPLE = [...BASE_PEOPLE, ...CUSTOM_PEOPLE].map(p=>({
+    ...p, roles: Array.isArray(PEOPLE_ROLES[p.id]) ? PEOPLE_ROLES[p.id] : []
+  }));
 }
 function savePeople(){
   localStorage.setItem(PEOPLE_KEY, JSON.stringify(CUSTOM_PEOPLE));
   localStorage.setItem(ROLES_KEY,  JSON.stringify(PEOPLE_ROLES));
 }
-function addPerson(firstName, lastName, role){
-  const id  = 'p_'+Date.now();
-  const name = [firstName, lastName].filter(Boolean).join(' ');
-  const ini  = ((firstName[0]||'')+(lastName[0]||'')).toUpperCase() || name[0].toUpperCase();
-  const {color, bg} = COLOR_PALETTE[(5 + CUSTOM_PEOPLE.length) % COLOR_PALETTE.length];
-  CUSTOM_PEOPLE.push({id, name, ini, color, bg});
-  PEOPLE_ROLES[id] = role;
+function togglePersonRole(personId, role){
+  if(!Array.isArray(PEOPLE_ROLES[personId])) PEOPLE_ROLES[personId]=[];
+  const idx = PEOPLE_ROLES[personId].indexOf(role);
+  if(idx>=0) PEOPLE_ROLES[personId].splice(idx,1);
+  else PEOPLE_ROLES[personId].push(role);
   savePeople();
   loadPeople();
 }
-function setPersonRole(personId, role){
-  if(role === null) delete PEOPLE_ROLES[personId];
-  else PEOPLE_ROLES[personId] = role;
+function addPerson(firstName, lastName, roles){
+  const id   = 'p_'+Date.now();
+  const name = [firstName, lastName].filter(Boolean).join(' ');
+  const ini  = ((firstName[0]||'')+(lastName[0]||'')).toUpperCase() || name[0].toUpperCase();
+  const {color,bg} = COLOR_PALETTE[(5+CUSTOM_PEOPLE.length)%COLOR_PALETTE.length];
+  CUSTOM_PEOPLE.push({id,name,ini,color,bg});
+  PEOPLE_ROLES[id] = roles;
   savePeople();
   loadPeople();
 }
@@ -411,7 +419,7 @@ function loadAllocs(){ try{ ALLOCS=JSON.parse(localStorage.getItem(STORE_KEY)||'
 function saveAllocs(){ localStorage.setItem(STORE_KEY, JSON.stringify(ALLOCS)); }
 function getAssigned(code){ return ALLOCS[code]||[]; }
 function isAssigned(code,pid){ return getAssigned(code).includes(pid); }
-function toggleAlloc(code, pid){
+function toggleAlloc(code,pid){
   if(!ALLOCS[code]) ALLOCS[code]=[];
   const i=ALLOCS[code].indexOf(pid);
   if(i>=0) ALLOCS[code].splice(i,1); else ALLOCS[code].push(pid);
@@ -422,10 +430,10 @@ function toggleAlloc(code, pid){
 }
 function refreshAllocUI(code){
   document.querySelectorAll('.avatar-btn[data-code="'+code+'"]').forEach(btn=>{
-    btn.classList.toggle('assigned', isAssigned(code, btn.dataset.pid));
+    btn.classList.toggle('assigned',isAssigned(code,btn.dataset.pid));
   });
   document.querySelectorAll('.mini-av[data-code="'+code+'"]').forEach(btn=>{
-    btn.classList.toggle('assigned', isAssigned(code, btn.dataset.pid));
+    btn.classList.toggle('assigned',isAssigned(code,btn.dataset.pid));
   });
 }
 function refreshDiagramDots(code){
@@ -434,10 +442,10 @@ function refreshDiagramDots(code){
     if(el){ el.innerHTML=''; renderDots(code,el); }
   });
 }
-function renderDots(code, container){
+function renderDots(code,container){
   getAssigned(code).forEach(pid=>{
-    const isIA = pid==='ia';
-    const p = isIA ? AGENT_IA : PEOPLE.find(x=>x.id===pid);
+    const isIA=pid==='ia';
+    const p=isIA?AGENT_IA:PEOPLE.find(x=>x.id===pid);
     if(!p) return;
     const d=document.createElement('span');
     d.className='proc-dot'+(isIA?' ia-dot':'');
@@ -575,9 +583,7 @@ function buildNodes(){
       ALL_NODES.push({code:proc.code,name:proc.name,type:'process',domain:dom,proc});
       proc.subProcesses.forEach(sp=>{
         ALL_NODES.push({code:sp.code,name:sp.name,type:'subProcess',domain:dom,process:proc,tasks:sp.tasks});
-        sp.tasks.forEach(t=>{
-          ALL_NODES.push({code:t.code,name:t.name,type:'task',domain:dom,process:proc,subProcess:sp});
-        });
+        sp.tasks.forEach(t=>ALL_NODES.push({code:t.code,name:t.name,type:'task',domain:dom,process:proc,subProcess:sp}));
       });
     });
   });
@@ -620,36 +626,29 @@ function buildDiagram(){
       rowEl.className='process-row';
       row.forEach(proc=>{
         const card=document.createElement('div');
-        card.className='process-card';
-        card.id='proc-'+proc.code;
+        card.className='process-card';card.id='proc-'+proc.code;
         const hd=document.createElement('div');
         hd.className='process-header';
         const dotsEl=document.createElement('span');
-        dotsEl.className='proc-dots';
-        dotsEl.id='dots-'+proc.code;
+        dotsEl.className='proc-dots';dotsEl.id='dots-'+proc.code;
         renderDots(proc.code,dotsEl);
         hd.innerHTML='<span class="process-code-badge" style="background:'+dom.light+';color:'+dom.dark+'">'+proc.code+'</span><span class="process-name">'+proc.name+'</span>';
         hd.appendChild(dotsEl);
         hd.addEventListener('click',()=>openNodePanel(proc.code));
         card.appendChild(hd);
         if(proc.subProcesses.length){
-          const spw=document.createElement('div');
-          spw.className='subproc-wrap';
+          const spw=document.createElement('div');spw.className='subproc-wrap';
           proc.subProcesses.forEach(sp=>{
             const chip=document.createElement('span');
-            chip.className='subproc-chip';
-            chip.id='sp-'+sp.code;
+            chip.className='subproc-chip';chip.id='sp-'+sp.code;
             chip.style.cssText='background:'+dom.light+';color:'+dom.dark+';--chip-accent:'+dom.mid;
             const chipDots=document.createElement('span');
-            chipDots.className='chip-dots';
-            chipDots.id='chipdots-'+sp.code;
+            chipDots.className='chip-dots';chipDots.id='chipdots-'+sp.code;
             renderDots(sp.code,chipDots);
             chip.innerHTML='<span class="chip-code">'+sp.code+'</span><span class="chip-name">'+sp.name+'</span>';
-            const meta=document.createElement('div');
-            meta.className='chip-meta';
+            const meta=document.createElement('div');meta.className='chip-meta';
             if(sp.tasks.length){ const t=document.createElement('span');t.className='chip-tasks';t.textContent='('+sp.tasks.length+' tâches)';meta.appendChild(t); }
-            meta.appendChild(chipDots);
-            chip.appendChild(meta);
+            meta.appendChild(chipDots);chip.appendChild(meta);
             chip.addEventListener('click',e=>{e.stopPropagation();openNodePanel(sp.code);});
             spw.appendChild(chip);
           });
@@ -659,16 +658,14 @@ function buildDiagram(){
       });
       body.appendChild(rowEl);
     });
-    band.appendChild(body);
-    wrap.appendChild(band);
+    band.appendChild(body);wrap.appendChild(band);
   });
 }
 
 // ── PANEL ────────────────────────────────────────────────
 let currentCode=null;
 function openNodePanel(code){
-  const node=findNode(code);
-  if(!node) return;
+  const node=findNode(code);if(!node) return;
   currentCode=code;
   document.querySelectorAll('.subproc-chip.active').forEach(c=>c.classList.remove('active'));
   if(node.type==='subProcess'||node.type==='task'){
@@ -681,17 +678,14 @@ function openNodePanel(code){
   document.getElementById('panel-cat-label').textContent=dom.name;
   document.getElementById('panel-code').textContent=code;
   document.getElementById('panel-name').textContent=node.name;
-  const body=document.getElementById('panel-body');
-  body.innerHTML='';
+  const body=document.getElementById('panel-body');body.innerHTML='';
   if(node.type==='process'){
     const proc=node.proc;
     if(proc.subProcesses.length){
-      const sec=document.createElement('div');
-      sec.className='sp-list-section';
+      const sec=document.createElement('div');sec.className='sp-list-section';
       sec.innerHTML='<div class="section-label">Sous-processus ('+proc.subProcesses.length+')</div>';
       proc.subProcesses.forEach(sp=>{
-        const item=document.createElement('div');
-        item.className='sp-list-item';
+        const item=document.createElement('div');item.className='sp-list-item';
         item.innerHTML='<span class="sp-item-code">'+sp.code+'</span><span class="sp-item-name">'+sp.name+(sp.tasks.length?' <span style="opacity:.4;font-size:10px">('+sp.tasks.length+' tâches)</span>':'')+'</span>';
         item.addEventListener('click',()=>openNodePanel(sp.code));
         sec.appendChild(item);
@@ -701,22 +695,18 @@ function openNodePanel(code){
     body.appendChild(buildAllocSection(code));
   } else if(node.type==='subProcess'){
     if(node.tasks&&node.tasks.length){
-      const sec=document.createElement('div');
-      sec.className='tasks-section';
+      const sec=document.createElement('div');sec.className='tasks-section';
       sec.innerHTML='<div class="section-label">Tâches ('+node.tasks.length+')</div>';
       node.tasks.forEach(t=>{
-        const item=document.createElement('div');
-        item.className='task-item';
+        const item=document.createElement('div');item.className='task-item';
         const codeEl=document.createElement('span');codeEl.className='task-code';codeEl.textContent=t.code;
         const nameEl=document.createElement('span');nameEl.className='task-name';nameEl.textContent=t.name;
-        const miniAlloc=buildMiniAlloc(t.code);
-        item.appendChild(codeEl);item.appendChild(nameEl);item.appendChild(miniAlloc);
+        item.appendChild(codeEl);item.appendChild(nameEl);item.appendChild(buildMiniAlloc(t.code));
         sec.appendChild(item);
       });
       body.appendChild(sec);
     } else {
-      const p=document.createElement('p');p.className='no-items';p.textContent='Aucune tâche détaillée.';
-      body.appendChild(p);
+      const p=document.createElement('p');p.className='no-items';p.textContent='Aucune tâche détaillée.';body.appendChild(p);
     }
     body.appendChild(buildAllocSection(code));
   }
@@ -724,40 +714,27 @@ function openNodePanel(code){
   document.getElementById('panel').classList.add('open');
   document.getElementById('app-inner').classList.add('panel-open');
 }
-
 function buildAllocSection(code){
-  const sec=document.createElement('div');
-  sec.className='alloc-section';
+  const sec=document.createElement('div');sec.className='alloc-section';
   sec.innerHTML='<div class="section-label">Responsables</div>';
-  const row=document.createElement('div');
-  row.className='avatar-row';
+  const row=document.createElement('div');row.className='avatar-row';
   PEOPLE.forEach(p=>row.appendChild(buildAvatarBtn(code,p,false)));
-  const sep=document.createElement('div');
-  sep.className='alloc-separator';
-  row.appendChild(sep);
+  const sep=document.createElement('div');sep.className='alloc-separator';row.appendChild(sep);
   row.appendChild(buildAvatarBtn(code,AGENT_IA,true));
-  sec.appendChild(row);
-  return sec;
+  sec.appendChild(row);return sec;
 }
 function buildAvatarBtn(code,p,isIA){
   const btn=document.createElement('button');
   btn.className='avatar-btn'+(isAssigned(code,p.id)?' assigned':'')+(isIA?' ia-btn':'');
   btn.dataset.code=code;btn.dataset.pid=p.id;
-  btn.style.setProperty('--av-color',p.color);
-  btn.style.setProperty('--av-bg',p.bg);
+  btn.style.setProperty('--av-color',p.color);btn.style.setProperty('--av-bg',p.bg);
   btn.onclick=()=>toggleAlloc(code,p.id);
-  const circle=document.createElement('div');
-  circle.className='avatar-circle';
-  circle.textContent=p.ini;
-  const label=document.createElement('span');
-  label.className='avatar-label';
-  label.textContent=p.name;
-  btn.appendChild(circle);btn.appendChild(label);
-  return btn;
+  const circle=document.createElement('div');circle.className='avatar-circle';circle.textContent=p.ini;
+  const label=document.createElement('span');label.className='avatar-label';label.textContent=p.name;
+  btn.appendChild(circle);btn.appendChild(label);return btn;
 }
 function buildMiniAlloc(code){
-  const wrap=document.createElement('div');
-  wrap.className='task-alloc';
+  const wrap=document.createElement('div');wrap.className='task-alloc';
   PEOPLE.forEach(p=>wrap.appendChild(buildMiniBtn(code,p,false)));
   wrap.appendChild(buildMiniBtn(code,AGENT_IA,true));
   return wrap;
@@ -766,8 +743,7 @@ function buildMiniBtn(code,p,isIA){
   const btn=document.createElement('button');
   btn.className='mini-av'+(isAssigned(code,p.id)?' assigned':'')+(isIA?' ia-mini':'');
   btn.dataset.code=code;btn.dataset.pid=p.id;
-  btn.style.setProperty('--av-color',p.color);
-  btn.style.setProperty('--av-bg',p.bg);
+  btn.style.setProperty('--av-color',p.color);btn.style.setProperty('--av-bg',p.bg);
   btn.title=p.name;btn.textContent=p.ini;
   btn.onclick=e=>{e.stopPropagation();toggleAlloc(code,p.id);};
   return btn;
@@ -787,8 +763,7 @@ function updateNavButtons(){
 function navPanel(dir){
   const nodes=ALL_NODES.filter(n=>n.type!=='task');
   const idx=nodes.findIndex(n=>n.code===currentCode);
-  const next=nodes[idx+dir];
-  if(next) openNodePanel(next.code);
+  const next=nodes[idx+dir];if(next) openNodePanel(next.code);
 }
 
 // ── RESOURCES VIEW ────────────────────────────────────────
@@ -797,154 +772,109 @@ function renderResourcesView(){
   wrap.innerHTML='';
 
   // Agent IA
-  const iaHdr=buildSectionHeader('Automatisation IA', null, false);
-  wrap.appendChild(iaHdr);
-  const iaGrid=document.createElement('div');
-  iaGrid.className='person-grid';
+  appendSectionHeader(wrap,'Automatisation IA',null);
+  const iaGrid=document.createElement('div');iaGrid.className='person-grid';
   iaGrid.appendChild(buildPersonCard(AGENT_IA,true));
   wrap.appendChild(iaGrid);
 
-  // Group human people by role
+  // Group humans: person can appear in multiple role sections
   const grouped={};
+  ROLES.forEach(r=>grouped[r]=[]);
   const noRole=[];
   PEOPLE.forEach(p=>{
-    if(p.role){ (grouped[p.role]=grouped[p.role]||[]).push(p); }
-    else noRole.push(p);
+    if(!p.roles||p.roles.length===0){ noRole.push(p); return; }
+    p.roles.forEach(r=>{ if(grouped[r]) grouped[r].push(p); });
   });
 
-  // Render role sections in fixed order
   ROLES.forEach(role=>{
-    const members=grouped[role]||[];
     const rc=ROLE_COLORS[role];
-    const hdr=buildSectionHeader(role, rc, true);
-    wrap.appendChild(hdr);
-    const grid=document.createElement('div');
-    grid.className='person-grid';
-    members.forEach(p=>grid.appendChild(buildPersonCard(p,false)));
-    // Add card always visible in each section for discoverability
-    if(members.length===0){
-      const empty=document.createElement('div');
-      empty.style.cssText='font-size:12px;color:var(--text-hint);font-style:italic;padding:4px 2px';
-      empty.textContent='Aucune ressource dans cette fonction.';
-      grid.appendChild(empty);
+    appendSectionHeader(wrap,role,rc);
+    const grid=document.createElement('div');grid.className='person-grid';
+    if(grouped[role].length===0){
+      const note=document.createElement('p');note.className='section-empty-note';
+      note.textContent='Aucune ressource dans cette fonction.';
+      grid.appendChild(note);
+    } else {
+      grouped[role].forEach(p=>grid.appendChild(buildPersonCard(p,false)));
     }
     wrap.appendChild(grid);
   });
 
-  // Sans fonction
   if(noRole.length){
-    const hdr=buildSectionHeader('Sans fonction', null, false);
-    wrap.appendChild(hdr);
-    const grid=document.createElement('div');
-    grid.className='person-grid';
+    appendSectionHeader(wrap,'Sans fonction',null);
+    const grid=document.createElement('div');grid.className='person-grid';
     noRole.forEach(p=>grid.appendChild(buildPersonCard(p,false)));
     wrap.appendChild(grid);
   }
 
-  // Add person card — always at bottom
-  const addHdr=document.createElement('div');
-  addHdr.style.height='20px';
-  wrap.appendChild(addHdr);
-  const addGrid=document.createElement('div');
-  addGrid.className='person-grid';
-  const addCard=document.createElement('div');
-  addCard.className='person-card-add';
-  addCard.onclick=openAddModal;
+  // Add card
+  const spacer=document.createElement('div');spacer.style.height='20px';wrap.appendChild(spacer);
+  const addGrid=document.createElement('div');addGrid.className='person-grid';
+  const addCard=document.createElement('div');addCard.className='person-card-add';addCard.onclick=openAddModal;
   addCard.innerHTML='<div class="person-card-add-icon">+</div><div class="person-card-add-label">Ajouter une ressource</div>';
-  addGrid.appendChild(addCard);
-  wrap.appendChild(addGrid);
+  addGrid.appendChild(addCard);wrap.appendChild(addGrid);
 }
 
-function buildSectionHeader(label, roleColors, showAddBtn){
-  const hdr=document.createElement('div');
-  hdr.className='res-section-header';
-  const lbl=document.createElement('div');
-  lbl.className='res-section-label'+(roleColors?' role-label':'');
+function appendSectionHeader(wrap,label,roleColors){
+  const hdr=document.createElement('div');hdr.className='res-section-header';
+  const lbl=document.createElement('div');lbl.className='res-section-label';
   if(roleColors){
-    const dot=document.createElement('span');
-    dot.className='role-label-dot';
-    dot.style.background=roleColors.color;
-    lbl.appendChild(dot);
-    lbl.appendChild(document.createTextNode(label));
-  } else {
-    lbl.textContent=label;
-  }
-  hdr.appendChild(lbl);
-  if(showAddBtn===true){
-    // no per-section add btn — one global add card is enough
-  }
-  return hdr;
+    const dot=document.createElement('span');dot.className='role-label-dot';dot.style.background=roleColors.color;
+    lbl.appendChild(dot);lbl.appendChild(document.createTextNode(label));
+  } else { lbl.textContent=label; }
+  hdr.appendChild(lbl);wrap.appendChild(hdr);
 }
 
-function buildPersonCard(p, isIA){
+function buildPersonCard(p,isIA){
   const items=collectAssignments(p.id);
   const counts={process:0,subProcess:0,task:0};
   items.forEach(i=>counts[i.type]=(counts[i.type]||0)+1);
 
-  const card=document.createElement('div');
-  card.className='person-card'+(isIA?' ia-card':'');
+  const card=document.createElement('div');card.className='person-card'+(isIA?' ia-card':'');
 
   // Header
-  const cardHdr=document.createElement('div');
-  cardHdr.className='person-card-header';
+  const cardHdr=document.createElement('div');cardHdr.className='person-card-header';
   const avEl=document.createElement('div');
   avEl.className='person-av-lg'+(isIA?' ia-av':'');
   avEl.style.cssText='background:'+p.bg+';color:'+p.color;
   avEl.textContent=p.ini;
-  const infoEl=document.createElement('div');
-  infoEl.className='person-info';
-  const nameEl=document.createElement('div');
-  nameEl.className='person-name';
-  nameEl.textContent=p.name;
+  const infoEl=document.createElement('div');infoEl.className='person-info';
+  const nameEl=document.createElement('div');nameEl.className='person-name';nameEl.textContent=p.name;
   infoEl.appendChild(nameEl);
   if(isIA){
-    const badge=document.createElement('div');
-    badge.className='ia-badge';
-    badge.textContent='Automatisation';
+    const badge=document.createElement('div');badge.className='ia-badge';badge.textContent='Automatisation';
     infoEl.appendChild(badge);
   } else {
-    const stats=document.createElement('div');
-    stats.className='person-stats';
+    const stats=document.createElement('div');stats.className='person-stats';
     stats.textContent=buildStats(counts)||'Aucune allocation';
     infoEl.appendChild(stats);
   }
-  cardHdr.appendChild(avEl);
-  cardHdr.appendChild(infoEl);
-  card.appendChild(cardHdr);
+  cardHdr.appendChild(avEl);cardHdr.appendChild(infoEl);card.appendChild(cardHdr);
 
-  // Role selector (humans only)
+  // Multi-role selector (humans only)
   if(!isIA){
-    const roleRow=document.createElement('div');
-    roleRow.className='role-selector-row';
+    const roleRow=document.createElement('div');roleRow.className='role-selector-row';
     ROLES.forEach(role=>{
       const rc=ROLE_COLORS[role];
+      const isActive=p.roles&&p.roles.includes(role);
       const pill=document.createElement('button');
-      pill.className='role-pill'+(p.role===role?' active':'');
-      if(p.role===role){
-        pill.style.setProperty('--rp-color',rc.color);
-        pill.style.setProperty('--rp-bg',rc.bg);
-      }
+      pill.className='role-pill'+(isActive?' active':'');
+      if(isActive){ pill.style.setProperty('--rp-color',rc.color);pill.style.setProperty('--rp-bg',rc.bg); }
       pill.textContent=role;
-      pill.onclick=()=>{
-        setPersonRole(p.id, p.role===role ? null : role);
-        renderResourcesView();
-      };
+      pill.onclick=()=>{ togglePersonRole(p.id,role); renderResourcesView(); };
       roleRow.appendChild(pill);
     });
     card.appendChild(roleRow);
   }
 
   // Assignments
-  const asgn=document.createElement('div');
-  asgn.className='person-assignments';
+  const asgn=document.createElement('div');asgn.className='person-assignments';
   if(items.length===0){
     asgn.innerHTML='<div class="assign-empty">'+(isIA?'Aucun élément marqué comme automatisable.':'Aucune allocation')+'</div>';
   } else {
     if(isIA){
-      const s=document.createElement('div');
-      s.style.cssText='font-size:11px;color:var(--text-muted);margin-bottom:8px';
-      s.textContent=buildStats(counts)+' éligibles';
-      asgn.appendChild(s);
+      const s=document.createElement('div');s.style.cssText='font-size:11px;color:var(--text-muted);margin-bottom:8px';
+      s.textContent=buildStats(counts)+' éligibles';asgn.appendChild(s);
     }
     const byDomain={};
     items.forEach(item=>{
@@ -953,30 +883,20 @@ function buildPersonCard(p, isIA){
       byDomain[key].items.push(item);
     });
     Object.values(byDomain).forEach(grp=>{
-      const lbl=document.createElement('div');
-      lbl.className='assign-group-label';
-      lbl.textContent=grp.domain.name;
-      asgn.appendChild(lbl);
+      const lbl=document.createElement('div');lbl.className='assign-group-label';lbl.textContent=grp.domain.name;asgn.appendChild(lbl);
       grp.items.forEach(item=>{
-        const row=document.createElement('div');
-        row.className='assign-row';
+        const row=document.createElement('div');row.className='assign-row';
         const typeLabel={process:'Processus',subProcess:'Sous-proc.',task:'Tâche'}[item.type];
         row.innerHTML='<span class="assign-badge" style="background:'+grp.domain.light+';color:'+grp.domain.dark+'">'+item.code+'</span><span class="assign-type">'+typeLabel+'</span><span class="assign-name">'+item.name+'</span>';
-        if(item.type!=='task'){
-          row.style.cursor='pointer';
-          row.addEventListener('click',()=>{ switchView('processus'); setTimeout(()=>openNodePanel(item.code),50); });
-        }
+        if(item.type!=='task'){ row.style.cursor='pointer'; row.addEventListener('click',()=>{ switchView('processus'); setTimeout(()=>openNodePanel(item.code),50); }); }
         asgn.appendChild(row);
       });
     });
   }
-  card.appendChild(asgn);
-  return card;
+  card.appendChild(asgn);return card;
 }
 
-function collectAssignments(pid){
-  return ALL_NODES.filter(node=>isAssigned(node.code,pid));
-}
+function collectAssignments(pid){ return ALL_NODES.filter(node=>isAssigned(node.code,pid)); }
 function buildStats(counts){
   const parts=[];
   if(counts.process) parts.push(counts.process+' processus');
@@ -986,10 +906,10 @@ function buildStats(counts){
 }
 
 // ── ADD PERSON MODAL ──────────────────────────────────────
-let selectedModalRole=null;
+let selectedModalRoles=[];
 
 function openAddModal(){
-  selectedModalRole=null;
+  selectedModalRoles=[];
   document.getElementById('input-firstname').value='';
   document.getElementById('input-lastname').value='';
   document.getElementById('error-name').style.display='none';
@@ -998,25 +918,23 @@ function openAddModal(){
   document.getElementById('modal-overlay').classList.add('open');
   setTimeout(()=>document.getElementById('input-firstname').focus(),120);
 }
-function closeAddModal(){
-  document.getElementById('modal-overlay').classList.remove('open');
-}
-function handleOverlayClick(e){
-  if(e.target===document.getElementById('modal-overlay')) closeAddModal();
-}
+function closeAddModal(){ document.getElementById('modal-overlay').classList.remove('open'); }
+function handleOverlayClick(e){ if(e.target===document.getElementById('modal-overlay')) closeAddModal(); }
+
 function buildModalRolePills(){
-  const container=document.getElementById('modal-role-pills');
-  container.innerHTML='';
+  const container=document.getElementById('modal-role-pills');container.innerHTML='';
   ROLES.forEach(role=>{
     const rc=ROLE_COLORS[role];
+    const isSelected=selectedModalRoles.includes(role);
     const pill=document.createElement('button');
-    pill.className='modal-role-pill'+(selectedModalRole===role?' selected':'');
-    if(selectedModalRole===role){
-      pill.style.setProperty('--rp-color',rc.color);
-      pill.style.setProperty('--rp-bg',rc.bg);
-    }
+    pill.className='modal-role-pill'+(isSelected?' selected':'');
+    if(isSelected){ pill.style.setProperty('--rp-color',rc.color);pill.style.setProperty('--rp-bg',rc.bg); }
     pill.textContent=role;
-    pill.onclick=()=>{ selectedModalRole=role; buildModalRolePills(); };
+    pill.onclick=()=>{
+      const idx=selectedModalRoles.indexOf(role);
+      if(idx>=0) selectedModalRoles.splice(idx,1); else selectedModalRoles.push(role);
+      buildModalRolePills();
+    };
     container.appendChild(pill);
   });
 }
@@ -1026,12 +944,11 @@ function submitAddPerson(){
   const errName=document.getElementById('error-name');
   const errRole=document.getElementById('error-role');
   let valid=true;
-  errName.style.display='none';
-  errRole.style.display='none';
+  errName.style.display='none';errRole.style.display='none';
   if(!first&&!last){ errName.style.display='block'; valid=false; }
-  if(!selectedModalRole){ errRole.style.display='block'; valid=false; }
+  if(selectedModalRoles.length===0){ errRole.style.display='block'; valid=false; }
   if(!valid) return;
-  addPerson(first, last, selectedModalRole);
+  addPerson(first,last,[...selectedModalRoles]);
   closeAddModal();
   renderResourcesView();
 }
