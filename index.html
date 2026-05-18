@@ -66,10 +66,9 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .process-header:hover{background:#f5f3ef}
 .process-code-badge{font-size:10px;font-weight:600;letter-spacing:.5px;padding:3px 8px;border-radius:20px;white-space:nowrap}
 .process-name{font-size:13px;font-weight:500;flex:1}
-/* alloc dots on diagram */
 .proc-dots{display:flex;gap:3px;flex-shrink:0}
 .proc-dot{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--surface)}
-.proc-dot.ia-dot{border-radius:3px;background:var(--ia-color) !important;border-color:var(--ia-border)}
+.proc-dot.ia-dot{border-radius:3px}
 .subproc-wrap{padding:8px 10px 10px;display:flex;gap:6px}
 .subproc-chip{display:flex;flex-direction:column;gap:2px;padding:8px 10px;border-radius:7px;font-size:12px;cursor:pointer;border:1px solid transparent;transition:all .15s;flex:1;min-width:0}
 .subproc-chip:hover{filter:brightness(.95);transform:translateY(-1px)}
@@ -80,7 +79,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .chip-tasks{font-size:10px;opacity:.55;white-space:nowrap}
 .chip-dots{display:flex;gap:2px}
 .chip-dot{width:6px;height:6px;border-radius:50%;border:1px solid var(--surface)}
-.chip-dot.ia-dot{border-radius:2px;background:var(--ia-color) !important;border-color:var(--ia-border)}
+.chip-dot.ia-dot{border-radius:2px}
 
 /* PANEL */
 .panel{position:absolute;top:0;right:0;width:var(--panel-w);height:100%;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:90;box-shadow:var(--shadow-lg)}
@@ -101,7 +100,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 /* SECTION LABEL */
 .section-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);font-weight:600;margin-bottom:10px}
 
-/* ALLOCATION — large avatars (panel level) */
+/* ALLOCATION */
 .alloc-section{}
 .avatar-row{display:flex;gap:8px;flex-wrap:wrap}
 .alloc-separator{width:100%;height:1px;background:var(--border);margin:4px 0}
@@ -111,8 +110,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .avatar-btn.assigned .avatar-circle{background:rgba(255,255,255,.25);color:#fff}
 .avatar-btn.assigned .avatar-label{color:#fff}
 .avatar-circle{width:36px;height:36px;border-radius:50%;background:var(--av-bg);color:var(--av-color);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;transition:background .15s,color .15s}
-.avatar-label{font-size:10px;font-weight:500;color:var(--text-muted);white-space:nowrap;transition:color .15s}
-/* Agent IA avatar specifics */
+.avatar-label{font-size:10px;font-weight:500;color:var(--text-muted);white-space:nowrap;overflow:hidden;max-width:56px;text-overflow:ellipsis;transition:color .15s}
 .avatar-btn.ia-btn .avatar-circle{border-radius:8px}
 .avatar-btn.ia-btn{border-style:dashed}
 .avatar-btn.ia-btn.assigned{border-style:dashed}
@@ -122,7 +120,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .task-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);margin-bottom:5px}
 .task-code{font-size:10px;font-weight:600;color:var(--text-muted);white-space:nowrap;min-width:48px}
 .task-name{font-size:12px;color:var(--text);line-height:1.4;flex:1}
-/* mini avatars on tasks */
 .task-alloc{display:flex;gap:3px;flex-shrink:0}
 .mini-av{width:22px;height:22px;border-radius:50%;background:var(--av-bg);color:var(--av-color);border:1.5px solid var(--av-bg);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;cursor:pointer;transition:all .12s;flex-shrink:0}
 .mini-av:hover{transform:scale(1.15);border-color:var(--av-color)}
@@ -139,26 +136,47 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 
 /* RESOURCES VIEW */
 .resources-view{flex:1;overflow-y:auto;padding:32px 40px}
-.res-intro{margin-bottom:24px}
+.res-intro{margin-bottom:28px}
 .res-intro h1{font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;margin-bottom:6px}
 .res-intro p{font-size:13px;color:var(--text-muted);line-height:1.6}
-.res-section-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-hint);font-weight:600;margin-bottom:12px;margin-top:28px}
-.res-section-label:first-child{margin-top:0}
-.person-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:8px}
+.res-section{margin-bottom:8px}
+.res-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;margin-top:28px}
+.res-section-header:first-child{margin-top:0}
+.res-section-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-hint);font-weight:600}
+.res-section-label.role-label{display:flex;align-items:center;gap:6px}
+.role-label-dot{width:7px;height:7px;border-radius:50%}
+.btn-add-resource{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .12s}
+.btn-add-resource:hover{border-color:var(--text-muted);color:var(--text);background:var(--bg)}
+.person-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+
+/* PERSON CARD */
 .person-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;transition:box-shadow .15s}
 .person-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08)}
-/* Agent IA card */
 .person-card.ia-card{border-color:var(--ia-border);border-style:dashed;background:var(--ia-bg)}
 .person-card.ia-card:hover{box-shadow:0 4px 20px rgba(8,145,178,.12)}
 .ia-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;background:var(--ia-color);color:#fff;margin-top:4px}
-.person-card-header{display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid var(--border)}
-.ia-card .person-card-header{border-bottom-color:var(--ia-border)}
+.person-card-header{display:flex;align-items:center;gap:14px;padding:16px 18px 12px}
+.ia-card .person-card-header{border-bottom:1px solid var(--ia-border);padding-bottom:12px}
 .person-av-lg{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0}
 .person-av-lg.ia-av{border-radius:12px}
 .person-info{flex:1;min-width:0}
 .person-name{font-size:15px;font-weight:600}
 .person-stats{font-size:11px;color:var(--text-muted);margin-top:2px}
-.person-assignments{padding:12px 18px 16px;display:flex;flex-direction:column;gap:6px}
+
+/* ROLE SELECTOR on card */
+.role-selector-row{display:flex;gap:4px;flex-wrap:wrap;padding:8px 18px 10px;border-bottom:1px solid var(--border)}
+.role-pill{padding:3px 10px;border-radius:10px;border:1px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .12s;white-space:nowrap}
+.role-pill:hover{border-color:var(--text-muted);color:var(--text)}
+.role-pill.active{border-color:var(--rp-color,#888);background:var(--rp-bg,#eee);color:var(--rp-color,#888);font-weight:600}
+
+/* ADD PERSON CARD */
+.person-card-add{border:1.5px dashed var(--border);background:transparent;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:100px;cursor:pointer;transition:all .15s;color:var(--text-hint)}
+.person-card-add:hover{border-color:var(--text-muted);background:var(--surface);color:var(--text-muted)}
+.person-card-add-icon{width:34px;height:34px;border-radius:50%;border:1.5px dashed currentColor;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1}
+.person-card-add-label{font-size:12px;font-weight:500}
+
+/* ASSIGNMENTS */
+.person-assignments{padding:10px 18px 14px;display:flex;flex-direction:column;gap:4px}
 .assign-empty{font-size:12px;color:var(--text-hint);font-style:italic;padding:4px 0}
 .assign-group-label{font-size:9px;text-transform:uppercase;letter-spacing:.7px;font-weight:600;color:var(--text-hint);margin-top:8px;margin-bottom:4px;padding:0 2px}
 .assign-group-label:first-child{margin-top:0}
@@ -169,6 +187,31 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .assign-type{font-size:9px;color:var(--text-hint);flex-shrink:0}
 .assign-name{color:var(--text);line-height:1.3;flex:1}
 
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border-radius:16px;width:380px;overflow:hidden;box-shadow:0 16px 60px rgba(0,0,0,.2);transform:translateY(10px);transition:transform .2s}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;border-bottom:1px solid var(--border)}
+.modal-title{font-size:16px;font-weight:600}
+.modal-close-btn{width:28px;height:28px;background:var(--bg);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);font-size:18px;line-height:1;transition:background .12s}
+.modal-close-btn:hover{background:var(--border)}
+.modal-body{padding:20px;display:flex;flex-direction:column;gap:16px}
+.form-field{display:flex;flex-direction:column;gap:6px}
+.form-label{font-size:10px;text-transform:uppercase;letter-spacing:.7px;font-weight:600;color:var(--text-muted)}
+.form-input{border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;background:var(--bg);width:100%;transition:border-color .12s}
+.form-input:focus{border-color:var(--text-muted);background:var(--surface)}
+.modal-role-pills{display:flex;gap:6px;flex-wrap:wrap}
+.modal-role-pill{padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .12s}
+.modal-role-pill:hover{border-color:var(--text-muted);color:var(--text)}
+.modal-role-pill.selected{font-weight:600;border-color:var(--rp-color);background:var(--rp-bg);color:var(--rp-color)}
+.modal-footer{display:flex;gap:8px;padding:16px 20px;border-top:1px solid var(--border);justify-content:flex-end}
+.btn-cancel{padding:8px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);cursor:pointer;transition:background .12s}
+.btn-cancel:hover{background:var(--border)}
+.btn-primary{padding:8px 16px;background:var(--text);border:1px solid var(--text);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:#fff;cursor:pointer;transition:opacity .12s}
+.btn-primary:hover{opacity:.82}
+.form-error{font-size:11px;color:#C43040;margin-top:2px;display:none}
+
 /* HIDDEN */
 .domain-band.hidden,.process-card.hidden,.subproc-chip.hidden{display:none}
 .process-row:not(:has(.process-card:not(.hidden))){display:none}
@@ -178,6 +221,37 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 </style>
 </head>
 <body>
+
+<!-- ADD PERSON MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Ajouter une ressource</span>
+      <button class="modal-close-btn" onclick="closeAddModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-field">
+        <label class="form-label" for="input-firstname">Prénom</label>
+        <input class="form-input" id="input-firstname" type="text" placeholder="Prénom" autocomplete="off">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="input-lastname">Nom</label>
+        <input class="form-input" id="input-lastname" type="text" placeholder="Nom" autocomplete="off">
+        <span class="form-error" id="error-name">Veuillez renseigner au moins un prénom ou un nom.</span>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Fonction</label>
+        <div class="modal-role-pills" id="modal-role-pills"></div>
+        <span class="form-error" id="error-role">Veuillez sélectionner une fonction.</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeAddModal()">Annuler</button>
+      <button class="btn-primary" onclick="submitAddPerson()">Ajouter</button>
+    </div>
+  </div>
+</div>
+
 <header>
   <button class="sidebar-toggle" onclick="toggleSidebar()">
     <svg viewBox="0 0 18 18" fill="none" width="18" height="18"><rect x="2" y="4" width="14" height="1.5" rx=".75" fill="currentColor"/><rect x="2" y="8.25" width="14" height="1.5" rx=".75" fill="currentColor"/><rect x="2" y="12.5" width="14" height="1.5" rx=".75" fill="currentColor"/></svg>
@@ -247,7 +321,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
       <div class="resources-view">
         <div class="res-intro">
           <h1>Ressources</h1>
-          <p>Assignations de chaque collaborateur aux processus, sous-processus et tâches.</p>
+          <p>Assignations par collaborateur. Cliquez sur une fonction pour catégoriser une ressource.</p>
         </div>
         <div id="person-grid-wrap"></div>
       </div>
@@ -268,27 +342,78 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 </div>
 
 <script>
-// ── PEOPLE ────────────────────────────────────────────────
-const PEOPLE = [
-  { id:'abou',     name:'Abou',     ini:'Ab', color:'#1A5C3E', bg:'#E4F5EC' },
-  { id:'baba',     name:'Baba',     ini:'Ba', color:'#1B3A7A', bg:'#E8EEFA' },
-  { id:'bali',     name:'Bali',     ini:'Bl', color:'#7A3D10', bg:'#FEF0E2' },
-  { id:'benjamin', name:'Benjamin', ini:'Bj', color:'#82192A', bg:'#FBE8EB' },
-  { id:'seydou',   name:'Seydou',   ini:'Sy', color:'#4A1D96', bg:'#EDE9FE' },
+// ── CONSTANTS ─────────────────────────────────────────────
+const ROLES = ['Direction', 'Administration', 'Production', 'Livraison'];
+const ROLE_COLORS = {
+  'Direction':      {color:'#1B3A7A', bg:'#E8EEFA'},
+  'Administration': {color:'#7A3D10', bg:'#FEF0E2'},
+  'Production':     {color:'#1A5C3E', bg:'#E4F5EC'},
+  'Livraison':      {color:'#82192A', bg:'#FBE8EB'},
+};
+const COLOR_PALETTE = [
+  {color:'#1A5C3E', bg:'#E4F5EC'},{color:'#1B3A7A', bg:'#E8EEFA'},
+  {color:'#7A3D10', bg:'#FEF0E2'},{color:'#82192A', bg:'#FBE8EB'},
+  {color:'#4A1D96', bg:'#EDE9FE'},{color:'#065F46', bg:'#D1FAE5'},
+  {color:'#1E40AF', bg:'#DBEAFE'},{color:'#92400E', bg:'#FEF3C7'},
+  {color:'#9D174D', bg:'#FCE7F3'},{color:'#374151', bg:'#F3F4F6'},
 ];
 
-const AGENT_IA = { id:'ia', name:'Agent IA', ini:'IA', color:'#0891B2', bg:'#ECFEFF' };
+// ── BASE PEOPLE & AGENT IA ────────────────────────────────
+const BASE_PEOPLE = [
+  {id:'abou',     name:'Abou',     ini:'Ab', color:'#1A5C3E', bg:'#E4F5EC'},
+  {id:'baba',     name:'Baba',     ini:'Ba', color:'#1B3A7A', bg:'#E8EEFA'},
+  {id:'bali',     name:'Bali',     ini:'Bl', color:'#7A3D10', bg:'#FEF0E2'},
+  {id:'benjamin', name:'Benjamin', ini:'Bj', color:'#82192A', bg:'#FBE8EB'},
+  {id:'seydou',   name:'Seydou',   ini:'Sy', color:'#4A1D96', bg:'#EDE9FE'},
+];
+const AGENT_IA = {id:'ia', name:'Agent IA', ini:'IA', color:'#0891B2', bg:'#ECFEFF'};
+
+// ── STORAGE KEYS ──────────────────────────────────────────
+const STORE_KEY  = 'misu_allocs_v1';
+const PEOPLE_KEY = 'misu_people_v1';
+const ROLES_KEY  = 'misu_roles_v1';
+
+// ── STATE ─────────────────────────────────────────────────
+let ALLOCS = {};
+let CUSTOM_PEOPLE = [];
+let PEOPLE_ROLES  = {};
+let PEOPLE = [];
+
+// ── PEOPLE LOAD/SAVE ──────────────────────────────────────
+function loadPeople(){
+  try{ CUSTOM_PEOPLE = JSON.parse(localStorage.getItem(PEOPLE_KEY)||'[]'); }catch(e){ CUSTOM_PEOPLE=[]; }
+  try{ PEOPLE_ROLES  = JSON.parse(localStorage.getItem(ROLES_KEY)||'{}');  }catch(e){ PEOPLE_ROLES={}; }
+  PEOPLE = [...BASE_PEOPLE, ...CUSTOM_PEOPLE].map(p=>({...p, role: PEOPLE_ROLES[p.id]||null}));
+}
+function savePeople(){
+  localStorage.setItem(PEOPLE_KEY, JSON.stringify(CUSTOM_PEOPLE));
+  localStorage.setItem(ROLES_KEY,  JSON.stringify(PEOPLE_ROLES));
+}
+function addPerson(firstName, lastName, role){
+  const id  = 'p_'+Date.now();
+  const name = [firstName, lastName].filter(Boolean).join(' ');
+  const ini  = ((firstName[0]||'')+(lastName[0]||'')).toUpperCase() || name[0].toUpperCase();
+  const {color, bg} = COLOR_PALETTE[(5 + CUSTOM_PEOPLE.length) % COLOR_PALETTE.length];
+  CUSTOM_PEOPLE.push({id, name, ini, color, bg});
+  PEOPLE_ROLES[id] = role;
+  savePeople();
+  loadPeople();
+}
+function setPersonRole(personId, role){
+  if(role === null) delete PEOPLE_ROLES[personId];
+  else PEOPLE_ROLES[personId] = role;
+  savePeople();
+  loadPeople();
+}
 
 // ── ALLOCATIONS ────────────────────────────────────────────
-const STORE_KEY = 'misu_allocs_v1';
-let ALLOCS = {};
-function loadAllocs(){ try{ ALLOCS = JSON.parse(localStorage.getItem(STORE_KEY)||'{}'); }catch(e){ ALLOCS={}; } }
+function loadAllocs(){ try{ ALLOCS=JSON.parse(localStorage.getItem(STORE_KEY)||'{}'); }catch(e){ ALLOCS={}; } }
 function saveAllocs(){ localStorage.setItem(STORE_KEY, JSON.stringify(ALLOCS)); }
 function getAssigned(code){ return ALLOCS[code]||[]; }
 function isAssigned(code,pid){ return getAssigned(code).includes(pid); }
 function toggleAlloc(code, pid){
   if(!ALLOCS[code]) ALLOCS[code]=[];
-  const i = ALLOCS[code].indexOf(pid);
+  const i=ALLOCS[code].indexOf(pid);
   if(i>=0) ALLOCS[code].splice(i,1); else ALLOCS[code].push(pid);
   saveAllocs();
   refreshAllocUI(code);
@@ -296,30 +421,28 @@ function toggleAlloc(code, pid){
   if(document.getElementById('view-ressources').classList.contains('active')) renderResourcesView();
 }
 function refreshAllocUI(code){
-  document.querySelectorAll('.avatar-btn[data-code="'+code+'"]').forEach(btn => {
-    const pid = btn.dataset.pid;
-    btn.classList.toggle('assigned', isAssigned(code, pid));
+  document.querySelectorAll('.avatar-btn[data-code="'+code+'"]').forEach(btn=>{
+    btn.classList.toggle('assigned', isAssigned(code, btn.dataset.pid));
   });
-  document.querySelectorAll('.mini-av[data-code="'+code+'"]').forEach(btn => {
-    const pid = btn.dataset.pid;
-    btn.classList.toggle('assigned', isAssigned(code, pid));
+  document.querySelectorAll('.mini-av[data-code="'+code+'"]').forEach(btn=>{
+    btn.classList.toggle('assigned', isAssigned(code, btn.dataset.pid));
   });
 }
 function refreshDiagramDots(code){
-  const dotsEl = document.getElementById('dots-'+code);
-  if(dotsEl) { dotsEl.innerHTML = ''; renderDots(code, dotsEl); }
-  const chipDotsEl = document.getElementById('chipdots-'+code);
-  if(chipDotsEl) { chipDotsEl.innerHTML = ''; renderDots(code, chipDotsEl); }
+  ['dots-','chipdots-'].forEach(pfx=>{
+    const el=document.getElementById(pfx+code);
+    if(el){ el.innerHTML=''; renderDots(code,el); }
+  });
 }
 function renderDots(code, container){
-  getAssigned(code).forEach(pid => {
-    const isIA = pid === 'ia';
+  getAssigned(code).forEach(pid=>{
+    const isIA = pid==='ia';
     const p = isIA ? AGENT_IA : PEOPLE.find(x=>x.id===pid);
     if(!p) return;
-    const d = document.createElement('span');
-    d.className = 'proc-dot' + (isIA ? ' ia-dot' : '');
-    d.style.background = p.color;
-    d.title = p.name;
+    const d=document.createElement('span');
+    d.className='proc-dot'+(isIA?' ia-dot':'');
+    d.style.background=p.color;
+    d.title=p.name;
     container.appendChild(d);
   });
 }
@@ -445,12 +568,11 @@ const DOMAINS = [
     ]]}
 ];
 
-// flat lookup
-const ALL_NODES = [];
+const ALL_NODES=[];
 function buildNodes(){
   DOMAINS.forEach(dom=>{
     dom.rows.flat().forEach(proc=>{
-      ALL_NODES.push({code:proc.code,name:proc.name,type:'process',domain:dom,proc:proc});
+      ALL_NODES.push({code:proc.code,name:proc.name,type:'process',domain:dom,proc});
       proc.subProcesses.forEach(sp=>{
         ALL_NODES.push({code:sp.code,name:sp.name,type:'subProcess',domain:dom,process:proc,tasks:sp.tasks});
         sp.tasks.forEach(t=>{
@@ -463,36 +585,35 @@ function buildNodes(){
 function findNode(code){ return ALL_NODES.find(n=>n.code===code); }
 
 // ── SIDEBAR ──────────────────────────────────────────────
-let sidebarOpen = true;
+let sidebarOpen=true;
 function toggleSidebar(){
-  sidebarOpen = !sidebarOpen;
+  sidebarOpen=!sidebarOpen;
   document.getElementById('sidebar').classList.toggle('collapsed',!sidebarOpen);
 }
-
-const VIEW_TITLES = {processus:'Architecture des processus',ressources:'Ressources',planning:'Planning'};
+const VIEW_TITLES={processus:'Architecture des processus',ressources:'Ressources',planning:'Planning'};
 function switchView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
   document.getElementById('nav-'+name).classList.add('active');
-  document.getElementById('header-view-title').textContent = VIEW_TITLES[name];
+  document.getElementById('header-view-title').textContent=VIEW_TITLES[name];
   if(name==='ressources') renderResourcesView();
 }
 
 // ── BUILD DIAGRAM ──────────────────────────────────────────
 function buildDiagram(){
-  const wrap = document.getElementById('diagram');
+  const wrap=document.getElementById('diagram');
   wrap.innerHTML='';
   DOMAINS.forEach(dom=>{
-    const band = document.createElement('div');
+    const band=document.createElement('div');
     band.className='domain-band';
     band.style.cssText='background:'+dom.light+';border:1.5px solid '+dom.mid+'30';
-    const hdr = document.createElement('div');
+    const hdr=document.createElement('div');
     hdr.className='domain-header';
     hdr.style.background=dom.bg;
     hdr.innerHTML='<span class="domain-label" style="color:'+dom.light+'">'+dom.name+'</span>';
     band.appendChild(hdr);
-    const body = document.createElement('div');
+    const body=document.createElement('div');
     body.className='domain-body';
     dom.rows.forEach(row=>{
       const rowEl=document.createElement('div');
@@ -545,7 +666,6 @@ function buildDiagram(){
 
 // ── PANEL ────────────────────────────────────────────────
 let currentCode=null;
-
 function openNodePanel(code){
   const node=findNode(code);
   if(!node) return;
@@ -561,10 +681,8 @@ function openNodePanel(code){
   document.getElementById('panel-cat-label').textContent=dom.name;
   document.getElementById('panel-code').textContent=code;
   document.getElementById('panel-name').textContent=node.name;
-
   const body=document.getElementById('panel-body');
   body.innerHTML='';
-
   if(node.type==='process'){
     const proc=node.proc;
     if(proc.subProcesses.length){
@@ -581,9 +699,8 @@ function openNodePanel(code){
       body.appendChild(sec);
     }
     body.appendChild(buildAllocSection(code));
-
   } else if(node.type==='subProcess'){
-    if(node.tasks && node.tasks.length){
+    if(node.tasks&&node.tasks.length){
       const sec=document.createElement('div');
       sec.className='tasks-section';
       sec.innerHTML='<div class="section-label">Tâches ('+node.tasks.length+')</div>';
@@ -603,7 +720,6 @@ function openNodePanel(code){
     }
     body.appendChild(buildAllocSection(code));
   }
-
   updateNavButtons();
   document.getElementById('panel').classList.add('open');
   document.getElementById('app-inner').classList.add('panel-open');
@@ -615,67 +731,47 @@ function buildAllocSection(code){
   sec.innerHTML='<div class="section-label">Responsables</div>';
   const row=document.createElement('div');
   row.className='avatar-row';
-  // Human resources
-  PEOPLE.forEach(p=>{
-    row.appendChild(buildAvatarBtn(code, p, false));
-  });
-  // Separator + Agent IA
+  PEOPLE.forEach(p=>row.appendChild(buildAvatarBtn(code,p,false)));
   const sep=document.createElement('div');
   sep.className='alloc-separator';
   row.appendChild(sep);
-  row.appendChild(buildAvatarBtn(code, AGENT_IA, true));
+  row.appendChild(buildAvatarBtn(code,AGENT_IA,true));
   sec.appendChild(row);
   return sec;
 }
-
-function buildAvatarBtn(code, p, isIA){
+function buildAvatarBtn(code,p,isIA){
   const btn=document.createElement('button');
   btn.className='avatar-btn'+(isAssigned(code,p.id)?' assigned':'')+(isIA?' ia-btn':'');
-  btn.dataset.code=code; btn.dataset.pid=p.id;
+  btn.dataset.code=code;btn.dataset.pid=p.id;
   btn.style.setProperty('--av-color',p.color);
   btn.style.setProperty('--av-bg',p.bg);
   btn.onclick=()=>toggleAlloc(code,p.id);
-  const circleEl=document.createElement('div');
-  circleEl.className='avatar-circle'+(isIA?' ia-av':'');
-  if(isIA){
-    circleEl.innerHTML='<svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M4 17c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="2" r="1" fill="currentColor"/><path d="M10 3.5V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="16" cy="7" r=".8" fill="currentColor" opacity=".5"/><circle cx="4" cy="7" r=".8" fill="currentColor" opacity=".5"/></svg>';
-  } else {
-    circleEl.textContent=p.ini;
-  }
-  const labelEl=document.createElement('span');
-  labelEl.className='avatar-label';
-  labelEl.textContent=isIA?'Agent IA':p.name;
-  btn.appendChild(circleEl);
-  btn.appendChild(labelEl);
+  const circle=document.createElement('div');
+  circle.className='avatar-circle';
+  circle.textContent=p.ini;
+  const label=document.createElement('span');
+  label.className='avatar-label';
+  label.textContent=p.name;
+  btn.appendChild(circle);btn.appendChild(label);
   return btn;
 }
-
 function buildMiniAlloc(code){
   const wrap=document.createElement('div');
   wrap.className='task-alloc';
-  PEOPLE.forEach(p=>{
-    wrap.appendChild(buildMiniBtn(code, p, false));
-  });
-  wrap.appendChild(buildMiniBtn(code, AGENT_IA, true));
+  PEOPLE.forEach(p=>wrap.appendChild(buildMiniBtn(code,p,false)));
+  wrap.appendChild(buildMiniBtn(code,AGENT_IA,true));
   return wrap;
 }
-
-function buildMiniBtn(code, p, isIA){
+function buildMiniBtn(code,p,isIA){
   const btn=document.createElement('button');
   btn.className='mini-av'+(isAssigned(code,p.id)?' assigned':'')+(isIA?' ia-mini':'');
-  btn.dataset.code=code; btn.dataset.pid=p.id;
+  btn.dataset.code=code;btn.dataset.pid=p.id;
   btn.style.setProperty('--av-color',p.color);
   btn.style.setProperty('--av-bg',p.bg);
-  btn.title=p.name;
-  if(isIA){
-    btn.innerHTML='<svg width="12" height="12" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="2"/><path d="M4 17c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
-  } else {
-    btn.textContent=p.ini;
-  }
+  btn.title=p.name;btn.textContent=p.ini;
   btn.onclick=e=>{e.stopPropagation();toggleAlloc(code,p.id);};
   return btn;
 }
-
 function closePanel(){
   document.getElementById('panel').classList.remove('open');
   document.getElementById('app-inner').classList.remove('panel-open');
@@ -695,30 +791,89 @@ function navPanel(dir){
   if(next) openNodePanel(next.code);
 }
 
-// ── RESOURCES VIEW ───────────────────────────────────────────
+// ── RESOURCES VIEW ────────────────────────────────────────
 function renderResourcesView(){
   const wrap=document.getElementById('person-grid-wrap');
   wrap.innerHTML='';
 
-  // ── Agent IA section (first, full-width card)
-  const iaLbl=document.createElement('div');
-  iaLbl.className='res-section-label';
-  iaLbl.textContent='Automatisation IA';
-  wrap.appendChild(iaLbl);
+  // Agent IA
+  const iaHdr=buildSectionHeader('Automatisation IA', null, false);
+  wrap.appendChild(iaHdr);
   const iaGrid=document.createElement('div');
   iaGrid.className='person-grid';
-  iaGrid.appendChild(buildPersonCard(AGENT_IA, true));
+  iaGrid.appendChild(buildPersonCard(AGENT_IA,true));
   wrap.appendChild(iaGrid);
 
-  // ── Human resources section
-  const humanLbl=document.createElement('div');
-  humanLbl.className='res-section-label';
-  humanLbl.textContent='Équipe';
-  wrap.appendChild(humanLbl);
-  const humanGrid=document.createElement('div');
-  humanGrid.className='person-grid';
-  PEOPLE.forEach(p=>{ humanGrid.appendChild(buildPersonCard(p, false)); });
-  wrap.appendChild(humanGrid);
+  // Group human people by role
+  const grouped={};
+  const noRole=[];
+  PEOPLE.forEach(p=>{
+    if(p.role){ (grouped[p.role]=grouped[p.role]||[]).push(p); }
+    else noRole.push(p);
+  });
+
+  // Render role sections in fixed order
+  ROLES.forEach(role=>{
+    const members=grouped[role]||[];
+    const rc=ROLE_COLORS[role];
+    const hdr=buildSectionHeader(role, rc, true);
+    wrap.appendChild(hdr);
+    const grid=document.createElement('div');
+    grid.className='person-grid';
+    members.forEach(p=>grid.appendChild(buildPersonCard(p,false)));
+    // Add card always visible in each section for discoverability
+    if(members.length===0){
+      const empty=document.createElement('div');
+      empty.style.cssText='font-size:12px;color:var(--text-hint);font-style:italic;padding:4px 2px';
+      empty.textContent='Aucune ressource dans cette fonction.';
+      grid.appendChild(empty);
+    }
+    wrap.appendChild(grid);
+  });
+
+  // Sans fonction
+  if(noRole.length){
+    const hdr=buildSectionHeader('Sans fonction', null, false);
+    wrap.appendChild(hdr);
+    const grid=document.createElement('div');
+    grid.className='person-grid';
+    noRole.forEach(p=>grid.appendChild(buildPersonCard(p,false)));
+    wrap.appendChild(grid);
+  }
+
+  // Add person card — always at bottom
+  const addHdr=document.createElement('div');
+  addHdr.style.height='20px';
+  wrap.appendChild(addHdr);
+  const addGrid=document.createElement('div');
+  addGrid.className='person-grid';
+  const addCard=document.createElement('div');
+  addCard.className='person-card-add';
+  addCard.onclick=openAddModal;
+  addCard.innerHTML='<div class="person-card-add-icon">+</div><div class="person-card-add-label">Ajouter une ressource</div>';
+  addGrid.appendChild(addCard);
+  wrap.appendChild(addGrid);
+}
+
+function buildSectionHeader(label, roleColors, showAddBtn){
+  const hdr=document.createElement('div');
+  hdr.className='res-section-header';
+  const lbl=document.createElement('div');
+  lbl.className='res-section-label'+(roleColors?' role-label':'');
+  if(roleColors){
+    const dot=document.createElement('span');
+    dot.className='role-label-dot';
+    dot.style.background=roleColors.color;
+    lbl.appendChild(dot);
+    lbl.appendChild(document.createTextNode(label));
+  } else {
+    lbl.textContent=label;
+  }
+  hdr.appendChild(lbl);
+  if(showAddBtn===true){
+    // no per-section add btn — one global add card is enough
+  }
+  return hdr;
 }
 
 function buildPersonCard(p, isIA){
@@ -729,21 +884,19 @@ function buildPersonCard(p, isIA){
   const card=document.createElement('div');
   card.className='person-card'+(isIA?' ia-card':'');
 
+  // Header
   const cardHdr=document.createElement('div');
   cardHdr.className='person-card-header';
-
   const avEl=document.createElement('div');
   avEl.className='person-av-lg'+(isIA?' ia-av':'');
   avEl.style.cssText='background:'+p.bg+';color:'+p.color;
-  if(isIA){
-    avEl.innerHTML='<svg width="22" height="22" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M4 17c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="2" r="1" fill="currentColor"/><path d="M10 3.5V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="16" cy="7" r=".8" fill="currentColor" opacity=".5"/><circle cx="4" cy="7" r=".8" fill="currentColor" opacity=".5"/></svg>';
-  } else {
-    avEl.textContent=p.ini;
-  }
-
+  avEl.textContent=p.ini;
   const infoEl=document.createElement('div');
   infoEl.className='person-info';
-  infoEl.innerHTML='<div class="person-name">'+p.name+'</div>';
+  const nameEl=document.createElement('div');
+  nameEl.className='person-name';
+  nameEl.textContent=p.name;
+  infoEl.appendChild(nameEl);
   if(isIA){
     const badge=document.createElement('div');
     badge.className='ia-badge';
@@ -752,24 +905,46 @@ function buildPersonCard(p, isIA){
   } else {
     const stats=document.createElement('div');
     stats.className='person-stats';
-    stats.textContent=buildStats(counts);
+    stats.textContent=buildStats(counts)||'Aucune allocation';
     infoEl.appendChild(stats);
   }
-
   cardHdr.appendChild(avEl);
   cardHdr.appendChild(infoEl);
   card.appendChild(cardHdr);
 
+  // Role selector (humans only)
+  if(!isIA){
+    const roleRow=document.createElement('div');
+    roleRow.className='role-selector-row';
+    ROLES.forEach(role=>{
+      const rc=ROLE_COLORS[role];
+      const pill=document.createElement('button');
+      pill.className='role-pill'+(p.role===role?' active':'');
+      if(p.role===role){
+        pill.style.setProperty('--rp-color',rc.color);
+        pill.style.setProperty('--rp-bg',rc.bg);
+      }
+      pill.textContent=role;
+      pill.onclick=()=>{
+        setPersonRole(p.id, p.role===role ? null : role);
+        renderResourcesView();
+      };
+      roleRow.appendChild(pill);
+    });
+    card.appendChild(roleRow);
+  }
+
+  // Assignments
   const asgn=document.createElement('div');
   asgn.className='person-assignments';
   if(items.length===0){
     asgn.innerHTML='<div class="assign-empty">'+(isIA?'Aucun élément marqué comme automatisable.':'Aucune allocation')+'</div>';
   } else {
     if(isIA){
-      const stats=document.createElement('div');
-      stats.style.cssText='font-size:11px;color:var(--text-muted);margin-bottom:8px';
-      stats.textContent=buildStats(counts)+' éligibles';
-      asgn.appendChild(stats);
+      const s=document.createElement('div');
+      s.style.cssText='font-size:11px;color:var(--text-muted);margin-bottom:8px';
+      s.textContent=buildStats(counts)+' éligibles';
+      asgn.appendChild(s);
     }
     const byDomain={};
     items.forEach(item=>{
@@ -786,10 +961,7 @@ function buildPersonCard(p, isIA){
         const row=document.createElement('div');
         row.className='assign-row';
         const typeLabel={process:'Processus',subProcess:'Sous-proc.',task:'Tâche'}[item.type];
-        row.innerHTML=
-          '<span class="assign-badge" style="background:'+grp.domain.light+';color:'+grp.domain.dark+'">'+item.code+'</span>'+
-          '<span class="assign-type">'+typeLabel+'</span>'+
-          '<span class="assign-name">'+item.name+'</span>';
+        row.innerHTML='<span class="assign-badge" style="background:'+grp.domain.light+';color:'+grp.domain.dark+'">'+item.code+'</span><span class="assign-type">'+typeLabel+'</span><span class="assign-name">'+item.name+'</span>';
         if(item.type!=='task'){
           row.style.cursor='pointer';
           row.addEventListener('click',()=>{ switchView('processus'); setTimeout(()=>openNodePanel(item.code),50); });
@@ -803,19 +975,65 @@ function buildPersonCard(p, isIA){
 }
 
 function collectAssignments(pid){
-  const result=[];
-  ALL_NODES.forEach(node=>{
-    if(isAssigned(node.code,pid)) result.push(node);
-  });
-  return result;
+  return ALL_NODES.filter(node=>isAssigned(node.code,pid));
 }
-
 function buildStats(counts){
   const parts=[];
   if(counts.process) parts.push(counts.process+' processus');
   if(counts.subProcess) parts.push(counts.subProcess+' sous-proc.');
   if(counts.task) parts.push(counts.task+' tâches');
-  return parts.length ? parts.join(' · ') : 'Aucune allocation';
+  return parts.join(' · ');
+}
+
+// ── ADD PERSON MODAL ──────────────────────────────────────
+let selectedModalRole=null;
+
+function openAddModal(){
+  selectedModalRole=null;
+  document.getElementById('input-firstname').value='';
+  document.getElementById('input-lastname').value='';
+  document.getElementById('error-name').style.display='none';
+  document.getElementById('error-role').style.display='none';
+  buildModalRolePills();
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('input-firstname').focus(),120);
+}
+function closeAddModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+function handleOverlayClick(e){
+  if(e.target===document.getElementById('modal-overlay')) closeAddModal();
+}
+function buildModalRolePills(){
+  const container=document.getElementById('modal-role-pills');
+  container.innerHTML='';
+  ROLES.forEach(role=>{
+    const rc=ROLE_COLORS[role];
+    const pill=document.createElement('button');
+    pill.className='modal-role-pill'+(selectedModalRole===role?' selected':'');
+    if(selectedModalRole===role){
+      pill.style.setProperty('--rp-color',rc.color);
+      pill.style.setProperty('--rp-bg',rc.bg);
+    }
+    pill.textContent=role;
+    pill.onclick=()=>{ selectedModalRole=role; buildModalRolePills(); };
+    container.appendChild(pill);
+  });
+}
+function submitAddPerson(){
+  const first=document.getElementById('input-firstname').value.trim();
+  const last=document.getElementById('input-lastname').value.trim();
+  const errName=document.getElementById('error-name');
+  const errRole=document.getElementById('error-role');
+  let valid=true;
+  errName.style.display='none';
+  errRole.style.display='none';
+  if(!first&&!last){ errName.style.display='block'; valid=false; }
+  if(!selectedModalRole){ errRole.style.display='block'; valid=false; }
+  if(!valid) return;
+  addPerson(first, last, selectedModalRole);
+  closeAddModal();
+  renderResourcesView();
 }
 
 // ── SEARCH ─────────────────────────────────────────────────
@@ -839,6 +1057,7 @@ function doSearch(q){
 
 // ── INIT ─────────────────────────────────────────────────
 loadAllocs();
+loadPeople();
 buildNodes();
 buildDiagram();
 </script>
