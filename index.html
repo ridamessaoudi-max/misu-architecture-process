@@ -193,6 +193,26 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .assign-group-body.collapsed{display:none}
 .btn-collapse-all{padding:5px 12px;background:transparent;border:1px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .12s;white-space:nowrap;flex-shrink:0}
 .btn-collapse-all:hover{background:var(--surface);border-color:var(--text-muted);color:var(--text)}
+/* RESOURCES VIEW TOGGLE */
+.res-view-toggle{display:flex;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:2px;gap:2px}
+.res-view-btn{padding:4px 12px;border:none;border-radius:5px;background:transparent;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .12s;white-space:nowrap}
+.res-view-btn:hover{color:var(--text)}
+.res-view-btn.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+/* TABLE VIEW */
+.res-table-wrap{overflow-x:auto;margin-top:4px}
+.res-table{width:100%;border-collapse:collapse}
+.res-table th{font-size:10px;text-transform:uppercase;letter-spacing:.7px;font-weight:600;color:var(--text-hint);padding:8px 14px;text-align:left;border-bottom:1.5px solid var(--border);white-space:nowrap}
+.res-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:13px}
+.res-table tbody tr:last-child td{border-bottom:none}
+.res-table tbody tr:hover td{background:var(--bg);transition:background .1s}
+.res-table-person{display:flex;align-items:center;gap:10px}
+.res-table-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.res-table-av.ia{border-radius:8px}
+.res-table-name{font-weight:500}
+.res-table-roles{display:flex;gap:4px;flex-wrap:wrap}
+.res-table-count{font-size:12px;font-weight:600;text-align:center}
+.res-table-count.zero{color:var(--text-hint);font-weight:400}
+.res-table-sep td{padding:6px 14px;font-size:10px;text-transform:uppercase;letter-spacing:.7px;font-weight:600;color:var(--text-hint);background:var(--bg);border-bottom:1px solid var(--border)}
 
 .assign-row{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:6px;font-size:12px;transition:background .12s}
 .assign-row.clickable{cursor:pointer}
@@ -340,7 +360,13 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
         <div class="res-intro">
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:6px">
             <h1 style="margin-bottom:0">Ressources</h1>
-            <button class="btn-collapse-all" id="btn-collapse-all" onclick="toggleAllDomains()">Tout replier</button>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="res-view-toggle">
+                <button class="res-view-btn active" id="btn-view-cards" onclick="switchResourcesView('cards')">Cartes</button>
+                <button class="res-view-btn" id="btn-view-table" onclick="switchResourcesView('table')">Table</button>
+              </div>
+              <button class="btn-collapse-all" id="btn-collapse-all" onclick="toggleAllDomains()">Tout replier</button>
+            </div>
           </div>
           <p>Assignations par collaborateur. Une ressource peut appartenir à plusieurs fonctions.</p>
         </div>
@@ -398,6 +424,7 @@ const ROLES_KEY  = 'misu_roles_v1';
 // ── STATE ─────────────────────────────────────────────────
 let ALLOCS = {};
 let allCollapsed = false;
+let resourcesView = 'cards';
 let CUSTOM_PEOPLE = [];
 let PEOPLE_ROLES  = {};
 let PEOPLE = [];
@@ -764,15 +791,28 @@ function navPanel(dir){
 }
 
 // ── RESOURCES VIEW ────────────────────────────────────────
+function switchResourcesView(view){
+  resourcesView=view;
+  document.getElementById('btn-view-cards').classList.toggle('active',view==='cards');
+  document.getElementById('btn-view-table').classList.toggle('active',view==='table');
+  const colBtn=document.getElementById('btn-collapse-all');
+  if(colBtn) colBtn.style.display=view==='cards'?'':'none';
+  renderResourcesView();
+}
+
 function renderResourcesView(){
   const wrap=document.getElementById('person-grid-wrap');wrap.innerHTML='';
+  const colBtn=document.getElementById('btn-collapse-all');
+  if(colBtn) colBtn.style.display=resourcesView==='cards'?'':'none';
+  if(resourcesView==='table'){ renderTableView(wrap); return; }
+  renderCardsView(wrap);
+}
 
-  // Agent IA
+function renderCardsView(wrap){
   appendSectionHeader(wrap,'Automatisation IA',null);
   const iaGrid=document.createElement('div');iaGrid.className='person-grid';
   iaGrid.appendChild(buildPersonCard(AGENT_IA,true));wrap.appendChild(iaGrid);
 
-  // Group humans
   const grouped={};ROLES.forEach(r=>grouped[r]=[]);
   const noRole=[];
   PEOPLE.forEach(p=>{
@@ -808,6 +848,67 @@ function renderResourcesView(){
     wrap.querySelectorAll('.assign-group-header').forEach(h=>h.classList.add('collapsed'));
     wrap.querySelectorAll('.assign-group-body').forEach(b=>b.classList.add('collapsed'));
   }
+}
+
+function renderTableView(wrap){
+  const tableWrap=document.createElement('div');tableWrap.className='res-table-wrap';
+  const table=document.createElement('table');table.className='res-table';
+  const thead=document.createElement('thead');
+  const hrow=document.createElement('tr');
+  [['Ressource',false],['Fonctions',false],['Processus',true],['Sous-proc.',true],['Tâches',true]].forEach(([h,center])=>{
+    const th=document.createElement('th');th.textContent=h;if(center) th.style.textAlign='center';hrow.appendChild(th);
+  });
+  thead.appendChild(hrow);table.appendChild(thead);
+  const tbody=document.createElement('tbody');
+  const iaItems=collectAssignments('ia');
+  const iaCounts={process:0,subProcess:0,task:0};
+  iaItems.forEach(i=>iaCounts[i.type]=(iaCounts[i.type]||0)+1);
+  tbody.appendChild(buildTableRow(AGENT_IA,true,[],iaCounts));
+  const sep=document.createElement('tr');sep.className='res-table-sep';
+  const sepTd=document.createElement('td');sepTd.colSpan=5;sepTd.textContent='Équipe';sep.appendChild(sepTd);tbody.appendChild(sep);
+  PEOPLE.forEach(p=>{
+    const items=collectAssignments(p.id);
+    const counts={process:0,subProcess:0,task:0};
+    items.forEach(i=>counts[i.type]=(counts[i.type]||0)+1);
+    tbody.appendChild(buildTableRow(p,false,p.roles||[],counts));
+  });
+  table.appendChild(tbody);tableWrap.appendChild(table);wrap.appendChild(tableWrap);
+}
+
+function buildTableRow(p,isIA,roles,counts){
+  const tr=document.createElement('tr');
+  const tdP=document.createElement('td');
+  const pDiv=document.createElement('div');pDiv.className='res-table-person';
+  const av=document.createElement('div');av.className='res-table-av'+(isIA?' ia':'');
+  av.style.cssText='background:'+p.bg+';color:'+p.color;av.textContent=p.ini;
+  const nm=document.createElement('span');nm.className='res-table-name';nm.textContent=p.name;
+  pDiv.appendChild(av);pDiv.appendChild(nm);tdP.appendChild(pDiv);tr.appendChild(tdP);
+  const tdR=document.createElement('td');
+  if(isIA){
+    const b=document.createElement('span');
+    b.style.cssText='padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;background:var(--ia-color);color:#fff';
+    b.textContent='Automatisation';tdR.appendChild(b);
+  } else if(roles.length===0){
+    tdR.innerHTML='<span style="font-size:12px;color:var(--text-hint);font-style:italic">—</span>';
+  } else {
+    const rd=document.createElement('div');rd.className='res-table-roles';
+    roles.forEach(role=>{
+      const rc=ROLE_COLORS[role];
+      const pill=document.createElement('span');
+      pill.style.cssText='padding:2px 8px;border-radius:10px;background:'+rc.bg+';color:'+rc.color+';font-size:10px;font-weight:600;white-space:nowrap';
+      pill.textContent=role;rd.appendChild(pill);
+    });
+    tdR.appendChild(rd);
+  }
+  tr.appendChild(tdR);
+  ['process','subProcess','task'].forEach(type=>{
+    const td=document.createElement('td');
+    const n=counts[type]||0;
+    td.className='res-table-count'+(n===0?' zero':'');
+    td.style.textAlign='center';td.textContent=n===0?'—':n;
+    tr.appendChild(td);
+  });
+  return tr;
 }
 
 function appendSectionHeader(wrap,label,roleColors){
