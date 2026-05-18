@@ -169,14 +169,33 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .person-card-add-icon{width:34px;height:34px;border-radius:50%;border:1.5px dashed currentColor;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1}
 .person-card-add-label{font-size:12px;font-weight:500}
 
-/* ASSIGNMENTS */
-.person-assignments{padding:10px 18px 14px;display:flex;flex-direction:column;gap:4px}
-.assign-empty{font-size:12px;color:var(--text-hint);font-style:italic;padding:4px 0}
-.assign-group-label{font-size:9px;text-transform:uppercase;letter-spacing:.7px;font-weight:600;color:var(--text-hint);margin-top:8px;margin-bottom:4px;padding:0 2px}
-.assign-group-label:first-child{margin-top:0}
-.assign-row{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:6px;font-size:12px;cursor:pointer;transition:background .12s}
-.assign-row:hover{background:var(--bg)}
-.ia-card .assign-row:hover{background:rgba(8,145,178,.08)}
+/* ASSIGNMENTS — collapsible domain groups */
+.person-assignments{padding:6px 0 4px;display:flex;flex-direction:column}
+.assign-empty{font-size:12px;color:var(--text-hint);font-style:italic;padding:8px 18px}
+
+/* Domain group */
+.assign-domain-group{border-bottom:1px solid var(--border)}
+.assign-domain-group:last-child{border-bottom:none}
+
+.assign-group-header{display:flex;align-items:center;justify-content:space-between;padding:7px 18px;cursor:pointer;user-select:none;transition:background .12s}
+.assign-group-header:hover{background:var(--bg)}
+.ia-card .assign-group-header:hover{background:rgba(8,145,178,.05)}
+
+.assign-group-meta{display:flex;align-items:center;gap:6px}
+.assign-group-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.assign-group-name{font-size:10px;text-transform:uppercase;letter-spacing:.7px;font-weight:600;color:var(--text-hint)}
+.assign-group-count{font-size:10px;font-weight:500;color:var(--text-hint);background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1px 6px;line-height:1.4}
+
+.assign-chevron{color:var(--text-hint);transition:transform .18s;flex-shrink:0}
+.assign-group-header.collapsed .assign-chevron{transform:rotate(-90deg)}
+
+.assign-group-body{display:flex;flex-direction:column;gap:3px;padding:4px 18px 10px}
+.assign-group-body.collapsed{display:none}
+
+.assign-row{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:6px;font-size:12px;transition:background .12s}
+.assign-row.clickable{cursor:pointer}
+.assign-row.clickable:hover{background:var(--bg)}
+.ia-card .assign-row.clickable:hover{background:rgba(8,145,178,.08)}
 .assign-badge{font-size:9px;font-weight:700;padding:2px 5px;border-radius:4px;white-space:nowrap;flex-shrink:0}
 .assign-type{font-size:9px;color:var(--text-hint);flex-shrink:0}
 .assign-name{color:var(--text);line-height:1.3;flex:1}
@@ -198,7 +217,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .form-label{font-size:10px;text-transform:uppercase;letter-spacing:.7px;font-weight:600;color:var(--text-muted)}
 .form-input{border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;background:var(--bg);width:100%;transition:border-color .12s}
 .form-input:focus{border-color:var(--text-muted);background:var(--surface)}
-.form-hint{font-size:10px;color:var(--text-hint);margin-top:2px}
 .modal-role-pills{display:flex;gap:6px;flex-wrap:wrap}
 .modal-role-pill{padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .12s}
 .modal-role-pill:hover{border-color:var(--text-muted);color:var(--text)}
@@ -375,14 +393,13 @@ const ROLES_KEY  = 'misu_roles_v1';
 // ── STATE ─────────────────────────────────────────────────
 let ALLOCS = {};
 let CUSTOM_PEOPLE = [];
-let PEOPLE_ROLES  = {}; // { id: [role, ...] }
+let PEOPLE_ROLES  = {};
 let PEOPLE = [];
 
 // ── PEOPLE LOAD / SAVE ────────────────────────────────────
 function loadPeople(){
   try{ CUSTOM_PEOPLE = JSON.parse(localStorage.getItem(PEOPLE_KEY)||'[]'); }catch(e){ CUSTOM_PEOPLE=[]; }
   try{ PEOPLE_ROLES  = JSON.parse(localStorage.getItem(ROLES_KEY)||'{}');  }catch(e){ PEOPLE_ROLES={}; }
-  // migrate: single-string role → array
   Object.keys(PEOPLE_ROLES).forEach(id=>{
     if(typeof PEOPLE_ROLES[id]==='string')
       PEOPLE_ROLES[id] = PEOPLE_ROLES[id] ? [PEOPLE_ROLES[id]] : [];
@@ -397,21 +414,18 @@ function savePeople(){
 }
 function togglePersonRole(personId, role){
   if(!Array.isArray(PEOPLE_ROLES[personId])) PEOPLE_ROLES[personId]=[];
-  const idx = PEOPLE_ROLES[personId].indexOf(role);
-  if(idx>=0) PEOPLE_ROLES[personId].splice(idx,1);
-  else PEOPLE_ROLES[personId].push(role);
-  savePeople();
-  loadPeople();
+  const idx=PEOPLE_ROLES[personId].indexOf(role);
+  if(idx>=0) PEOPLE_ROLES[personId].splice(idx,1); else PEOPLE_ROLES[personId].push(role);
+  savePeople(); loadPeople();
 }
 function addPerson(firstName, lastName, roles){
-  const id   = 'p_'+Date.now();
-  const name = [firstName, lastName].filter(Boolean).join(' ');
-  const ini  = ((firstName[0]||'')+(lastName[0]||'')).toUpperCase() || name[0].toUpperCase();
-  const {color,bg} = COLOR_PALETTE[(5+CUSTOM_PEOPLE.length)%COLOR_PALETTE.length];
+  const id='p_'+Date.now();
+  const name=[firstName,lastName].filter(Boolean).join(' ');
+  const ini=((firstName[0]||'')+(lastName[0]||'')).toUpperCase()||name[0].toUpperCase();
+  const {color,bg}=COLOR_PALETTE[(5+CUSTOM_PEOPLE.length)%COLOR_PALETTE.length];
   CUSTOM_PEOPLE.push({id,name,ini,color,bg});
-  PEOPLE_ROLES[id] = roles;
-  savePeople();
-  loadPeople();
+  PEOPLE_ROLES[id]=roles;
+  savePeople(); loadPeople();
 }
 
 // ── ALLOCATIONS ────────────────────────────────────────────
@@ -429,12 +443,8 @@ function toggleAlloc(code,pid){
   if(document.getElementById('view-ressources').classList.contains('active')) renderResourcesView();
 }
 function refreshAllocUI(code){
-  document.querySelectorAll('.avatar-btn[data-code="'+code+'"]').forEach(btn=>{
-    btn.classList.toggle('assigned',isAssigned(code,btn.dataset.pid));
-  });
-  document.querySelectorAll('.mini-av[data-code="'+code+'"]').forEach(btn=>{
-    btn.classList.toggle('assigned',isAssigned(code,btn.dataset.pid));
-  });
+  document.querySelectorAll('.avatar-btn[data-code="'+code+'"]').forEach(btn=>btn.classList.toggle('assigned',isAssigned(code,btn.dataset.pid)));
+  document.querySelectorAll('.mini-av[data-code="'+code+'"]').forEach(btn=>btn.classList.toggle('assigned',isAssigned(code,btn.dataset.pid)));
 }
 function refreshDiagramDots(code){
   ['dots-','chipdots-'].forEach(pfx=>{
@@ -449,8 +459,7 @@ function renderDots(code,container){
     if(!p) return;
     const d=document.createElement('span');
     d.className='proc-dot'+(isIA?' ia-dot':'');
-    d.style.background=p.color;
-    d.title=p.name;
+    d.style.background=p.color; d.title=p.name;
     container.appendChild(d);
   });
 }
@@ -608,49 +617,35 @@ function switchView(name){
 
 // ── BUILD DIAGRAM ──────────────────────────────────────────
 function buildDiagram(){
-  const wrap=document.getElementById('diagram');
-  wrap.innerHTML='';
+  const wrap=document.getElementById('diagram'); wrap.innerHTML='';
   DOMAINS.forEach(dom=>{
-    const band=document.createElement('div');
-    band.className='domain-band';
+    const band=document.createElement('div');band.className='domain-band';
     band.style.cssText='background:'+dom.light+';border:1.5px solid '+dom.mid+'30';
-    const hdr=document.createElement('div');
-    hdr.className='domain-header';
-    hdr.style.background=dom.bg;
+    const hdr=document.createElement('div');hdr.className='domain-header';hdr.style.background=dom.bg;
     hdr.innerHTML='<span class="domain-label" style="color:'+dom.light+'">'+dom.name+'</span>';
     band.appendChild(hdr);
-    const body=document.createElement('div');
-    body.className='domain-body';
+    const body=document.createElement('div');body.className='domain-body';
     dom.rows.forEach(row=>{
-      const rowEl=document.createElement('div');
-      rowEl.className='process-row';
+      const rowEl=document.createElement('div');rowEl.className='process-row';
       row.forEach(proc=>{
-        const card=document.createElement('div');
-        card.className='process-card';card.id='proc-'+proc.code;
-        const hd=document.createElement('div');
-        hd.className='process-header';
-        const dotsEl=document.createElement('span');
-        dotsEl.className='proc-dots';dotsEl.id='dots-'+proc.code;
+        const card=document.createElement('div');card.className='process-card';card.id='proc-'+proc.code;
+        const hd=document.createElement('div');hd.className='process-header';
+        const dotsEl=document.createElement('span');dotsEl.className='proc-dots';dotsEl.id='dots-'+proc.code;
         renderDots(proc.code,dotsEl);
         hd.innerHTML='<span class="process-code-badge" style="background:'+dom.light+';color:'+dom.dark+'">'+proc.code+'</span><span class="process-name">'+proc.name+'</span>';
-        hd.appendChild(dotsEl);
-        hd.addEventListener('click',()=>openNodePanel(proc.code));
-        card.appendChild(hd);
+        hd.appendChild(dotsEl);hd.addEventListener('click',()=>openNodePanel(proc.code));card.appendChild(hd);
         if(proc.subProcesses.length){
           const spw=document.createElement('div');spw.className='subproc-wrap';
           proc.subProcesses.forEach(sp=>{
-            const chip=document.createElement('span');
-            chip.className='subproc-chip';chip.id='sp-'+sp.code;
+            const chip=document.createElement('span');chip.className='subproc-chip';chip.id='sp-'+sp.code;
             chip.style.cssText='background:'+dom.light+';color:'+dom.dark+';--chip-accent:'+dom.mid;
-            const chipDots=document.createElement('span');
-            chipDots.className='chip-dots';chipDots.id='chipdots-'+sp.code;
+            const chipDots=document.createElement('span');chipDots.className='chip-dots';chipDots.id='chipdots-'+sp.code;
             renderDots(sp.code,chipDots);
             chip.innerHTML='<span class="chip-code">'+sp.code+'</span><span class="chip-name">'+sp.name+'</span>';
             const meta=document.createElement('div');meta.className='chip-meta';
             if(sp.tasks.length){ const t=document.createElement('span');t.className='chip-tasks';t.textContent='('+sp.tasks.length+' tâches)';meta.appendChild(t); }
             meta.appendChild(chipDots);chip.appendChild(meta);
-            chip.addEventListener('click',e=>{e.stopPropagation();openNodePanel(sp.code);});
-            spw.appendChild(chip);
+            chip.addEventListener('click',e=>{e.stopPropagation();openNodePanel(sp.code);});spw.appendChild(chip);
           });
           card.appendChild(spw);
         }
@@ -687,8 +682,7 @@ function openNodePanel(code){
       proc.subProcesses.forEach(sp=>{
         const item=document.createElement('div');item.className='sp-list-item';
         item.innerHTML='<span class="sp-item-code">'+sp.code+'</span><span class="sp-item-name">'+sp.name+(sp.tasks.length?' <span style="opacity:.4;font-size:10px">('+sp.tasks.length+' tâches)</span>':'')+'</span>';
-        item.addEventListener('click',()=>openNodePanel(sp.code));
-        sec.appendChild(item);
+        item.addEventListener('click',()=>openNodePanel(sp.code));sec.appendChild(item);
       });
       body.appendChild(sec);
     }
@@ -701,8 +695,7 @@ function openNodePanel(code){
         const item=document.createElement('div');item.className='task-item';
         const codeEl=document.createElement('span');codeEl.className='task-code';codeEl.textContent=t.code;
         const nameEl=document.createElement('span');nameEl.className='task-name';nameEl.textContent=t.name;
-        item.appendChild(codeEl);item.appendChild(nameEl);item.appendChild(buildMiniAlloc(t.code));
-        sec.appendChild(item);
+        item.appendChild(codeEl);item.appendChild(nameEl);item.appendChild(buildMiniAlloc(t.code));sec.appendChild(item);
       });
       body.appendChild(sec);
     } else {
@@ -736,8 +729,7 @@ function buildAvatarBtn(code,p,isIA){
 function buildMiniAlloc(code){
   const wrap=document.createElement('div');wrap.className='task-alloc';
   PEOPLE.forEach(p=>wrap.appendChild(buildMiniBtn(code,p,false)));
-  wrap.appendChild(buildMiniBtn(code,AGENT_IA,true));
-  return wrap;
+  wrap.appendChild(buildMiniBtn(code,AGENT_IA,true));return wrap;
 }
 function buildMiniBtn(code,p,isIA){
   const btn=document.createElement('button');
@@ -745,8 +737,7 @@ function buildMiniBtn(code,p,isIA){
   btn.dataset.code=code;btn.dataset.pid=p.id;
   btn.style.setProperty('--av-color',p.color);btn.style.setProperty('--av-bg',p.bg);
   btn.title=p.name;btn.textContent=p.ini;
-  btn.onclick=e=>{e.stopPropagation();toggleAlloc(code,p.id);};
-  return btn;
+  btn.onclick=e=>{e.stopPropagation();toggleAlloc(code,p.id);};return btn;
 }
 function closePanel(){
   document.getElementById('panel').classList.remove('open');
@@ -768,18 +759,15 @@ function navPanel(dir){
 
 // ── RESOURCES VIEW ────────────────────────────────────────
 function renderResourcesView(){
-  const wrap=document.getElementById('person-grid-wrap');
-  wrap.innerHTML='';
+  const wrap=document.getElementById('person-grid-wrap');wrap.innerHTML='';
 
   // Agent IA
   appendSectionHeader(wrap,'Automatisation IA',null);
   const iaGrid=document.createElement('div');iaGrid.className='person-grid';
-  iaGrid.appendChild(buildPersonCard(AGENT_IA,true));
-  wrap.appendChild(iaGrid);
+  iaGrid.appendChild(buildPersonCard(AGENT_IA,true));wrap.appendChild(iaGrid);
 
-  // Group humans: person can appear in multiple role sections
-  const grouped={};
-  ROLES.forEach(r=>grouped[r]=[]);
+  // Group humans
+  const grouped={};ROLES.forEach(r=>grouped[r]=[]);
   const noRole=[];
   PEOPLE.forEach(p=>{
     if(!p.roles||p.roles.length===0){ noRole.push(p); return; }
@@ -791,9 +779,7 @@ function renderResourcesView(){
     appendSectionHeader(wrap,role,rc);
     const grid=document.createElement('div');grid.className='person-grid';
     if(grouped[role].length===0){
-      const note=document.createElement('p');note.className='section-empty-note';
-      note.textContent='Aucune ressource dans cette fonction.';
-      grid.appendChild(note);
+      const note=document.createElement('p');note.className='section-empty-note';note.textContent='Aucune ressource dans cette fonction.';grid.appendChild(note);
     } else {
       grouped[role].forEach(p=>grid.appendChild(buildPersonCard(p,false)));
     }
@@ -803,11 +789,9 @@ function renderResourcesView(){
   if(noRole.length){
     appendSectionHeader(wrap,'Sans fonction',null);
     const grid=document.createElement('div');grid.className='person-grid';
-    noRole.forEach(p=>grid.appendChild(buildPersonCard(p,false)));
-    wrap.appendChild(grid);
+    noRole.forEach(p=>grid.appendChild(buildPersonCard(p,false)));wrap.appendChild(grid);
   }
 
-  // Add card
   const spacer=document.createElement('div');spacer.style.height='20px';wrap.appendChild(spacer);
   const addGrid=document.createElement('div');addGrid.className='person-grid';
   const addCard=document.createElement('div');addCard.className='person-card-add';addCard.onclick=openAddModal;
@@ -825,6 +809,19 @@ function appendSectionHeader(wrap,label,roleColors){
   hdr.appendChild(lbl);wrap.appendChild(hdr);
 }
 
+// chevron SVG helper
+function makeSVGChevron(){
+  const ns='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(ns,'svg');
+  svg.setAttribute('class','assign-chevron');
+  svg.setAttribute('viewBox','0 0 10 6');
+  svg.setAttribute('width','10');svg.setAttribute('height','6');
+  svg.setAttribute('fill','currentColor');
+  const path=document.createElementNS(ns,'path');
+  path.setAttribute('d','M0 0l5 6 5-6z');
+  svg.appendChild(path);return svg;
+}
+
 function buildPersonCard(p,isIA){
   const items=collectAssignments(p.id);
   const counts={process:0,subProcess:0,task:0};
@@ -836,22 +833,19 @@ function buildPersonCard(p,isIA){
   const cardHdr=document.createElement('div');cardHdr.className='person-card-header';
   const avEl=document.createElement('div');
   avEl.className='person-av-lg'+(isIA?' ia-av':'');
-  avEl.style.cssText='background:'+p.bg+';color:'+p.color;
-  avEl.textContent=p.ini;
+  avEl.style.cssText='background:'+p.bg+';color:'+p.color;avEl.textContent=p.ini;
   const infoEl=document.createElement('div');infoEl.className='person-info';
   const nameEl=document.createElement('div');nameEl.className='person-name';nameEl.textContent=p.name;
   infoEl.appendChild(nameEl);
   if(isIA){
-    const badge=document.createElement('div');badge.className='ia-badge';badge.textContent='Automatisation';
-    infoEl.appendChild(badge);
+    const badge=document.createElement('div');badge.className='ia-badge';badge.textContent='Automatisation';infoEl.appendChild(badge);
   } else {
     const stats=document.createElement('div');stats.className='person-stats';
-    stats.textContent=buildStats(counts)||'Aucune allocation';
-    infoEl.appendChild(stats);
+    stats.textContent=buildStats(counts)||'Aucune allocation';infoEl.appendChild(stats);
   }
   cardHdr.appendChild(avEl);cardHdr.appendChild(infoEl);card.appendChild(cardHdr);
 
-  // Multi-role selector (humans only)
+  // Role selector (humans only)
   if(!isIA){
     const roleRow=document.createElement('div');roleRow.className='role-selector-row';
     ROLES.forEach(role=>{
@@ -867,30 +861,61 @@ function buildPersonCard(p,isIA){
     card.appendChild(roleRow);
   }
 
-  // Assignments
+  // Assignments with collapsible domain groups
   const asgn=document.createElement('div');asgn.className='person-assignments';
   if(items.length===0){
     asgn.innerHTML='<div class="assign-empty">'+(isIA?'Aucun élément marqué comme automatisable.':'Aucune allocation')+'</div>';
   } else {
     if(isIA){
-      const s=document.createElement('div');s.style.cssText='font-size:11px;color:var(--text-muted);margin-bottom:8px';
+      const s=document.createElement('div');
+      s.style.cssText='font-size:11px;color:var(--text-muted);padding:8px 18px 4px';
       s.textContent=buildStats(counts)+' éligibles';asgn.appendChild(s);
     }
+
     const byDomain={};
     items.forEach(item=>{
       const key=item.domain.name;
       if(!byDomain[key]) byDomain[key]={domain:item.domain,items:[]};
       byDomain[key].items.push(item);
     });
+
     Object.values(byDomain).forEach(grp=>{
-      const lbl=document.createElement('div');lbl.className='assign-group-label';lbl.textContent=grp.domain.name;asgn.appendChild(lbl);
+      const group=document.createElement('div');group.className='assign-domain-group';
+
+      // Collapsible header
+      const ghdr=document.createElement('div');ghdr.className='assign-group-header';
+
+      const meta=document.createElement('div');meta.className='assign-group-meta';
+      const dot=document.createElement('span');dot.className='assign-group-dot';dot.style.background=grp.domain.mid||grp.domain.bg;
+      const gname=document.createElement('span');gname.className='assign-group-name';gname.textContent=grp.domain.name;
+      const gcnt=document.createElement('span');gcnt.className='assign-group-count';gcnt.textContent=grp.items.length;
+      meta.appendChild(dot);meta.appendChild(gname);meta.appendChild(gcnt);
+
+      const chevron=makeSVGChevron();
+      ghdr.appendChild(meta);ghdr.appendChild(chevron);
+
+      // Collapsible body
+      const gbody=document.createElement('div');gbody.className='assign-group-body';
+
       grp.items.forEach(item=>{
-        const row=document.createElement('div');row.className='assign-row';
+        const row=document.createElement('div');
         const typeLabel={process:'Processus',subProcess:'Sous-proc.',task:'Tâche'}[item.type];
+        const clickable=item.type!=='task';
+        row.className='assign-row'+(clickable?' clickable':'');
         row.innerHTML='<span class="assign-badge" style="background:'+grp.domain.light+';color:'+grp.domain.dark+'">'+item.code+'</span><span class="assign-type">'+typeLabel+'</span><span class="assign-name">'+item.name+'</span>';
-        if(item.type!=='task'){ row.style.cursor='pointer'; row.addEventListener('click',()=>{ switchView('processus'); setTimeout(()=>openNodePanel(item.code),50); }); }
-        asgn.appendChild(row);
+        if(clickable){
+          row.addEventListener('click',()=>{ switchView('processus'); setTimeout(()=>openNodePanel(item.code),50); });
+        }
+        gbody.appendChild(row);
       });
+
+      ghdr.onclick=()=>{
+        const collapsed=ghdr.classList.toggle('collapsed');
+        gbody.classList.toggle('collapsed',collapsed);
+      };
+
+      group.appendChild(ghdr);group.appendChild(gbody);
+      asgn.appendChild(group);
     });
   }
   card.appendChild(asgn);return card;
@@ -907,7 +932,6 @@ function buildStats(counts){
 
 // ── ADD PERSON MODAL ──────────────────────────────────────
 let selectedModalRoles=[];
-
 function openAddModal(){
   selectedModalRoles=[];
   document.getElementById('input-firstname').value='';
@@ -920,12 +944,10 @@ function openAddModal(){
 }
 function closeAddModal(){ document.getElementById('modal-overlay').classList.remove('open'); }
 function handleOverlayClick(e){ if(e.target===document.getElementById('modal-overlay')) closeAddModal(); }
-
 function buildModalRolePills(){
   const container=document.getElementById('modal-role-pills');container.innerHTML='';
   ROLES.forEach(role=>{
-    const rc=ROLE_COLORS[role];
-    const isSelected=selectedModalRoles.includes(role);
+    const rc=ROLE_COLORS[role];const isSelected=selectedModalRoles.includes(role);
     const pill=document.createElement('button');
     pill.className='modal-role-pill'+(isSelected?' selected':'');
     if(isSelected){ pill.style.setProperty('--rp-color',rc.color);pill.style.setProperty('--rp-bg',rc.bg); }
@@ -941,22 +963,18 @@ function buildModalRolePills(){
 function submitAddPerson(){
   const first=document.getElementById('input-firstname').value.trim();
   const last=document.getElementById('input-lastname').value.trim();
-  const errName=document.getElementById('error-name');
-  const errRole=document.getElementById('error-role');
-  let valid=true;
-  errName.style.display='none';errRole.style.display='none';
-  if(!first&&!last){ errName.style.display='block'; valid=false; }
-  if(selectedModalRoles.length===0){ errRole.style.display='block'; valid=false; }
+  const errName=document.getElementById('error-name');const errRole=document.getElementById('error-role');
+  let valid=true;errName.style.display='none';errRole.style.display='none';
+  if(!first&&!last){ errName.style.display='block';valid=false; }
+  if(selectedModalRoles.length===0){ errRole.style.display='block';valid=false; }
   if(!valid) return;
-  addPerson(first,last,[...selectedModalRoles]);
-  closeAddModal();
-  renderResourcesView();
+  addPerson(first,last,[...selectedModalRoles]);closeAddModal();renderResourcesView();
 }
 
 // ── SEARCH ─────────────────────────────────────────────────
 function doSearch(q){
   const term=q.toLowerCase().trim();
-  if(!term){ document.querySelectorAll('.domain-band,.process-card,.subproc-chip').forEach(el=>el.classList.remove('hidden')); return; }
+  if(!term){ document.querySelectorAll('.domain-band,.process-card,.subproc-chip').forEach(el=>el.classList.remove('hidden'));return; }
   document.querySelectorAll('.domain-band').forEach(b=>b.classList.add('hidden'));
   document.querySelectorAll('.process-card').forEach(c=>c.classList.add('hidden'));
   document.querySelectorAll('.subproc-chip').forEach(c=>c.classList.add('hidden'));
@@ -964,10 +982,10 @@ function doSearch(q){
     if(!node.code.toLowerCase().includes(term)&&!node.name.toLowerCase().includes(term)) return;
     if(node.type==='process'){
       const card=document.getElementById('proc-'+node.code);
-      if(card){ card.classList.remove('hidden'); card.closest('.domain-band')?.classList.remove('hidden'); card.querySelectorAll('.subproc-chip').forEach(c=>c.classList.remove('hidden')); }
+      if(card){ card.classList.remove('hidden');card.closest('.domain-band')?.classList.remove('hidden');card.querySelectorAll('.subproc-chip').forEach(c=>c.classList.remove('hidden')); }
     } else {
       const chip=document.getElementById('sp-'+node.code);
-      if(chip){ chip.classList.remove('hidden'); chip.closest('.process-card')?.classList.remove('hidden'); chip.closest('.domain-band')?.classList.remove('hidden'); }
+      if(chip){ chip.classList.remove('hidden');chip.closest('.process-card')?.classList.remove('hidden');chip.closest('.domain-band')?.classList.remove('hidden'); }
     }
   });
 }
