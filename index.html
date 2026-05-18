@@ -92,6 +92,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .panel-close{width:28px;height:28px;background:var(--bg);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;color:var(--text-muted);font-size:16px;margin-top:2px}
 .panel-close:hover{background:var(--border)}
 .panel-body{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:20px}
+.panel-desc{font-size:13px;color:var(--text-muted);line-height:1.7;padding:0 0 4px}
 .panel-nav{display:flex;gap:8px;padding:12px 20px;border-top:1px solid var(--border);flex-shrink:0}
 .btn-nav{flex:1;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text);cursor:pointer;transition:background .12s}
 .btn-nav:hover:not(:disabled){background:var(--border)}
@@ -618,6 +619,68 @@ const DOMAINS = [
     ]]}
 ];
 
+const DESCS = {
+  // Pilotage
+  'P1':  "Établit la raison d'être et les ambitions à long terme de l'entreprise. Formalise la mission, les valeurs et la vision stratégique, puis assure leur diffusion auprès des équipes pour garantir un cap commun.",
+  'P2':  "Traduit la vision en objectifs opérationnels et en plans d'action concrets. Comprend la définition des priorités, l'allocation des ressources et le suivi régulier des initiatives pour ajuster le cap si nécessaire.",
+  'P3':  "Pilote le développement et l'évolution du catalogue produits et services de MISU. Couvre la création de nouvelles références, la mise à jour des offres existantes et la gestion des actions de communication et de marketing associées.",
+  'P3.1':"Assure la conception, la mise à jour et la gestion du catalogue de desserts et de prestations. Inclut la définition de nouvelles références, la révision des gammes existantes et la mise à jour des fiches produits.",
+  'P3.2':"Gère les prestations externes liées à la communication de l'entreprise (agences, prestataires graphiques). Coordonne la production de supports et veille à la cohérence de l'image de marque MISU.",
+  'P3.3':"Planifie et coordonne les actions marketing (promotions, campagnes, événements) visant à développer la notoriété et les ventes. Assure le suivi des résultats et l'optimisation des investissements marketing.",
+  'P4':  "Mesure et analyse en continu les résultats de l'entreprise pour orienter les décisions. Couvre le suivi des indicateurs clés, l'analyse des coûts de revient des desserts et la surveillance des prix fournisseurs.",
+  'P4.1':"Collecte et analyse les indicateurs de performance clés (chiffre d'affaires, volumes, marges) pour produire des tableaux de bord éclairant les décisions stratégiques et opérationnelles.",
+  'P4.2':"Calcule et surveille en continu les coûts de revient de chaque référence, en intégrant matières premières, coûts de production et de distribution, afin de garantir la rentabilité de l'offre.",
+  'P4.3':"Suit l'évolution des tarifs fournisseurs et engage des négociations pour optimiser les conditions d'achat. Contribue directement à la maîtrise des coûts de production de MISU.",
+  'P5':  "Assure la santé financière de l'entreprise en couvrant l'ensemble du cycle : facturation, recouvrement, décaissements et comptabilité. Garantit la liquidité et la conformité fiscale de MISU.",
+  'P5.1':"Gère l'émission, l'envoi et le suivi de toutes les factures clients. Comprend la création des factures, le déclenchement des prélèvements et la gestion des retours ou litiges financiers.",
+  'P5.2':"Assure le suivi et le recouvrement des créances impayées. Inclut les relances clients, la gestion des retards de paiement et, si nécessaire, les démarches de récupération directe sur site.",
+  'P5.3':"Gère l'ensemble des sorties de trésorerie : paiement des fournisseurs, pointage des débits et réalisation des virements de salaires, en veillant à la ponctualité et à la traçabilité des opérations.",
+  'P5.4':"Assure la liaison avec le comptable externe et rassemble les éléments comptables nécessaires. Veille à la bonne transmission des pièces justificatives et au respect des échéances déclaratives.",
+  // Réalisation
+  'R1':  "Couvre l'ensemble de la relation commerciale avec les clients, depuis la promotion de l'offre jusqu'au suivi après-vente. Vise à développer et fidéliser le portefeuille clients de MISU.",
+  'R1.1':"Gère les fiches et les informations des comptes clients (contacts, historique, conditions commerciales). Assure la mise à jour des données et la bonne communication entre l'équipe et les clients.",
+  'R1.2':"Réceptionne, vérifie et enregistre les commandes entrantes. Évalue leur faisabilité en fonction des stocks et de la capacité de production, puis les valide ou les ajuste en concertation avec le client.",
+  'R1.3':"Diffuse l'offre de MISU auprès des clients et prospects via les canaux appropriés (catalogues, e-mails, réseaux sociaux). Assure la mise à jour des supports et la cohérence des messages.",
+  'R1.4':"Met en œuvre les actions visant à renforcer la relation avec les clients existants : suivi personnalisé, gestes commerciaux, offres dédiées. Contribue à réduire l'attrition et à développer le chiffre d'affaires récurrent.",
+  'R1.5':"Prend en charge les réclamations, retours et demandes d'information post-livraison. Garantit une résolution rapide et professionnelle des problèmes pour préserver la satisfaction et la confiance des clients.",
+  'R2':  "Gère l'ensemble de la chaîne d'approvisionnement en matières premières, depuis la passation de commandes fournisseurs jusqu'à la réception et le stockage des marchandises.",
+  'R2.1':"Émet les commandes d'achat auprès des fournisseurs en fonction des besoins de production et des niveaux de stock. Veille au respect des délais et des conditions contractuelles négociées.",
+  'R2.2':"Coordonne et planifie les livraisons entrantes des fournisseurs en fonction du planning de production. Anticipe les ruptures potentielles et organise les créneaux de réception.",
+  'R2.3':"Contrôle la conformité des livraisons fournisseurs (quantité, qualité, températures de conservation) et enregistre les entrées en stock. Gère les litiges et non-conformités à la réception.",
+  'R2.4':"Assure le suivi en temps réel des niveaux de stock de matières premières et de produits finis. Déclenche les réapprovisionnements nécessaires et veille à minimiser les ruptures et les pertes.",
+  'R3':  "Regroupe l'ensemble des activités de production des desserts, depuis la planification des opérations jusqu'au conditionnement et au contrôle qualité des produits finis.",
+  'R3.1':"Planifie et coordonne les opérations de production : établissement des plannings, gestion des présences des opérateurs, supervision en cours de fabrication et optimisation des séquences.",
+  'R3.2':"Exécute les opérations de fabrication, de conditionnement et de contrôle qualité des desserts. Assure également la préparation des palettes, le stockage des produits finis et la réalisation des inventaires.",
+  'R4':  "Couvre toutes les opérations nécessaires à la livraison des commandes clients, depuis la préparation des colis en entrepôt jusqu'à la dépose sur les sites clients.",
+  'R4.1':"Prépare les commandes en vue de leur expédition : vérification, étiquetage, impression des bons de livraison et de préparation, constitution des palettes. Assure la conformité des envois avant départ.",
+  'R4.2':"Organise et réalise la livraison physique des commandes aux clients, en Île-de-France et hors Île-de-France. Comprend la planification des tournées, le chargement des véhicules et la supervision des livreurs.",
+  'R5':  "Assure la gestion, le classement et l'archivage de l'ensemble des documents administratifs et opérationnels de MISU pour garantir la traçabilité et le bon fonctionnement des processus.",
+  'R5.1':"Réceptionne, trie et traite les e-mails entrants selon leur nature et leur urgence. Oriente les messages vers les interlocuteurs compétents et assure les réponses aux demandes courantes.",
+  'R5.2':"Classe et organise les documents physiques et numériques selon une nomenclature définie. Garantit la disponibilité rapide des pièces et leur bonne attribution aux dossiers correspondants.",
+  'R5.3':"Transfère les documents traités vers les espaces d'archivage appropriés dans le respect des durées légales de conservation. Assure leur accessibilité future en cas de contrôle ou de besoin opérationnel.",
+  // Support
+  'S1':  "Couvre l'ensemble des aspects administratifs liés à la gestion des ressources humaines : contrats, présences et paie. Garantit la conformité sociale et le bon suivi des salariés de MISU.",
+  'S1.1':"Assure l'enregistrement des nouveaux salariés et le suivi de la signature de leurs contrats de travail. Veille à la conformité et à la mise à jour des dossiers tout au long de la relation contractuelle.",
+  'S1.2':"Collecte et saisit les éléments variables de paie (heures, absences, primes) pour l'ensemble des salariés. Assure la fiabilité des données transmises pour l'établissement des bulletins de salaire.",
+  'S2':  "Assure l'entretien et le bon état de fonctionnement des équipements de livraison (camions) pour garantir la continuité des opérations et la conformité réglementaire.",
+  'S2.1':"Vérifie régulièrement la propreté intérieure et extérieure des véhicules de livraison. Garantit le respect des normes d'hygiène applicables au transport de denrées alimentaires.",
+  'S2.2':"Effectue ou fait réaliser les contrôles techniques et la maintenance préventive des camions. Signale et traite les pannes pour minimiser les immobilisations de véhicules.",
+  'S3':  "Couvre les achats ne relevant pas des matières premières : contrats de services et fournitures de bureau, pour assurer le bon fonctionnement administratif et logistique de l'entreprise.",
+  'S3.1':"Gère les contrats avec les prestataires de services (énergie, maintenance, transport externe). Assure le suivi des engagements, les renouvellements et la renégociation des conditions à échéance.",
+  'S3.2':"Identifie les besoins en fournitures de bureau, passe les commandes et contrôle la réception. Veille à optimiser les coûts tout en maintenant la disponibilité des consommables nécessaires.",
+  'S4':  "Assure la disponibilité, la sécurité et l'évolution des outils informatiques et numériques utilisés par les équipes MISU : matériel, logiciels et systèmes de surveillance.",
+  'S4.2':"Gère le parc de matériel informatique (ordinateurs, tablettes, périphériques) : acquisition, configuration, maintenance courante et remplacement en fin de vie.",
+  'S4.3':"Supervise les abonnements et licences logicielles, assure les mises à jour et coordonne le déploiement de nouvelles solutions en fonction des besoins opérationnels.",
+  'S4.4':"Gère et maintient les équipements de surveillance (caméras, alarmes) des locaux. Veille à leur bon fonctionnement et à la conformité avec les réglementations en vigueur.",
+  // Conformité et Qualité
+  'C1':  "Assure le respect des normes d'hygiène et de sécurité alimentaire dans l'ensemble des espaces de stockage et de production. Essentiel pour garantir la qualité des produits et la conformité réglementaire.",
+  'C1.1':"Organise et maintient le rangement de la chambre froide dédiée aux matières premières selon les règles de séparation et de rotation FIFO. Garantit l'accessibilité et la bonne conservation des matières.",
+  'C1.2':"Gère l'organisation de la chambre froide négative (congélation) pour les produits semi-finis et finis. Assure le respect des règles de stockage, de rotation et des températures réglementaires.",
+  'C1.3':"Maintient l'ordre et la propreté de la zone de stockage des marchandises sèches. Veille à la bonne identification des produits et au respect rigoureux des procédures d'hygiène.",
+  'C1.4':"Planifie et réalise le nettoyage quotidien et approfondi de l'ensemble des locaux (production, bureaux, sanitaires). Assure la conformité aux normes sanitaires et aux exigences de sécurité alimentaire.",
+  'C2':  "Met en place et maintient les outils et procédures permettant de suivre chaque produit de sa fabrication jusqu'à sa livraison. Garantit la capacité de l'entreprise à identifier rapidement l'origine et le parcours de tout lot en cas d'incident.",
+  'C3':  "Identifie les axes d'amélioration des processus, des produits et des conditions de travail. Pilote la mise en œuvre des actions correctives et préventives pour renforcer la performance et la qualité globale de MISU.",
+};
 const ALL_NODES=[];
 function buildNodes(){
   DOMAINS.forEach(dom=>{
@@ -709,6 +772,7 @@ function openNodePanel(code){
   const body=document.getElementById('panel-body');body.innerHTML='';
   if(node.type==='process'){
     const proc=node.proc;
+    const d0=DESCS[code];if(d0){const dp=document.createElement('p');dp.className='panel-desc';dp.textContent=d0;body.appendChild(dp);}
     if(proc.subProcesses.length){
       const sec=document.createElement('div');sec.className='sp-list-section';
       sec.innerHTML='<div class="section-label">Sous-processus ('+proc.subProcesses.length+')</div>';
@@ -721,6 +785,7 @@ function openNodePanel(code){
     }
     body.appendChild(buildAllocSection(code));
   } else if(node.type==='subProcess'){
+    const d1=DESCS[code];if(d1){const dp=document.createElement('p');dp.className='panel-desc';dp.textContent=d1;body.appendChild(dp);}
     if(node.tasks&&node.tasks.length){
       const sec=document.createElement('div');sec.className='tasks-section';
       sec.innerHTML='<div class="section-label">Tâches ('+node.tasks.length+')</div>';
