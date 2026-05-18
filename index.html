@@ -59,6 +59,12 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .search-bar input{border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:100%}
 .search-bar input::placeholder{color:var(--text-hint)}
 .search-icon{color:var(--text-hint)}
+/* DETAIL LEVEL TOGGLE */
+.detail-toggle{display:flex;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:2px;gap:2px;flex-shrink:0}
+.detail-btn{padding:4px 12px;border:none;border-radius:5px;background:transparent;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .12s;white-space:nowrap}
+.detail-btn:hover{color:var(--text)}
+.detail-btn.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+#diagram.level-1 .subproc-wrap{display:none}
 .diagram-wrap{display:flex;flex-direction:column;gap:16px}
 .domain-band{border-radius:12px;overflow:hidden}
 .domain-header{padding:10px 18px}
@@ -337,8 +343,16 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
       <div class="app-inner" id="app-inner">
         <div class="diagram-pane">
           <div class="diagram-intro">
-            <h1>Architecture des processus</h1>
-            <p>Cliquez sur un élément pour ouvrir sa fiche et y allouer des ressources.</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+              <div>
+                <h1>Architecture des processus</h1>
+                <p>Cliquez sur un élément pour ouvrir sa fiche et y allouer des ressources.</p>
+              </div>
+              <div class="detail-toggle">
+                <button class="detail-btn" id="btn-level-1" onclick="switchDetailLevel(1)">Niveau 1</button>
+                <button class="detail-btn active" id="btn-level-2" onclick="switchDetailLevel(2)">Niveau 2</button>
+              </div>
+            </div>
           </div>
           <div class="search-bar">
             <span class="search-icon"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2"/><line x1="10.5" y1="10.5" x2="13.5" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
@@ -426,6 +440,7 @@ const ROLES_KEY  = 'misu_roles_v1';
 let ALLOCS = {};
 let allCollapsed = false;
 let resourcesView = 'cards';
+let detailLevel = 2;
 let CUSTOM_PEOPLE = [];
 let PEOPLE_ROLES  = {};
 let PEOPLE = [];
@@ -711,6 +726,14 @@ function switchView(name){
   const resSub=document.getElementById('nav-res-sub');
   if(resSub) resSub.style.display=name==='ressources'?'':'none';
   if(name==='ressources') renderResourcesView();
+}
+
+function switchDetailLevel(level){
+  detailLevel=level;
+  document.getElementById('btn-level-1').classList.toggle('active',level===1);
+  document.getElementById('btn-level-2').classList.toggle('active',level===2);
+  document.getElementById('diagram').classList.toggle('level-1',level===1);
+  closePanel();
 }
 
 // ── BUILD DIAGRAM ──────────────────────────────────────────
