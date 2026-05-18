@@ -308,15 +308,16 @@ function renderDots(code, container){
 const DOMAINS = [
   { code:'P', name:'Pilotage', bg:'#1B3A7A', light:'#E8EEFA', mid:'#3D5CC2', dark:'#0F2148',
     rows:[
-      [{code:'P1',name:'Définir et Partager la vision',subProcesses:[]}],
-      [{code:'P2',name:'Définir et Piloter la stratégie',subProcesses:[]}],
+      [{code:'P1',name:'Définir et Partager la vision',subProcesses:[]},
+       {code:'P2',name:'Définir et Piloter la stratégie',subProcesses:[]}],
       [{code:'P3',name:"Gérer l'offre",subProcesses:[
           {code:'P3.1',name:"Créer et Mettre à jour l'offre",tasks:[]},
           {code:'P3.2',name:'Gérer prestations de communication',tasks:[]},
           {code:'P3.3',name:'Gérer opérations marketing',tasks:[]}]},
        {code:'P4',name:'Piloter la performance',subProcesses:[
-          {code:'P4.1',name:'Calculer/Surveiller prix de revient desserts',tasks:[]},
-          {code:'P4.2',name:'Surveiller/Négocier prix fournisseurs',tasks:[]}]}],
+          {code:'P4.1',name:'Analyser les métriques',tasks:[]},
+          {code:'P4.2',name:'Calculer/Surveiller prix de revient desserts',tasks:[]},
+          {code:'P4.3',name:'Surveiller/Négocier prix fournisseurs',tasks:[]}]}],
       [{code:'P5',name:'Gérer les finances',subProcesses:[
           {code:'P5.1',name:'Facturer',tasks:[
             {code:'P5.1.1',name:'Créer factures clients'},
